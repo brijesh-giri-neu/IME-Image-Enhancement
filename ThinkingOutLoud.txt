@@ -1,0 +1,151 @@
+
+PART A. Design: 
+
+View
+- output
+
+Model
+- do the operations
+
+Controller
+- understand the command
+- based on that take action (Model)
+
+
+main.java
+-1 can accept individual commands
+- send it to controller
+
+-2 script file
+- parse file
+- do case 1
+
+
+PART B. Rules:
+We should be in a position explain how we have used SOLID principles.
+Interface names should begin with "I"
+
+
+PART C. Designing DataStructures and Interfaces
+
+Interfaces: 
+a. Design - M, V, C
+b. Image - 
+
+
+Image: 
+IImage - 
+	* int getNumChannels()
+	* dataType[][] getChannel(int channelNo)
+	* setChannel(int channelNo, dataType[][] values)
+
+* AbstractImage - functions Luma, Value, Intensity
+GreyScaleImage - Matrix[][]
+ColorImage - Matrix[][][3]
+PNGImage - Matrix[][][4]
+HeatMap - Matrix[][][5]
+
+* Both types of Images have exact same functionality. The only difference is the data field - mat[][] vs mat[][][3]. Hence, we are considering an abstract class. 
+
+properties
+1. type - color, grayscale
+2. values - Luma, Value, Intensity
+3. bits? this would decide the data type used to store values 
+	type - int vs float vs double 
+	precision - (8 bit) vs (16 bit) vs (32 bit)
+
+
+Operations - 
+getLuma(IImage data)
+
+
+To do -
+1. We need to write interface for IImage
+2. Check how to handle transparency
+
+
+Cases - Type Safety vs Generality
+1. Functionality applicable to all types, Generic logic
+	Define in Interface
+	Implement in Abstract class
+2. Functionality applicable to all types, Specific logic
+	Define in Interface
+	Implement in Child classes
+3. Functionality applicable to only specific types, 
+	Where to define? Interface? 
+
+
+Ask professor - 
+
+Scope - 
+1. Image representation? Bits? 8bit, 16bit, or 32 bit.
+	ONLY 8 bit
+2. PNG images. How do to operations on 4th channel?
+	Can we have Images with N channels? N -> 1...INFINITY
+		and operations may need more than 3 channels
+	Do all operations need to make sense for all types of Images?
+	Incase, NotSupportedException is thrown for default implementation, who should handle it Cont/Model?
+3. Output format?
+	User gives, Default one
+	Will user always give? 
+		If yes, should we take it?
+		If no, what to do?
+4. Does Luma have a definition for greyscale?
+	Does it have a definition for Higher dimension images, if they exist?
+
+MVC - 
+1. Is it bad practice to allow a controller to call multiple models?
+2. Does the controller need to call appropriate action methods of a model?
+	Or does the model need to route calls to the correct method
+3. Scope/Lifecycle of Model/Controller
+
+
+1. Go to piazza
+2. Connect with professor Tomorrow
+
+Ask new things to professor - Kudos to Pranith
+1. Unsupported operations
+2. Heirarchy of Interfaces/ One Interface being too long
+3. Luma, Intensity, Value - Should it be methods or properties?
+	Since we cannot reach it from command line
+
+
+1. Is it bad practice to allow a controller to call multiple models?
+	Does the controller need to call appropriate action methods of a model?
+	Or does the model need to route calls to the correct method
+	Scope/Lifecycle of Model/Controller
+2. Image representation? Bits? 8bit, 16bit, or 32 bit.
+3. PNG images. How do to operations on 4th channel?
+	a. brightening or darkening
+	b. Image blur
+	c. Image sharpen
+	Do we allow Images with N channels? N -> 1...INFINITY
+		and operations may need more than 3 channels
+	Do all operations need to make sense for all types of Images?
+	Incase, NotSupportedException is thrown for default implementation, who should handle it Cont/Model?
+4. Output format?
+	User gives, Fixed
+	Will user always give? 
+		If yes, should we take it?
+		If no, what to do?
+5. Can Image have N number of channels?
+	Where N>3 
+	and operations that depend across channels
+6. Does Luma have a definition for greyscale?
+	Does it have a definition for Higher dimension images, if they exist?
+7. Type Safety vs Generality
+
+Tasks for Brijesh - 
+1. Make Piazza post
+2. Create the google docs
+3. Repo add the basic starter code MVC
+
+Tasks for Fab - 
+1. Do the FAI assignment
+2. Then, do the methods - chatGPT them
+
+Together make Plan
+
+
+	
+
