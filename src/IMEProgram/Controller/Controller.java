@@ -34,7 +34,9 @@ public class Controller implements IController {
   // Handles spaces in filepath by asking professor to allow quotes in filepath beginning and end
   @Override
   public void loadImage(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String filePath = args[0];
     String imageName = args[1];
     try {
@@ -46,7 +48,9 @@ public class Controller implements IController {
 
   @Override
   public void saveImage(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String filePath = args[0];
     String imageName = args[1];
     try {
@@ -61,7 +65,9 @@ public class Controller implements IController {
 
   @Override
   public void redComponent(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -75,7 +81,9 @@ public class Controller implements IController {
 
   @Override
   public void greenComponent(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -89,7 +97,9 @@ public class Controller implements IController {
 
   @Override
   public void blueComponent(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -103,7 +113,9 @@ public class Controller implements IController {
 
   @Override
   public void valueComponent(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -117,7 +129,9 @@ public class Controller implements IController {
 
   @Override
   public void lumaComponent(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -131,7 +145,9 @@ public class Controller implements IController {
 
   @Override
   public void intensityComponent(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -145,7 +161,9 @@ public class Controller implements IController {
 
   @Override
   public void horizontalFlip(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -159,7 +177,9 @@ public class Controller implements IController {
 
   @Override
   public void verticalFlip(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -173,7 +193,9 @@ public class Controller implements IController {
 
   @Override
   public void brighten(String[] args) {
-    checkNumberOfArgs(args, 3);
+    if (!isValidNumberOfArgs(args, 3)) {
+      return;
+    }
     String sourceImage = args[1];
     String destImage = args[2];
     try {
@@ -188,7 +210,9 @@ public class Controller implements IController {
 
   @Override
   public void rgbSplit(String[] args) {
-    checkNumberOfArgs(args, 4);
+    if (!isValidNumberOfArgs(args, 4)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImageRed = args[1];
     String destImageGreen = args[2];
@@ -204,7 +228,9 @@ public class Controller implements IController {
 
   @Override
   public void rgbCombine(String[] args) {
-    checkNumberOfArgs(args, 4);
+    if (!isValidNumberOfArgs(args, 4)) {
+      return;
+    }
     String destImage = args[0];
     String sourceImageRed = args[1];
     String sourceImageGreen = args[2];
@@ -220,7 +246,9 @@ public class Controller implements IController {
 
   @Override
   public void blur(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -234,7 +262,9 @@ public class Controller implements IController {
 
   @Override
   public void sharpen(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -248,7 +278,9 @@ public class Controller implements IController {
 
   @Override
   public void sepia(String[] args) {
-    checkNumberOfArgs(args, 2);
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -289,7 +321,9 @@ public class Controller implements IController {
 
   @Override
   public void runScript(String[] args) {
-    checkNumberOfArgs(args, 1);
+    if (!isValidNumberOfArgs(args, 1)) {
+      return;
+    }
 
     String scriptFilePath = args[0];
 
@@ -381,6 +415,7 @@ public class Controller implements IController {
         break;
       case "run":
         runScript(tokens);
+        break;
       default:
         view.print("Error: Invalid command. Please try again.");
     }
@@ -396,10 +431,12 @@ public class Controller implements IController {
     return result;
   }
 
-  private void checkNumberOfArgs(String[] args, int requiredCount) {
+  private boolean isValidNumberOfArgs(String[] args, int requiredCount) {
     if (args.length != requiredCount) {
       view.print("Please provide adequate number of arguments");
+      return false;
     }
+    return true;
   }
 
   //  private boolean isValidAliasName(String input) {
