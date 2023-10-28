@@ -15,6 +15,6 @@ public class View implements IView {
 
   @Override
   public void print(String message) {
-    outPipe.print(message);
+    outPipe.print(message + "\n");
   }
 }

@@ -270,12 +270,12 @@ public class Controller implements IController {
         command = command.trim().toLowerCase();
 
         // Ignore comments (lines starting with #)
-        if (command.startsWith("#")) {
+        if (command.startsWith("#") || command.isBlank()) {
           continue;
         }
 
         // Quit the program
-        if (command.equals("exit")) {
+        if (command.equals("exit") || command.equals("quit")) {
           break;
         }
 
@@ -300,12 +300,12 @@ public class Controller implements IController {
         command = command.trim().toLowerCase();
 
         // Ignore comments (lines starting with #)
-        if (command.startsWith("#")) {
+        if (command.startsWith("#") || command.isEmpty()) {
           continue;
         }
 
         // Quit the program
-        if (command.equals("exit")) {
+        if (command.equals("exit") || command.equals("quit")) {
           break;
         }
 
@@ -323,6 +323,7 @@ public class Controller implements IController {
     // Need at least 2 tokens
     if (tokens.length < 2) {
       view.print("Error: Please enter correct number of arguments.");
+      return;
     }
 
     String operation = tokens[0].trim();

@@ -1,5 +1,6 @@
 package IMEProgram.Model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -9,6 +10,10 @@ import java.util.Map;
 public class Model implements IModel {
 
   private Map<String, IImage> loadedImages;
+
+  public Model() {
+    this.loadedImages = new HashMap<String, IImage>();
+  }
 
   @Override
   public void loadImage(String filePath, String imageName) {
