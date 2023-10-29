@@ -1,5 +1,7 @@
 package IMEProgram.Model;
 
+import IMEProgram.Exceptions.InvalidFilePathException;
+
 /**
  * This class represents a 24-bit Image with Red, Green, and Blue channels. And operations that can
  * be performed on it.
@@ -85,5 +87,10 @@ public class Image implements IImage {
   @Override
   public IImage convertToSepia() {
     return null;
+  }
+
+  @Override
+  public void saveToFile(String filepath) throws InvalidFilePathException {
+
   }
 }

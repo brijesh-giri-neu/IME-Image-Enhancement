@@ -36,7 +36,7 @@ public class Controller implements IController {
     String filePath = args[0];
     String imageName = args[1];
     try {
-      model.loadImage(filePath, imageName);
+      model.loadImageFromFile(filePath, imageName);
     } catch (FileNotFoundException e) {
       view.print("Error: Cannot load file. Please check path");
     }
@@ -50,7 +50,7 @@ public class Controller implements IController {
     String filePath = args[0];
     String imageName = args[1];
     try {
-      model.saveImage(filePath, imageName);
+      model.saveImageToFile(filePath, imageName);
     } catch (InvalidFilePathException e) {
       view.print("Error: Cannot save file. Please check provided path: " + filePath);
     } catch (ImageNotFoundException e) {

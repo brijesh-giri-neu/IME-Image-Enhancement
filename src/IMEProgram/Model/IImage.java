@@ -1,5 +1,7 @@
 package IMEProgram.Model;
 
+import IMEProgram.Exceptions.InvalidFilePathException;
+
 /**
  * This interface represents a 24-bit Image with Red, Green, and Blue channels. And operations that
  * can be performed on it.
@@ -124,4 +126,12 @@ public interface IImage {
    * @return a new IImage with the sepia tone filter applied.
    */
   IImage convertToSepia();
+
+  /**
+   * Saves this IImage to the specified file path.
+   *
+   * @param filepath The file path where the image will be saved.
+   * @throws InvalidFilePathException If the image cannot be saved at the specified file path.
+   */
+  void saveToFile(String filepath) throws InvalidFilePathException;
 }

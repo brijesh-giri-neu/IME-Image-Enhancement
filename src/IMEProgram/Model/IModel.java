@@ -21,18 +21,18 @@ public interface IModel {
    * @throws InvalidImageNameException If the specified image name cannot be assigned to an image in
    *                                   the application.
    */
-  void loadImage(String filePath, String imageName)
+  void loadImageFromFile(String filePath, String imageName)
       throws FileNotFoundException, InvalidImageNameException;
 
   /**
    * Save the image with the given name to the specified file path.
    *
-   * @param filePath  The file path where the image will be saved.
    * @param imageName The name of the image to be saved.
+   * @param filePath  The file path where the image will be saved.
    * @throws ImageNotFoundException   If the specified source image does not exist.
-   * @throws InvalidFilePathException If the specified file path is invalid.
+   * @throws InvalidFilePathException If the image cannot be saved at the specified file path.
    */
-  void saveImage(String filePath, String imageName)
+  void saveImageToFile(String imageName, String filePath)
       throws ImageNotFoundException, InvalidFilePathException;
 
   /**
