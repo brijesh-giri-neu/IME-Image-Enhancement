@@ -21,17 +21,13 @@ public class Controller implements IController {
   private IView view;
   private InputStream in;
 
-  //  private static final String VALID_ALIAS_NAME_CHARS_REGEX =
-  //      "[a-zA-Z0-9._-]+";
-
-
   public Controller(IModel model, IView view, InputStream in) {
     this.model = model;
     this.view = view;
     this.in = in;
   }
 
-  // Handles spaces in filepath by asking professor to allow quotes in filepath beginning and end
+  // Handle spaces in filepath by asking professor to allow quotes in filepath beginning and end
   @Override
   public void loadImage(String[] args) {
     if (!isValidNumberOfArgs(args, 2)) {
@@ -431,6 +427,13 @@ public class Controller implements IController {
     return result;
   }
 
+  /**
+   * Checks if the number of provided args is valid. If not, sends an error message to the view.
+   *
+   * @param args          the provided args
+   * @param requiredCount the number of args required
+   * @return True if number of provided args is valid, false otherwise
+   */
   private boolean isValidNumberOfArgs(String[] args, int requiredCount) {
     if (args.length != requiredCount) {
       view.print("Please provide adequate number of arguments");
@@ -438,8 +441,4 @@ public class Controller implements IController {
     }
     return true;
   }
-
-  //  private boolean isValidAliasName(String input) {
-  //    return input.matches(VALID_ALIAS_NAME_CHARS_REGEX);
-  //  }
 }

@@ -10,6 +10,8 @@ import java.util.Map;
 public class Model implements IModel {
 
   private Map<String, IImage> loadedImages;
+  private static final String VALID_ALIAS_NAME_CHARS_REGEX =
+      "[a-zA-Z0-9._-]+";
 
   public Model() {
     this.loadedImages = new HashMap<String, IImage>();
@@ -95,5 +97,9 @@ public class Model implements IModel {
   @Override
   public void sepia(String sourceImageName, String destImageName) {
 
+  }
+
+  private boolean isValidAliasName(String input) {
+    return input.matches(VALID_ALIAS_NAME_CHARS_REGEX);
   }
 }
