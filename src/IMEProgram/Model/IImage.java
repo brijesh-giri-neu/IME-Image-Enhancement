@@ -96,7 +96,7 @@ public interface IImage {
    * @return an IImage representing the combination of the RGB components from the given IImages.
    * @throws IllegalArgumentException If the input images have different dimensions.
    */
-  IImage combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
+  IImage combineRGB(Image red, Image green, Image blue) throws IllegalArgumentException;
 
   /**
    * Applies a Gaussian blur effect to the image.
