@@ -53,11 +53,11 @@ public class Image implements IImage {
     BufferedImage bufferedImage = ImageIO.read(new File(filePath));
     int width = bufferedImage.getWidth();
     int height = bufferedImage.getHeight();
-    int[][][] rgbValues = new int[width][height][3];
+    int[][][] rgbValues = new int[height][width][3];
 
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int pixel = bufferedImage.getRGB(x, y);
+    for (int x = 0; x < height; x++) {
+      for (int y = 0; y < width; y++) {
+        int pixel = bufferedImage.getRGB(y, x);
         rgbValues[x][y][0] = (pixel >> 16) & 0xFF; // Red
         rgbValues[x][y][1] = (pixel >> 8) & 0xFF;  // Green
         rgbValues[x][y][2] = pixel & 0xFF;         // Blue
