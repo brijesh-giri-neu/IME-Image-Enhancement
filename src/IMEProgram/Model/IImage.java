@@ -87,7 +87,7 @@ public interface IImage {
   IImage[] splitRGB();
 
   /**
-   * Generate an IImage by combining the red, green, and blue components from the given IImages.
+   * Overwrite this IImage by combining the red, green, and blue components from the given IImages.
    * Picks one channel from each of the given arguments.
    *
    * @param red   IImage whose Red component is selected.
