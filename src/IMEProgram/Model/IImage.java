@@ -1,6 +1,7 @@
 package IMEProgram.Model;
 
-import IMEProgram.Exceptions.InvalidFilePathException;
+import IMEProgram.Exceptions.FileFormatException;
+import java.io.FileNotFoundException;
 
 /**
  * This interface represents a 24-bit Image with Red, Green, and Blue channels. And operations that
@@ -87,16 +88,15 @@ public interface IImage {
   IImage[] splitRGB();
 
   /**
-   * Generate an IImage by combining the red, green, and blue components from the given IImages.
+   * Overwrite this IImage by combining the red, green, and blue components from the given IImages.
    * Picks one channel from each of the given arguments.
    *
    * @param red   IImage whose Red component is selected.
    * @param green IImage whose Green component is selected.
    * @param blue  IImage whose Blue component is selected.
-   * @return an IImage representing the combination of the RGB components from the given IImages.
    * @throws IllegalArgumentException If the input images have different dimensions.
    */
-  IImage combineRGB(Image red, Image green, Image blue) throws IllegalArgumentException;
+  void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
 
   /**
    * Applies a Gaussian blur effect to the image.
@@ -131,7 +131,22 @@ public interface IImage {
    * Saves this IImage to the specified file path.
    *
    * @param filepath The file path where the image will be saved.
-   * @throws InvalidFilePathException If the image cannot be saved at the specified file path.
+   * @throws FileNotFoundException If the image cannot be saved at the specified file path.
+   * @throws FileFormatException   If the provided file format is not supported
    */
-  void saveToFile(String filepath) throws InvalidFilePathException;
+  void saveToFile(String filepath) throws FileNotFoundException, FileFormatException;
+
+  /**
+   * Gets the value of a specific channel at a given pixel position.
+   *
+   * @param horizontalPos The column (horizontal position) of the pixel.
+   * @param verticalPos   The verticalPos (vertical position) of the pixel.
+   * @param channel       The color channel to retrieve (0 for Red, 1 for Green, 2 for Blue).
+   * @return The value of the specified channel at the given pixel position.
+   * @throws IndexOutOfBoundsException If the provided horizontalPos or verticalPos values are out
+   *                                   of bounds.
+   * @throws IllegalArgumentException  If an invalid channel value is provided.
+   */
+  int getValueAtPixel(int horizontalPos, int verticalPos, int channel)
+      throws IndexOutOfBoundsException, IllegalArgumentException;
 }

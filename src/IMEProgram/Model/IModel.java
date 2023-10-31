@@ -1,7 +1,7 @@
 package IMEProgram.Model;
 
+import IMEProgram.Exceptions.FileFormatException;
 import IMEProgram.Exceptions.ImageNotFoundException;
-import IMEProgram.Exceptions.InvalidFilePathException;
 import IMEProgram.Exceptions.InvalidImageNameException;
 import java.io.FileNotFoundException;
 
@@ -18,22 +18,24 @@ public interface IModel {
    * @param imageName The name to assign to the loaded image.
    * @throws FileNotFoundException     If the specified file path is invalid or the file does not
    *                                   exist.
+   * @throws FileFormatException       If the provided file format is not supported
    * @throws InvalidImageNameException If the specified image name cannot be assigned to an image in
    *                                   the application.
    */
   void loadImageFromFile(String filePath, String imageName)
-      throws FileNotFoundException, InvalidImageNameException;
+      throws FileNotFoundException, FileFormatException, InvalidImageNameException;
 
   /**
    * Save the image with the given name to the specified file path.
    *
    * @param imageName The name of the image to be saved.
    * @param filePath  The file path where the image will be saved.
-   * @throws ImageNotFoundException   If the specified source image does not exist.
-   * @throws InvalidFilePathException If the image cannot be saved at the specified file path.
+   * @throws ImageNotFoundException If the specified source image does not exist.
+   * @throws FileNotFoundException  If the image cannot be saved at the specified file path.
+   * @throws FileFormatException    If the provided file format is not supported
    */
   void saveImageToFile(String imageName, String filePath)
-      throws ImageNotFoundException, InvalidFilePathException;
+      throws ImageNotFoundException, FileNotFoundException, FileFormatException;
 
   /**
    * Extract the red component of an image and save it with the specified image name.
