@@ -17,18 +17,30 @@ import javax.imageio.ImageIO;
  */
 public class Image implements IImage {
 
-  private final int[][][] rgbValues;
+  private int[][][] rgbValues;
   private int height;
   private int width;
 
+  /**
+   * Instantiate an Image object with all pixel values set to Zero.
+   *
+   * @param height height of the image
+   * @param width  width of the image
+   */
+  public Image(int height, int width) {
+    this.height = height;
+    this.width = width;
+    this.rgbValues = new int[height][width][3];
+  }
+
+  // Used internally to return Image object.
   private Image(int[][][] rgbValues, int width, int height) {
     this.rgbValues = rgbValues;
     this.width = width;
     this.height = height;
   }
 
-  // Start of Image Builder methods
-
+  // Method to create image object from file
   public static Image loadImageFromFile(String filePath)
       throws IllegalArgumentException, IOException {
     String fileExtension = getFileExtension(filePath);
@@ -240,6 +252,16 @@ public class Image implements IImage {
 
   @Override
   public void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException {
+    boolean equalWidth = (red.getWidth() == green.getWidth() && (green.getWidth()
+        == blue.getWidth()) && (red.getWidth() == blue.getWidth()));
+
+    boolean equalHeight = (red.getHeight() == green.getHeight() && (green.getHeight()
+        == blue.getHeight()) && (red.getHeight() == blue.getHeight()));
+
+    if (!equalWidth || !equalHeight) {
+      throw new IllegalArgumentException("Provided images have unequal dimensions");
+    }
+
     // Assuming that the red, green, and blue images are of type Image and have the same dimensions
     int[][][] combinedValues = this.rgbValues;
     for (int i = 0; i < height; i++) {
@@ -256,11 +278,8 @@ public class Image implements IImage {
     int[][][] blurredImage = new int[height][width][3];
 
     // Define the Gaussian blur kernel
-    double[][] kernel = {
-        {1.0 / 16, 2.0 / 16, 1.0 / 16},
-        {2.0 / 16, 4.0 / 16, 2.0 / 16},
-        {1.0 / 16, 2.0 / 16, 1.0 / 16}
-    };
+    double[][] kernel = {{1.0 / 16, 2.0 / 16, 1.0 / 16}, {2.0 / 16, 4.0 / 16, 2.0 / 16},
+        {1.0 / 16, 2.0 / 16, 1.0 / 16}};
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -423,5 +442,15 @@ public class Image implements IImage {
   public int getValueAtPixel(int horizontalPos, int verticalPos, int channel)
       throws IndexOutOfBoundsException, IllegalArgumentException {
     return this.rgbValues[horizontalPos][verticalPos][channel];
+  }
+
+  @Override
+  public int getWidth() {
+    return this.width;
+  }
+
+  @Override
+  public int getHeight() {
+    return this.height;
   }
 }

@@ -38,14 +38,14 @@ public class Controller implements IController {
     String imageName = args[1];
     try {
       model.loadImageFromFile(filePath, imageName);
-      view.print("Operation successful");
+      view.success();
     } catch (FileNotFoundException e) {
       view.print("Error: Cannot load file. Please check path");
     } catch (FileFormatException e) {
       view.print("Error: Cannot load file. Unsupported file extension");
     } catch (InvalidImageNameException e) {
-      view.print(String.format("Error: %s cannot be used as an alias to refer to an image",
-          imageName));
+      view.print(
+          String.format("Error: %s cannot be used as an alias to refer to an image", imageName));
     }
   }
 
@@ -58,7 +58,7 @@ public class Controller implements IController {
     String imageName = args[1];
     try {
       model.saveImageToFile(imageName, filePath);
-      view.print("Operation successful");
+      view.success();
     } catch (FileNotFoundException e) {
       view.print("Error: Cannot save file. Please check provided path: " + filePath);
     } catch (ImageNotFoundException e) {
@@ -78,10 +78,15 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.redComponent(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
-      view.print("Error: Mentioned image alias does not exist: " + sourceImage
-          + " . Please check the name");
+      view.print(
+          String.format("Error: Mentioned image alias does not exist: %s. Please check the name",
+              sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -94,10 +99,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.greenComponent(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -110,10 +119,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.blueComponent(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -126,10 +139,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.valueComponent(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -142,10 +159,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.lumaComponent(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -158,10 +179,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.intensityComponent(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -174,10 +199,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.horizontalFlip(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -190,10 +219,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.verticalFlip(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -207,10 +240,14 @@ public class Controller implements IController {
     try {
       int increment = Integer.parseInt(args[0]);
       model.brighten(increment, sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -225,10 +262,13 @@ public class Controller implements IController {
     String destImageBlue = args[3];
     try {
       model.rgbSplit(sourceImage, destImageRed, destImageGreen, destImageBlue);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists. Please provide a different alias name"));
     }
   }
 
@@ -243,11 +283,15 @@ public class Controller implements IController {
     String sourceImageBlue = args[3];
     try {
       model.rgbCombine(destImage, sourceImageRed, sourceImageGreen, sourceImageBlue);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist. Please check the name");
     } catch (IllegalArgumentException e) {
       view.print("Error: Given images have different dimensions");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -260,10 +304,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.blur(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -276,10 +324,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.sharpen(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 
@@ -292,10 +344,14 @@ public class Controller implements IController {
     String destImage = args[1];
     try {
       model.sepia(sourceImage, destImage);
-      view.print("Operation successful");
+      view.success();
     } catch (ImageNotFoundException e) {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(
+          "Error: Mentioned destImage alias already exists: %s. Please provide a different alias name",
+          destImage));
     }
   }
 

@@ -149,4 +149,18 @@ public interface IImage {
    */
   int getValueAtPixel(int horizontalPos, int verticalPos, int channel)
       throws IndexOutOfBoundsException, IllegalArgumentException;
+
+  /**
+   * Gets the width of the Image.
+   *
+   * @return the width of the Image.
+   */
+  int getWidth();
+
+  /**
+   * Gets the height of the Image.
+   *
+   * @return the height of the Image.
+   */
+  int getHeight();
 }

@@ -9,4 +9,9 @@ public interface IView {
    * Display message to the user.
    */
   void print(String message);
+
+  /**
+   * Display success message to user.
+   */
+  void success();
 }

@@ -147,6 +147,10 @@ public class Model implements IModel {
 
     // Create a new IImage to assign to destImageName from the given components.
     // Call builder/constructor of the IImage class
+    IImage combinedImage = new Image(redComponent.getHeight(), redComponent.getWidth());
+    combinedImage.combineRGB(redComponent, greenComponent, blueComponent);
+
+    saveImageToMemory(combinedImage, destImageName);
   }
 
   @Override
