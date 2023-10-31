@@ -4,6 +4,7 @@ import IMEProgram.Exceptions.FileFormatException;
 import IMEProgram.Exceptions.ImageNotFoundException;
 import IMEProgram.Exceptions.InvalidImageNameException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,14 +26,18 @@ public class Model implements IModel {
   @Override
   public void loadImageFromFile(String filePath, String imageName)
       throws FileNotFoundException, FileFormatException, InvalidImageNameException {
-    // This check will be re-assigned to saveImageToMemory() after logic to load image is written.
-    if (!isValidAliasName(imageName)) {
-      throw new InvalidImageNameException(
-          String.format("'%s': cannot be used as an alias for the image", imageName));
-    }
-
     // Delegate FileNotFoundException to the Image class.
     // Image class needs a public const which takes filepath as arg or a builder method that takes filepath.
+    IImage sourceImage;
+    try {
+      sourceImage = Image.loadImageFromFile(filePath);
+    } catch (IOException e) {
+      throw new FileNotFoundException(e.getMessage());
+    } catch (IllegalArgumentException e) {
+      throw new FileFormatException(e.getMessage());
+    }
+
+    saveImageToMemory(sourceImage, imageName);
   }
 
   @Override

@@ -29,7 +29,8 @@ public class Image implements IImage {
 
   // Start of Image Builder methods
 
-  public static Image loadImageFromFile(String filePath) throws IOException {
+  public static Image loadImageFromFile(String filePath)
+      throws IllegalArgumentException, IOException {
     String fileExtension = getFileExtension(filePath);
 
     if (fileExtension != null) {
@@ -41,7 +42,7 @@ public class Image implements IImage {
         case "ppm":
           return loadPpmImage(filePath);
         default:
-          throw new IllegalArgumentException("Unsupported file format");
+          throw new IllegalArgumentException("Unsupported file format: " + fileExtension);
       }
     } else {
       throw new IllegalArgumentException("File path has no extension");
@@ -297,11 +298,7 @@ public class Image implements IImage {
     int[][][] sharpenedImage = new int[height][width][3];
 
     // Define the sharpening kernel
-    int[][] kernel = {
-        {-1, -1, -1},
-        {-1, 9, -1},
-        {-1, -1, -1}
-    };
+    int[][] kernel = {{-1, -1, -1}, {-1, 9, -1}, {-1, -1, -1}};
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
@@ -411,8 +408,7 @@ public class Image implements IImage {
       } else if (extension.equalsIgnoreCase("png")) {
         // Save as PNG
         ImageIO.write(image, "png", new File(filepath));
-      } else if (extension.equalsIgnoreCase("jpg")
-          || extension.equalsIgnoreCase("jpeg")) {
+      } else if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg")) {
         // Save as JPG
         ImageIO.write(image, "jpg", new File(filepath));
       } else {
