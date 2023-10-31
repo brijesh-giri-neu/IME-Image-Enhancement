@@ -107,5 +107,10 @@ public class ControllerTest {
     public void print(String message) {
       viewLog.append(message);
     }
+
+    @Override
+    public void success() {
+      viewLog.append("Operation Successful");
+    }
   }
 }
