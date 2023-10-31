@@ -339,6 +339,11 @@ public class Controller implements IController {
           break;
         }
 
+        // Quit if run script called within a script
+        if (command.split("\\s+")[0].equals("run")) {
+          view.print("Cannot execute a script from inside a script");
+        }
+
         // Process the given command
         executeCommand(command);
       }
