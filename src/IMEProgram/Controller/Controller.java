@@ -1,7 +1,6 @@
 package IMEProgram.Controller;
 
 import IMEProgram.Exceptions.ImageNotFoundException;
-import IMEProgram.Exceptions.InvalidFilePathException;
 import IMEProgram.Model.IModel;
 import IMEProgram.View.IView;
 import java.io.BufferedReader;
@@ -51,7 +50,7 @@ public class Controller implements IController {
     String imageName = args[1];
     try {
       model.saveImageToFile(filePath, imageName);
-    } catch (InvalidFilePathException e) {
+    } catch (FileNotFoundException e) {
       view.print("Error: Cannot save file. Please check provided path: " + filePath);
     } catch (ImageNotFoundException e) {
       view.print(

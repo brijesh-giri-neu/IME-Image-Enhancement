@@ -1,6 +1,7 @@
 package IMEProgram.Model;
 
-import IMEProgram.Exceptions.InvalidFilePathException;
+import IMEProgram.Exceptions.FileFormatException;
+import java.io.FileNotFoundException;
 
 /**
  * This interface represents a 24-bit Image with Red, Green, and Blue channels. And operations that
@@ -93,10 +94,9 @@ public interface IImage {
    * @param red   IImage whose Red component is selected.
    * @param green IImage whose Green component is selected.
    * @param blue  IImage whose Blue component is selected.
-   * @return an IImage representing the combination of the RGB components from the given IImages.
    * @throws IllegalArgumentException If the input images have different dimensions.
    */
-  IImage combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
+  void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
 
   /**
    * Applies a Gaussian blur effect to the image.
@@ -131,7 +131,8 @@ public interface IImage {
    * Saves this IImage to the specified file path.
    *
    * @param filepath The file path where the image will be saved.
-   * @throws InvalidFilePathException If the image cannot be saved at the specified file path.
+   * @throws FileNotFoundException If the image cannot be saved at the specified file path.
+   * @throws FileFormatException   If the provided file format is not supported
    */
-  void saveToFile(String filepath) throws InvalidFilePathException;
+  void saveToFile(String filepath) throws FileNotFoundException, FileFormatException;
 }

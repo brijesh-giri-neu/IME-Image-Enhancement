@@ -2,7 +2,6 @@ package IMEProgram.Model;
 
 import IMEProgram.Exceptions.FileFormatException;
 import IMEProgram.Exceptions.ImageNotFoundException;
-import IMEProgram.Exceptions.InvalidFilePathException;
 import IMEProgram.Exceptions.InvalidImageNameException;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class Model implements IModel {
 
   @Override
   public void saveImageToFile(String imageName, String filePath)
-      throws ImageNotFoundException, InvalidFilePathException, FileFormatException {
+      throws ImageNotFoundException, FileNotFoundException, FileFormatException {
     IImage image = getImageFromMemory(imageName);
 
     // Delegate InvalidFilePathException to the Image class.

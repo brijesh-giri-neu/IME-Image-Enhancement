@@ -1,6 +1,7 @@
 package IMEProgram.Model;
 
-import IMEProgram.Exceptions.InvalidFilePathException;
+import IMEProgram.Exceptions.FileFormatException;
+import java.io.FileNotFoundException;
 
 /**
  * This class represents a 24-bit Image with Red, Green, and Blue channels. And operations that can
@@ -65,8 +66,8 @@ public class Image implements IImage {
   }
 
   @Override
-  public IImage combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException {
-    return null;
+  public void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException {
+
   }
 
   @Override
@@ -90,7 +91,7 @@ public class Image implements IImage {
   }
 
   @Override
-  public void saveToFile(String filepath) throws InvalidFilePathException {
+  public void saveToFile(String filepath) throws FileNotFoundException, FileFormatException {
 
   }
 }
