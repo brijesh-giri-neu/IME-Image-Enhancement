@@ -3,7 +3,9 @@ package IMEProgram.Model;
 import IMEProgram.Exceptions.InvalidFilePathException;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -18,9 +20,84 @@ public class Image implements IImage {
   private int height;
   private int width;
 
-  private Image(int[][][] rgbValues) {
+  private Image(int[][][] rgbValues, int width, int height) {
     this.rgbValues = rgbValues;
+    this.width = width;
+    this.height = height;
   }
+
+  // Start of Image Builder methods
+
+  public static Image loadImageFromFile(String filePath) throws IOException {
+    String fileExtension = getFileExtension(filePath);
+
+    if (fileExtension != null) {
+      switch (fileExtension.toLowerCase()) {
+        case "jpg":
+        case "jpeg":
+        case "png":
+          return loadJpgOrPngImage(filePath);
+        case "ppm":
+          return loadPpmImage(filePath);
+        default:
+          throw new IllegalArgumentException("Unsupported file format");
+      }
+    } else {
+      throw new IllegalArgumentException("File path has no extension");
+    }
+  }
+
+  private static Image loadJpgOrPngImage(String filePath) throws IOException {
+    BufferedImage bufferedImage = ImageIO.read(new File(filePath));
+    int width = bufferedImage.getWidth();
+    int height = bufferedImage.getHeight();
+    int[][][] rgbValues = new int[width][height][3];
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        int pixel = bufferedImage.getRGB(x, y);
+        rgbValues[x][y][0] = (pixel >> 16) & 0xFF; // Red
+        rgbValues[x][y][1] = (pixel >> 8) & 0xFF;  // Green
+        rgbValues[x][y][2] = pixel & 0xFF;         // Blue
+      }
+    }
+    return new Image(rgbValues, width, height);
+  }
+
+  private static Image loadPpmImage(String filePath) throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader(filePath));
+    String magicNumber = reader.readLine(); // Magic number P3 or P6
+    String comment = reader.readLine(); // Any comment present
+    String[] dimensions = reader.readLine().split(" ");
+    int width = Integer.parseInt(dimensions[0]);
+    int height = Integer.parseInt(dimensions[1]);
+    int maxValue = Integer.parseInt(reader.readLine());
+
+    int[][][] rgbValues = new int[width][height][3];
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        for (int i = 0; i < 3; i++) {
+          rgbValues[x][y][i] = Integer.parseInt(reader.readLine());
+        }
+      }
+    }
+    reader.close();
+
+    return new Image(rgbValues, width, height);
+  }
+
+  private static String getFileExtension(String filePath) {
+    if (filePath != null && !filePath.isEmpty()) {
+      int dotIndex = filePath.lastIndexOf('.');
+      if (dotIndex > 0 && dotIndex < filePath.length() - 1) {
+        return filePath.substring(dotIndex + 1);
+      }
+    }
+    return null;
+  }
+
+  // End of Image Builder Methods
 
   @Override
   public IImage getRedComponent() {
@@ -32,7 +109,7 @@ public class Image implements IImage {
         redValues[i][j][2] = 0;  // Blue value set to 0
       }
     }
-    return new Image(redValues);
+    return new Image(redValues, width, height);
   }
 
   @Override
@@ -45,7 +122,7 @@ public class Image implements IImage {
         greenValues[i][j][2] = 0;  // Blue value set to 0
       }
     }
-    return new Image(greenValues);
+    return new Image(greenValues, width, height);
   }
 
   @Override
@@ -58,7 +135,7 @@ public class Image implements IImage {
         blueValues[i][j][2] = this.rgbValues[i][j][2];  // Blue value
       }
     }
-    return new Image(blueValues);
+    return new Image(blueValues, width, height);
   }
 
   @Override
@@ -72,7 +149,7 @@ public class Image implements IImage {
         valueValues[i][j][2] = value;  // Blue value
       }
     }
-    return new Image(valueValues);
+    return new Image(valueValues, width, height);
   }
 
   @Override
@@ -86,7 +163,7 @@ public class Image implements IImage {
         intensityValues[i][j][2] = intensity;  // Blue value
       }
     }
-    return new Image(intensityValues);
+    return new Image(intensityValues, width, height);
   }
 
   @Override
@@ -100,7 +177,7 @@ public class Image implements IImage {
         lumaValues[i][j][2] = luma;  // Blue value
       }
     }
-    return new Image(lumaValues);
+    return new Image(lumaValues, width, height);
   }
 
   @Override
@@ -112,7 +189,7 @@ public class Image implements IImage {
         flippedValues[i][j] = this.rgbValues[i][(width - 1) - j];
       }
     }
-    return new Image(flippedValues);
+    return new Image(flippedValues, width, height);
   }
 
   @Override
@@ -122,7 +199,7 @@ public class Image implements IImage {
       // Flip the image vertically
       System.arraycopy(this.rgbValues[(height - 1) - i], 0, flippedValues[i], 0, width);
     }
-    return new Image(flippedValues);
+    return new Image(flippedValues, width, height);
   }
 
 
@@ -132,12 +209,12 @@ public class Image implements IImage {
     for (int i=0;i<height;i++) {
       for (int j=0;j<width;j++) {
         // Brighten the image
-        brightenedValues[i][j][0] = Math.min(255, this.rgbValues[i][j][0] + increment);  // Red value
-        brightenedValues[i][j][1] = Math.min(255, this.rgbValues[i][j][1] + increment);  // Green value
-        brightenedValues[i][j][2] = Math.min(255, this.rgbValues[i][j][2] + increment);  // Blue value
+        brightenedValues[i][j][0] = Math.min(255, Math.max(0, this.rgbValues[i][j][0] + increment);  // Red value
+        brightenedValues[i][j][1] = Math.min(255, Math.max(0, this.rgbValues[i][j][1] + increment);  // Green value
+        brightenedValues[i][j][2] = Math.min(255, Math.max(0, this.rgbValues[i][j][2] + increment);  // Blue value
       }
     }
-    return new Image(brightenedValues);
+    return new Image(brightenedValues, width, height);
   }
 
   @Override
@@ -152,7 +229,7 @@ public class Image implements IImage {
         blueValues[i][j][2] = this.rgbValues[i][j][2];  // Blue value
       }
     }
-    return new IImage[]{new Image(redValues), new Image(greenValues), new Image(blueValues)};
+    return new IImage[]{new Image(redValues, width, height), new Image(greenValues, width, height), new Image(blueValues, width, height)};
   }
 
   @Override
@@ -166,26 +243,91 @@ public class Image implements IImage {
         combinedValues[i][j][2] = blue.rgbValues[i][j][2];  // Blue value
       }
     }
-    return new Image(combinedValues);
+    return new Image(combinedValues, width, height);
   }
 
   @Override
   public IImage gaussianBlur() {
-    // You'll need to implement the logic for applying a Gaussian blur to an image.
-    // This typically involves convolving the image with a Gaussian kernel.
-    // For now, let's return a new Image with the same rgbValues
-    int[][][] blurredValues = new int[height][width][3];
-    // Apply Gaussian blur logic here
-    return new Image(blurredValues);
+    int[][][] blurredImage = new int[height][width][3];
+
+    // Define the Gaussian blur kernel
+    double[][] kernel = {
+        {1.0/16, 2.0/16, 1.0/16},
+        {2.0/16, 4.0/16, 2.0/16},
+        {1.0/16, 2.0/16, 1.0/16}
+    };
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        double r = 0;
+        double g = 0;
+        double b = 0;
+
+        // Apply the kernel to each pixel
+        for (int ki = -1; ki <= 1; ki++) {
+          for (int kj = -1; kj <= 1; kj++) {
+            if (i + ki >= 0 && i + ki < height && j + kj >= 0 && j + kj < width) {
+              r += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][2];
+            }
+          }
+        }
+
+        // Clamp the RGB values
+        int ri = Math.min(255, Math.max(0, (int) Math.round(r)));
+        int gi = Math.min(255, Math.max(0, (int) Math.round(g)));
+        int bi = Math.min(255, Math.max(0, (int) Math.round(b)));
+
+        blurredImage[i][j][0] = ri;
+        blurredImage[i][j][1] = gi;
+        blurredImage[i][j][2] = bi;
+      }
+    }
+
+    return new Image(blurredImage, width, height);
   }
 
   @Override
   public IImage sharpen() {
-    // You'll need to implement the logic for sharpening an image.
-    // This typically involves convolving the image with a sharpening kernel.
-    int[][][] sharpenedValues = new int[height][width][3];
-    // Apply sharpening logic here
-    return new Image(sharpenedValues);
+    int[][][] sharpenedImage = new int[height][width][3];
+
+    // Define the sharpening kernel
+    int[][] kernel = {
+        {-1, -1, -1},
+        {-1,  9, -1},
+        {-1, -1, -1}
+    };
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        int r = 0;
+        int g = 0;
+        int b = 0;
+
+        // Apply the kernel to each pixel
+        for (int ki = -1; ki <= 1; ki++) {
+          for (int kj = -1; kj <= 1; kj++) {
+            if (i + ki >= 0 && i + ki < height && j + kj >= 0 && j + kj < width) {
+              r += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][2];
+            }
+          }
+        }
+
+        // Clamp the RGB values
+        r = Math.min(255, Math.max(0, r));
+        g = Math.min(255, Math.max(0, g));
+        b = Math.min(255, Math.max(0, b));
+
+        sharpenedImage[i][j][0] = r;
+        sharpenedImage[i][j][1] = g;
+        sharpenedImage[i][j][2] = b;
+      }
+    }
+
+    return new Image(sharpenedImage, width, height);
   }
 
   @Override
@@ -194,12 +336,15 @@ public class Image implements IImage {
     for (int i=0;i<height;i++) {
       for (int j=0;j<width;j++) {
         int gray = (int)Math.round(0.2126*rgbValues[i][j][0] + 0.7152*rgbValues[i][j][1] + 0.0722*rgbValues[i][j][2]);
+
+        gray = Math.min(255, Math.max(0, gray));
+
         grayscaleValues[i][j][0] = gray;  // Red value
         grayscaleValues[i][j][1] = gray;  // Green value
         grayscaleValues[i][j][2] = gray;  // Blue value
       }
     }
-    return new Image(grayscaleValues);
+    return new Image(grayscaleValues, width, height);
   }
 
   @Override
@@ -210,12 +355,12 @@ public class Image implements IImage {
         int r = rgbValues[i][j][0];
         int g = rgbValues[i][j][1];
         int b = rgbValues[i][j][2];
-        sepiaValues[i][j][0] = Math.min(255, (int)Math.round(0.393*r + 0.769*g + 0.189*b));  // Red value
-        sepiaValues[i][j][1] = Math.min(255, (int)Math.round(0.349*r + 0.686*g + 0.168*b));  // Green value
-        sepiaValues[i][j][2] = Math.min(255, (int)Math.round(0.272*r + 0.534*g + 0.131*b));  // Blue value
+        sepiaValues[i][j][0] = Math.min(255, Math.max(0, (int)Math.round(0.393*r + 0.769*g + 0.189*b)));  // Red value
+        sepiaValues[i][j][1] = Math.min(255, Math.max(0, (int)Math.round(0.349*r + 0.686*g + 0.168*b)));  // Green value
+        sepiaValues[i][j][2] = Math.min(255, Math.max(0, (int)Math.round(0.272*r + 0.534*g + 0.131*b)));  // Blue value
       }
     }
-    return new Image(sepiaValues);
+    return new Image(sepiaValues, width, height);
   }
 
   @Override
@@ -258,7 +403,8 @@ public class Image implements IImage {
       } else if (extension.equalsIgnoreCase("png")) {
         // Save as PNG
         ImageIO.write(image, "png", new File(filepath));
-      } else if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg")) {
+      } else if (extension.equalsIgnoreCase("jpg")
+          || extension.equalsIgnoreCase("jpeg")) {
         // Save as JPG
         ImageIO.write(image, "jpg", new File(filepath));
       } else {
