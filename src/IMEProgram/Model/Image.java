@@ -209,9 +209,9 @@ public class Image implements IImage {
     for (int i=0;i<height;i++) {
       for (int j=0;j<width;j++) {
         // Brighten the image
-        brightenedValues[i][j][0] = Math.min(255, Math.max(0, this.rgbValues[i][j][0] + increment);  // Red value
-        brightenedValues[i][j][1] = Math.min(255, Math.max(0, this.rgbValues[i][j][1] + increment);  // Green value
-        brightenedValues[i][j][2] = Math.min(255, Math.max(0, this.rgbValues[i][j][2] + increment);  // Blue value
+        brightenedValues[i][j][0] = Math.min(255, Math.max(0, this.rgbValues[i][j][0] + increment));  // Red value
+        brightenedValues[i][j][1] = Math.min(255, Math.max(0, this.rgbValues[i][j][1] + increment));  // Green value
+        brightenedValues[i][j][2] = Math.min(255, Math.max(0, this.rgbValues[i][j][2] + increment));  // Blue value
       }
     }
     return new Image(brightenedValues, width, height);
