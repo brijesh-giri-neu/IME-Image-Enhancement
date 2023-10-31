@@ -57,7 +57,7 @@ public class Controller implements IController {
     String filePath = args[0];
     String imageName = args[1];
     try {
-      model.saveImageToFile(filePath, imageName);
+      model.saveImageToFile(imageName, filePath);
       view.print("Operation successful");
     } catch (FileNotFoundException e) {
       view.print("Error: Cannot save file. Please check provided path: " + filePath);
