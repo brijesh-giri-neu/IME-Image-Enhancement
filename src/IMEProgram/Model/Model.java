@@ -1,5 +1,6 @@
 package IMEProgram.Model;
 
+import IMEProgram.Exceptions.FileFormatException;
 import IMEProgram.Exceptions.ImageNotFoundException;
 import IMEProgram.Exceptions.InvalidFilePathException;
 import IMEProgram.Exceptions.InvalidImageNameException;
@@ -24,7 +25,7 @@ public class Model implements IModel {
 
   @Override
   public void loadImageFromFile(String filePath, String imageName)
-      throws FileNotFoundException, InvalidImageNameException {
+      throws FileNotFoundException, FileFormatException, InvalidImageNameException {
     // This check will be re-assigned to saveImageToMemory() after logic to load image is written.
     if (!isValidAliasName(imageName)) {
       throw new InvalidImageNameException(
@@ -37,7 +38,7 @@ public class Model implements IModel {
 
   @Override
   public void saveImageToFile(String imageName, String filePath)
-      throws ImageNotFoundException, InvalidFilePathException {
+      throws ImageNotFoundException, InvalidFilePathException, FileFormatException {
     IImage image = getImageFromMemory(imageName);
 
     // Delegate InvalidFilePathException to the Image class.

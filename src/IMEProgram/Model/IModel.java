@@ -1,5 +1,6 @@
 package IMEProgram.Model;
 
+import IMEProgram.Exceptions.FileFormatException;
 import IMEProgram.Exceptions.ImageNotFoundException;
 import IMEProgram.Exceptions.InvalidFilePathException;
 import IMEProgram.Exceptions.InvalidImageNameException;
@@ -22,7 +23,7 @@ public interface IModel {
    *                                   the application.
    */
   void loadImageFromFile(String filePath, String imageName)
-      throws FileNotFoundException, InvalidImageNameException;
+      throws FileNotFoundException, FileFormatException, InvalidImageNameException;
 
   /**
    * Save the image with the given name to the specified file path.
@@ -33,7 +34,7 @@ public interface IModel {
    * @throws InvalidFilePathException If the image cannot be saved at the specified file path.
    */
   void saveImageToFile(String imageName, String filePath)
-      throws ImageNotFoundException, InvalidFilePathException;
+      throws ImageNotFoundException, InvalidFilePathException, FileFormatException;
 
   /**
    * Extract the red component of an image and save it with the specified image name.

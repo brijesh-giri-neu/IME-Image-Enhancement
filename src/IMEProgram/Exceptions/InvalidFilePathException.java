@@ -1,7 +1,8 @@
 package IMEProgram.Exceptions;
 
 /**
- * This exception is thrown when an invalid file path is encountered.
+ * This exception is thrown when an invalid file path is encountered while saving a file in the
+ * application.
  */
 public class InvalidFilePathException extends RuntimeException {
 
