@@ -85,9 +85,9 @@ public class Image implements IImage {
   private static Image loadPpmImage(String filePath) throws IOException
       , InputMismatchException {
 
-//    if ( !isValidPpmFileContent(filePath) ) {
-//      throw new IllegalArgumentException("Provided ppm file is invalid");
-//    }
+    if ( !isValidPpmFileContent(filePath) ) {
+      throw new IllegalArgumentException("Provided ppm file is invalid");
+    }
 
     Scanner sc;
     sc = new Scanner(new FileInputStream(filePath));
