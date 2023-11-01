@@ -96,7 +96,7 @@ public interface IImage {
    * @param blue  IImage whose Blue component is selected.
    * @throws IllegalArgumentException If the input images have different dimensions.
    */
-  void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
+  IImage combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
 
   /**
    * Applies a Gaussian blur effect to the image.
@@ -163,4 +163,11 @@ public interface IImage {
    * @return the height of the Image.
    */
   int getHeight();
+
+  /**
+   * Gets the RGBvalues array of the Image.
+   *
+   * @return the RGBvalues array of the Image.
+   */
+  int[][][] getRgbValues();
 }

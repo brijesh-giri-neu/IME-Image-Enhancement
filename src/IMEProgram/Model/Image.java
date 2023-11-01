@@ -5,10 +5,14 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.Objects;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 /**
@@ -78,27 +82,106 @@ public class Image implements IImage {
     return new Image(rgbValues, width, height);
   }
 
-  private static Image loadPpmImage(String filePath) throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(filePath));
-    String magicNumber = reader.readLine(); // Magic number P3 or P6
-    String comment = reader.readLine(); // Any comment present
-    String[] dimensions = reader.readLine().split(" ");
-    int width = Integer.parseInt(dimensions[0]);
-    int height = Integer.parseInt(dimensions[1]);
-    int maxValue = Integer.parseInt(reader.readLine());
+  private static Image loadPpmImage(String filePath) throws IOException
+      , InputMismatchException {
 
-    int[][][] rgbValues = new int[width][height][3];
+//    if ( !isValidPpmFileContent(filePath) ) {
+//      throw new IllegalArgumentException("Provided ppm file is invalid");
+//    }
 
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        for (int i = 0; i < 3; i++) {
-          rgbValues[x][y][i] = Integer.parseInt(reader.readLine());
-        }
+    Scanner sc;
+    sc = new Scanner(new FileInputStream(filePath));
+
+    StringBuilder builder = new StringBuilder();
+    // Read the file line by line, ignoring comment lines
+    while (sc.hasNextLine()) {
+      String s = sc.nextLine();
+      if (s.charAt(0) != '#') {
+        builder.append(s).append(System.lineSeparator());
       }
     }
-    reader.close();
+    sc = new Scanner(builder.toString());
+
+    String token = sc.next();
+    if (!token.equals("P3")) {
+      throw new IllegalArgumentException("Provided image is invalid.");
+      // You might throw an IOException here if necessary
+    }
+
+    int width = sc.nextInt();
+    int height = sc.nextInt();
+    int maxValue = sc.nextInt();
+
+    int[][][] rgbValues = new int[height][width][3];
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        rgbValues[i][j][0] = sc.nextInt();  // Red value
+        rgbValues[i][j][1] = sc.nextInt();  // Green value
+        rgbValues[i][j][2] = sc.nextInt();  // Blue value
+      }
+    }
 
     return new Image(rgbValues, width, height);
+  }
+
+  private static boolean isValidPpmFileContent(String filePath) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+      // Read the first two lines and check if they comply with PPM format
+      String magicNumber = reader.readLine();
+      String dimensions = reader.readLine();
+
+      if (magicNumber != null && dimensions != null) {
+        if (!magicNumber.equals("P3") && !magicNumber.equals("P6")) {
+          return false;
+        }
+
+        String[] dimensionValues = dimensions.trim().split("\\s+");
+
+        if (dimensionValues.length != 2) {
+          return false;
+        }
+
+        int width = Integer.parseInt(dimensionValues[0]);
+        int height = Integer.parseInt(dimensionValues[1]);
+
+        if (width <= 0 || height <= 0) {
+          return false;
+        }
+
+        String maxValLine = reader.readLine();
+        if (maxValLine != null) {
+          int maxVal = Integer.parseInt(maxValLine.trim());
+          if (maxVal != 255) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+
+        // Check the content for RGB values
+        String line;
+        while ((line = reader.readLine()) != null) {
+          String[] values = line.trim().split("\\s+");
+          for (String val : values) {
+            try {
+              int rgb = Integer.parseInt(val);
+              if (rgb < 0 || rgb > 255) {
+                return false;
+              }
+            } catch (NumberFormatException e) {
+              return false;
+            }
+          }
+        }
+      } else {
+        return false;
+      }
+
+      return true; // All checks passed, PPM content is valid
+    } catch (IOException e) {
+      return false;
+    }
   }
 
   private static String getFileExtension(String filePath) {
@@ -251,7 +334,7 @@ public class Image implements IImage {
   }
 
   @Override
-  public void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException {
+  public IImage combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException {
     boolean equalWidth = (red.getWidth() == green.getWidth() && (green.getWidth()
         == blue.getWidth()) && (red.getWidth() == blue.getWidth()));
 
@@ -271,6 +354,7 @@ public class Image implements IImage {
         combinedValues[i][j][2] = blue.getValueAtPixel(i, j, 2);  // Blue value
       }
     }
+    return new Image(combinedValues, width, height);
   }
 
   @Override
@@ -441,7 +525,19 @@ public class Image implements IImage {
   @Override
   public int getValueAtPixel(int horizontalPos, int verticalPos, int channel)
       throws IndexOutOfBoundsException, IllegalArgumentException {
+    if (horizontalPos < 0 || verticalPos < 0 || channel < 0) {
+      throw new IllegalArgumentException("Arguments cannot be negative.");
+    }
+    if (horizontalPos >= this.rgbValues.length ||
+        verticalPos >= this.rgbValues[0].length ||
+        channel >= this.rgbValues[0][0].length) {
+      throw new IndexOutOfBoundsException("Arguments are out of bound.");
+    }
     return this.rgbValues[horizontalPos][verticalPos][channel];
+  }
+
+  public int[][][] getRgbValues() {
+    return this.rgbValues;
   }
 
   @Override
