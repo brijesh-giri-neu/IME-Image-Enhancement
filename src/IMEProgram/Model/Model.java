@@ -230,7 +230,7 @@ public class Model implements IModel {
    * @return True if name is valid, False otherwise (Not valid regex, name already assigned, etc.)
    */
   private boolean isValidAliasName(String input) {
-    // If name is a valid regex and is not already assigned.
-    return input != null && input.matches(VALID_ALIAS_NAME_CHARS_REGEX) && !doesImageExist(input);
+    // If name is a valid regex. Allow overwriting existing image alias.
+    return input != null && input.matches(VALID_ALIAS_NAME_CHARS_REGEX);
   }
 }

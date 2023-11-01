@@ -18,9 +18,9 @@ import java.io.InputStreamReader;
 public class Controller implements IController {
 
   // TO DO - CATCH ONLY CUSTOM EXCEPTIONS IN ACTIONS
-  private IModel model;
-  private IView view;
-  private InputStream in;
+  private final IModel model;
+  private final IView view;
+  private final InputStream in;
 
   public Controller(IModel model, IView view, InputStream in) {
     this.model = model;
@@ -34,7 +34,8 @@ public class Controller implements IController {
     if (!isValidNumberOfArgs(args, 2)) {
       return;
     }
-    String filePath = args[0];
+    // Replace starting and ending quote character. Both single and double.
+    String filePath = args[0].replaceAll("^['\"]+|['\"]+$", "");
     String imageName = args[1];
     try {
       model.loadImageFromFile(filePath, imageName);
@@ -54,7 +55,8 @@ public class Controller implements IController {
     if (!isValidNumberOfArgs(args, 2)) {
       return;
     }
-    String filePath = args[0];
+    // Replace starting and ending quote character. Both single and double.
+    String filePath = args[0].replaceAll("^['\"]+|['\"]+$", "");
     String imageName = args[1];
     try {
       model.saveImageToFile(imageName, filePath);
@@ -267,8 +269,8 @@ public class Controller implements IController {
       view.print("Error: Mentioned image alias does not exist: " + sourceImage
           + " . Please check the name");
     } catch (InvalidImageNameException e) {
-      view.print(String.format(
-          "Error: Mentioned destImage alias already exists. Please provide a different alias name"));
+      view.print(
+          "Error: Mentioned destImage alias already exists. Please provide a different alias name");
     }
   }
 
@@ -370,7 +372,7 @@ public class Controller implements IController {
         }
 
         // Quit the program
-        if (command.equals("exit") || command.equals("quit")) {
+        if (command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("quit")) {
           break;
         }
 
@@ -388,7 +390,8 @@ public class Controller implements IController {
       return;
     }
 
-    String scriptFilePath = args[0];
+    // Replace starting and ending quote character. Both single and double.
+    String scriptFilePath = args[0].replaceAll("^['\"]+|['\"]+$", "");
 
     try (BufferedReader reader = new BufferedReader(new FileReader(scriptFilePath))) {
       String command;
@@ -402,7 +405,7 @@ public class Controller implements IController {
         }
 
         // Quit the program
-        if (command.equals("exit") || command.equals("quit")) {
+        if (command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("quit")) {
           break;
         }
 
@@ -421,7 +424,12 @@ public class Controller implements IController {
 
   private void executeCommand(String command) {
     // At this point program has at least 1 token.
-    String[] tokens = command.split("\\s+");
+
+    // If command has an even number of quotes, split on whitespace while ignoring quotes.
+    // Otherwise, split on only whitespaces.
+    String[] tokens = isEvenNumberOfQuotes(command) ?
+        command.split("\\s+(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)") : command.split("\\s+");
+
     // Need at least 2 tokens
     if (tokens.length < 2) {
       view.print("Error: Please enter correct number of arguments. At least 2 required.");
@@ -508,9 +516,20 @@ public class Controller implements IController {
    */
   private boolean isValidNumberOfArgs(String[] args, int requiredCount) {
     if (args.length != requiredCount) {
-      view.print("Please provide adequate number of arguments");
+      view.print("Invalid number of arguments");
       return false;
     }
     return true;
+  }
+
+  private boolean isEvenNumberOfQuotes(String input) {
+    int quoteCount = 0;
+    for (char c : input.toCharArray()) {
+      if (c == '"') {
+        quoteCount++;
+      }
+    }
+
+    return quoteCount % 2 == 0 ? true : false;
   }
 }

@@ -1,5 +1,3 @@
-package IMEProgram.Controller;
-
 import IMEProgram.Model.IModel;
 import IMEProgram.View.IView;
 import java.io.InputStream;
