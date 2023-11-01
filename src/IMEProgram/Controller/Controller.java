@@ -364,7 +364,8 @@ public class Controller implements IController {
     try {
       while ((command = reader.readLine()) != null) {
         // Remove Whitespaces at start and end. And convert to lowercase.
-        command = command.trim().toLowerCase();
+        // command = command.trim().toLowerCase();
+        command = command.trim();
 
         // Ignore comments (lines starting with #)
         if (command.startsWith("#") || command.isBlank()) {
@@ -397,7 +398,8 @@ public class Controller implements IController {
       String command;
       while ((command = reader.readLine()) != null) {
         // Remove Whitespaces at start and end. And convert to lowercase.
-        command = command.trim().toLowerCase();
+        // command = command.trim().toLowerCase();
+        command = command.trim();
 
         // Ignore comments (lines starting with #)
         if (command.startsWith("#") || command.isEmpty()) {
@@ -410,7 +412,7 @@ public class Controller implements IController {
         }
 
         // Quit if run script called within a script
-        if (command.split("\\s+")[0].equals("run")) {
+        if (command.split("\\s+")[0].equalsIgnoreCase("run")) {
           view.print("Cannot execute a script from inside a script");
         }
 
@@ -440,7 +442,7 @@ public class Controller implements IController {
     // Remove operation from tokens
     tokens = getArrayBeginningFrom(tokens, 1);
 
-    switch (operation) {
+    switch (operation.toLowerCase()) {
       case "load":
         loadImage(tokens);
         break;
