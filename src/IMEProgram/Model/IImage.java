@@ -96,7 +96,7 @@ public interface IImage {
    * @param blue  IImage whose Blue component is selected.
    * @throws IllegalArgumentException If the input images have different dimensions.
    */
-  IImage combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
+  void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
 
   /**
    * Applies a Gaussian blur effect to the image.

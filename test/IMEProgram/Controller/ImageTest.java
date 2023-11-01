@@ -531,9 +531,9 @@ public class ImageTest {
       IImage rImage = testSplitImgPPM[0];
       IImage gImage = testSplitImgPPM[1];
       IImage bImage = testSplitImgPPM[2];
-      IImage testResultImgPPM = testImgPPM.combineRGB(rImage, gImage, bImage);
+      testImgPPM.combineRGB(rImage, gImage, bImage);
 
-      int[][][] rgbValues = testResultImgPPM.getRgbValues();
+      int[][][] rgbValues = testImgPPM.getRgbValues();
 
       assertArrayEquals(expectedValues, rgbValues);
 
@@ -846,9 +846,9 @@ public class ImageTest {
       Image rImage = new Image(4, 3);
       Image gImage = new Image(3, 4);
       Image bImage = new Image(5, 5);
-      IImage testResultImgPPM = testImgPPM.combineRGB(rImage, gImage, bImage);
+      testImgPPM.combineRGB(rImage, gImage, bImage);
 
-      assertNotNull(testResultImgPPM);
+      assertNotNull(testImgPPM);
 
     } catch (Exception e) {
       fail("Error Encountered: " + e.getMessage());
@@ -1344,9 +1344,9 @@ public class ImageTest {
       IImage rImage = testSplitImgPNG[0];
       IImage gImage = testSplitImgPNG[1];
       IImage bImage = testSplitImgPNG[2];
-      IImage testResultImgPNG = testImgPNG.combineRGB(rImage, gImage, bImage);
+      testImgPNG.combineRGB(rImage, gImage, bImage);
 
-      int[][][] rgbValues = testResultImgPNG.getRgbValues();
+      int[][][] rgbValues = testImgPNG.getRgbValues();
 
       assertArrayEquals(expectedValues, rgbValues);
 
@@ -1659,9 +1659,9 @@ public class ImageTest {
       Image rImage = new Image(4, 3);
       Image gImage = new Image(3, 4);
       Image bImage = new Image(5, 5);
-      IImage testResultImgPNG = testImgPNG.combineRGB(rImage, gImage, bImage);
+      testImgPNG.combineRGB(rImage, gImage, bImage);
 
-      assertNotNull(testResultImgPNG);
+      assertNotNull(testImgPNG);
 
     } catch (Exception e) {
       fail("Error Encountered: " + e.getMessage());
@@ -2158,9 +2158,9 @@ public class ImageTest {
       IImage rImage = testSplitImgJPG[0];
       IImage gImage = testSplitImgJPG[1];
       IImage bImage = testSplitImgJPG[2];
-      IImage testResultImgJPG = testImgJPG.combineRGB(rImage, gImage, bImage);
+      testImgJPG.combineRGB(rImage, gImage, bImage);
 
-      int[][][] rgbValues = testResultImgJPG.getRgbValues();
+      int[][][] rgbValues = testImgJPG.getRgbValues();
 
       assertArrayEquals(expectedValues, rgbValues);
 
@@ -2473,9 +2473,9 @@ public class ImageTest {
       Image rImage = new Image(4, 3);
       Image gImage = new Image(3, 4);
       Image bImage = new Image(5, 5);
-      IImage testResultImgJPG = testImgJPG.combineRGB(rImage, gImage, bImage);
+      testImgJPG.combineRGB(rImage, gImage, bImage);
 
-      assertNotNull(testResultImgJPG);
+      assertNotNull(testImgJPG);
 
     } catch (Exception e) {
       fail("Error Encountered: " + e.getMessage());

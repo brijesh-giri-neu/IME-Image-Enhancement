@@ -334,7 +334,7 @@ public class Image implements IImage {
   }
 
   @Override
-  public IImage combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException {
+  public void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException {
     boolean equalWidth = (red.getWidth() == green.getWidth() && (green.getWidth()
         == blue.getWidth()) && (red.getWidth() == blue.getWidth()));
 
@@ -354,7 +354,6 @@ public class Image implements IImage {
         combinedValues[i][j][2] = blue.getValueAtPixel(i, j, 2);  // Blue value
       }
     }
-    return new Image(combinedValues, width, height);
   }
 
   @Override
