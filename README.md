@@ -11,3 +11,11 @@ Files required for submission:
 Setup versions:
 1. JDK 11.0.20
 2. Junit 4.13.1
+
+README of our command line interface.
+ 
+1. Image alias/variable names are case-insensitive
+2. FilePath is case-insensitive. We always consider lower-case.
+    If FilePath has space in between, USE DOUBLE QUOTES at the start and end. 
+    ONLY "" supported. No support for single quotes for now.
+3. Command names are case-insensitive.
