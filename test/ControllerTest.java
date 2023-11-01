@@ -947,6 +947,19 @@ public class ControllerTest {
   }
 
   @Test
+  public void invalidCommand() {
+    String command = "doNothing dude";
+    in = new ByteArrayInputStream(command.getBytes());
+    controller = new Controller(model, view, in);
+    controller.start();
+
+    String expectedModelLog = "";
+    String expectedViewLog = "\n" + "Error: Invalid command. Please try again.";
+    assertEquals(expectedModelLog, modelLog.toString());
+    assertEquals(expectedViewLog, viewLog.toString());
+  }
+
+  @Test
   public void runScript() {
     String command = "run res/unitTestScript.txt";
     in = new ByteArrayInputStream(command.getBytes());
