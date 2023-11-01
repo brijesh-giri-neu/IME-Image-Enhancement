@@ -37,7 +37,14 @@ public class Image implements IImage {
     this.rgbValues = new int[height][width][3];
   }
 
-  // Used internally to return Image object.
+  /**
+   * Instantiate an Image object with
+   * the given width, height and rgbvalues.
+   *
+   * @param height height of the image.
+   * @param width  width of the image.
+   * @param rgbValues array of pixel values.
+   */
   private Image(int[][][] rgbValues, int width, int height) {
     this.rgbValues = rgbValues;
     this.width = width;
@@ -65,6 +72,12 @@ public class Image implements IImage {
     }
   }
 
+  /**
+   * Loads a JPG or PNG Image.
+   *
+   * @param filePath path of the file.
+   * @return Image object.
+   */
   private static Image loadJpgOrPngImage(String filePath) throws IOException {
     BufferedImage bufferedImage = ImageIO.read(new File(filePath));
     int width = bufferedImage.getWidth();
@@ -82,6 +95,12 @@ public class Image implements IImage {
     return new Image(rgbValues, width, height);
   }
 
+  /**
+   * Loads a PPM Image.
+   *
+   * @param filePath path of the file.
+   * @return Image object.
+   */
   private static Image loadPpmImage(String filePath) throws IOException
       , InputMismatchException {
 
@@ -125,6 +144,13 @@ public class Image implements IImage {
     return new Image(rgbValues, width, height);
   }
 
+  /**
+   * Checks if a PPM file
+   * contains valid data.
+   *
+   * @param filePath path of the file.
+   * @return True or False.
+   */
   private static boolean isValidPpmFileContent(String filePath) {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
       // Read the first two lines and check if they comply with PPM format
@@ -184,6 +210,12 @@ public class Image implements IImage {
     }
   }
 
+  /**
+   * Gets the file extension of the file.
+   *
+   * @param filePath path of the file.
+   * @return extension or null.
+   */
   private static String getFileExtension(String filePath) {
     if (filePath != null && !filePath.isEmpty()) {
       int dotIndex = filePath.lastIndexOf('.');
