@@ -48,7 +48,7 @@ public class ControllerTest {
     controller.start();
 
     String expected = "\n" + "res/folder path/file.txt" + "\n" + "resImage";
-    assertEquals(expected, modelLog.toString());
+    assertEquals(expected.toLowerCase(), modelLog.toString());
   }
 
   @Test
@@ -59,7 +59,7 @@ public class ControllerTest {
     controller.start();
 
     String expected = "\n" + "res/folderpath/file.txt" + "\n" + "resImage";
-    assertEquals(expected, modelLog.toString());
+    assertEquals(expected.toLowerCase(), modelLog.toString());
     assertEquals(expectedSuccess, viewLog.toString());
   }
 
@@ -71,7 +71,7 @@ public class ControllerTest {
     controller.start();
 
     String expected = "\n" + "res/folderpath/file.txt" + "\n" + "resImage";
-    assertEquals(expected, modelLog.toString());
+    assertEquals(expected.toLowerCase(), modelLog.toString());
     assertEquals(expectedSuccess, viewLog.toString());
   }
 
@@ -123,7 +123,7 @@ public class ControllerTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    String expected = "\n" + "Error: resImage cannot be used as an alias to refer to an image";
+    String expected = "\n" + "Error: resimage cannot be used as an alias to refer to an image";
     assertEquals(expected, viewLog.toString());
   }
 
@@ -135,7 +135,7 @@ public class ControllerTest {
     controller.start();
 
     String expected = "\n" + "resImage" + "\n" + "res/folder path/file.txt";
-    assertEquals(expected, modelLog.toString());
+    assertEquals(expected.toLowerCase(), modelLog.toString());
     assertEquals(expectedSuccess, viewLog.toString());
   }
 
@@ -147,7 +147,7 @@ public class ControllerTest {
     controller.start();
 
     String expected = "\n" + "resImage" + "\n" + "res/folderpath/file.txt";
-    assertEquals(expected, modelLog.toString());
+    assertEquals(expected.toLowerCase(), modelLog.toString());
     assertEquals(expectedSuccess, viewLog.toString());
   }
 
@@ -159,7 +159,7 @@ public class ControllerTest {
     controller.start();
 
     String expected = "\n" + "resImage" + "\n" + "res/folderpath/file.txt";
-    assertEquals(expected, modelLog.toString());
+    assertEquals(expected.toLowerCase(), modelLog.toString());
     assertEquals(expectedSuccess, viewLog.toString());
   }
 
@@ -199,7 +199,7 @@ public class ControllerTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    String expected = String.format(imageNotFoundExpcetionMsg, "resImage");
+    String expected = String.format(imageNotFoundExpcetionMsg, "resimage");
     assertEquals(expected, viewLog.toString());
   }
 
@@ -530,7 +530,7 @@ public class ControllerTest {
     controller.start();
 
     String expected = "\n" + "koala" + "\n" + "koala-horizontalFlip";
-    assertEquals(expected, modelLog.toString());
+    assertEquals(expected.toLowerCase(), modelLog.toString());
     assertEquals(expectedSuccess, viewLog.toString());
   }
 
@@ -556,7 +556,7 @@ public class ControllerTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    String expected = String.format(imageNameExceptionMsg, "koala-horizontalFlip");
+    String expected = String.format(imageNameExceptionMsg, "koala-horizontalflip");
     assertEquals(expected, viewLog.toString());
   }
 
@@ -581,7 +581,7 @@ public class ControllerTest {
     controller.start();
 
     String expected = "\n" + "koala" + "\n" + "koala-verticalFlip";
-    assertEquals(expected, modelLog.toString());
+    assertEquals(expected.toLowerCase(), modelLog.toString());
     assertEquals(expectedSuccess, viewLog.toString());
   }
 
@@ -607,7 +607,7 @@ public class ControllerTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    String expected = String.format(imageNameExceptionMsg, "koala-verticalFlip");
+    String expected = String.format(imageNameExceptionMsg, "koala-verticalflip");
     assertEquals(expected, viewLog.toString());
   }
 
@@ -954,11 +954,11 @@ public class ControllerTest {
     controller.start();
 
     String expectedModelLog =
-        "\n" + "res/folder path/file.txt\n" + "resImage\n" + "koala\n" + "koala-red\n" + "koala\n"
-            + "koala-blue\n" + "koala\n" + "koala-horizontalFlip\n" + "50\n" + "koala\n"
+        "\n" + "res/folder path/file.txt\n" + "resimage\n" + "koala\n" + "koala-red\n" + "koala\n"
+            + "koala-blue\n" + "koala\n" + "koala-horizontalflip\n" + "50\n" + "koala\n"
             + "koala-brighten\n" + "koala\n" + "koala-red\n" + "koala-green\n" + "koala-blue\n"
             + "koala-red-tint\n" + "koala-red\n" + "koala-green\n" + "koala-blue\n" + "koala\n"
-            + "koala-sharpen\n" + "koala\n" + "koala-sepia\n" + "resImage\n"
+            + "koala-sharpen\n" + "koala\n" + "koala-sepia\n" + "resimage\n"
             + "res/folderpath/file.txt";
 
     String expectedViewLog =

@@ -322,8 +322,7 @@ public class Controller implements IController {
     try {
       while ((command = reader.readLine()) != null) {
         // Remove Whitespaces at start and end. And convert to lowercase.
-        // command = command.trim().toLowerCase();
-        command = command.trim();
+        command = command.trim().toLowerCase();
 
         // Ignore comments (lines starting with #)
         if (command.startsWith("#") || command.isBlank()) {
@@ -356,8 +355,7 @@ public class Controller implements IController {
       String command;
       while ((command = reader.readLine()) != null) {
         // Remove Whitespaces at start and end. And convert to lowercase.
-        // command = command.trim().toLowerCase();
-        command = command.trim();
+        command = command.trim().toLowerCase();
 
         // Ignore comments (lines starting with #)
         if (command.startsWith("#") || command.isEmpty()) {
@@ -387,8 +385,9 @@ public class Controller implements IController {
 
     // If command has an even number of quotes, split on whitespace while ignoring quotes.
     // Otherwise, split on only whitespaces.
-    String[] tokens = isEvenNumberOfQuotes(command) ?
-        command.split("\\s+(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)") : command.split("\\s+");
+    String[] tokens =
+        isEvenNumberOfQuotes(command) ? command.split("\\s+(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)")
+            : command.split("\\s+");
 
     // Need at least 2 tokens
     if (tokens.length < 2) {
