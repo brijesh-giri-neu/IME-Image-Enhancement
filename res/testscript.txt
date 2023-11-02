@@ -1,0 +1,84 @@
+#load a ppm image file 
+load Image.ppm resImage1
+
+#load a png image file 
+load Image.png resImage2
+
+#load a jpg image file 
+load Image.jpg resImage3
+
+# save in same format
+save saveimage.jpg resImage1
+
+#save in png format
+save saveimage.png resImage3
+
+#save in ppm format
+save saveimage.ppm resImage2
+
+# Get red-component
+red-component resImage3 redResImage
+save red-Image.jpg redResImage
+
+# Get green-component
+green-component resImage3 greenResImage
+save green-Image.jpg greenResImage
+
+# Get blue-component
+blue-component resImage3 blueResImage
+save blue-Image.jpg blueResImage
+
+# Get value-component
+value-component resImage3 valueResImage
+save value-Image.jpg valueResImage
+
+# Get intensity-component
+intensity-component resImage3 intensityResImage
+save intensity-Image.jpg intensityResImage
+
+# Get luma-component
+luma-component resImage3 lumaResImage
+save luma-Image.jpg lumaResImage
+
+# horizontal-flip
+horizontal-flip resImage3 flipHorizontalresImage
+save horizontal-flip-Image.jpg flipHorizontalresImage
+
+# vertical-flip
+vertical-flip resImage3 flipVerticalresImage
+save vertical-flip-Image.jpg flipVerticalresImage
+
+# brighten by 50
+brighten 50 resImage3 brighten-50-resImage
+save brighten-50-Image.jpg brighten-50-resImage
+
+# darken by 50
+brighten -50 resImage3 darken-50-resImage
+save darken-50-Image.jpg darken-50-resImage
+
+# rgb split
+rgb-split resImage3 destImageRed destImageGreen destImageBlue
+save split-red-Image.jpg destImageRed
+save split-green-Image.jpg destImageGreen
+save split-blue-Image.jpg destImageBlue
+
+# rgb combine
+load split-red-Image.jpg sourceImageRed
+load split-green-Image.jpg sourceImageGreen
+load split-blue-Image.jpg sourceImageBlue
+rgb-combine combinedImage sourceImageRed sourceImageGreen sourceImageBlue
+save combined-Image.jpg combinedImage
+
+# blur
+blur resImage3 blurredImage1
+blur blurredImage1 blurredImage2
+blur blurredImage2 blurredImage3
+save blur-3times-Image.jpg blurredImage3
+
+# sharpen
+sharpen resImage3 resImageSharpen
+save sharpen-1time-Image.jpg resImageSharpen
+
+# sepia
+sepia resImage3 resImageSepia
+save sepia-Image.jpg resImageSepia
