@@ -7,6 +7,9 @@ import java.io.PrintStream;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests the View.
+ */
 public class ViewTest {
 
   private IView view;

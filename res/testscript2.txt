@@ -1,11 +1,11 @@
 #load a ppm image file 
-load res/ValueTest/bro.ppm resImage1
+load res/ValueTest/Image.ppm resImage1
 
 #load a png image file 
-load res/ValueTest/bro.png resImage2
+load res/ValueTest/Image.png resImage2
 
 #load a jpg image file 
-load res/ValueTest/bro.jpg resImage3
+load res/ValueTest/Image.jpg resImage3
 
 # save in same format
 save res/ValueTest/saveimage.jpg resImage1
@@ -18,67 +18,67 @@ save res/ValueTest/saveimage.ppm resImage2
 
 # Get red-component
 red-component resImage3 redResImage
-save res/ValueTest/red-bro.jpg redResImage
+save res/ValueTest/red-Image.jpg redResImage
 
 # Get green-component
 green-component resImage3 greenResImage
-save res/ValueTest/green-bro.jpg greenResImage
+save res/ValueTest/green-Image.jpg greenResImage
 
 # Get blue-component
 blue-component resImage3 blueResImage
-save res/ValueTest/blue-bro.jpg blueResImage
+save res/ValueTest/blue-Image.jpg blueResImage
 
 # Get value-component
 value-component resImage3 valueResImage
-save res/ValueTest/value-bro.jpg valueResImage
+save res/ValueTest/value-Image.jpg valueResImage
 
 # Get intensity-component
 intensity-component resImage3 intensityResImage
-save res/ValueTest/intensity-bro.jpg intensityResImage
+save res/ValueTest/intensity-Image.jpg intensityResImage
 
 # Get luma-component
 luma-component resImage3 lumaResImage
-save res/ValueTest/luma-bro.jpg lumaResImage
+save res/ValueTest/luma-Image.jpg lumaResImage
 
 # horizontal-flip
 horizontal-flip resImage3 flipHorizontalresImage
-save res/ValueTest/horizontal-flip-bro.jpg flipHorizontalresImage
+save res/ValueTest/horizontal-flip-Image.jpg flipHorizontalresImage
 
 # vertical-flip
 vertical-flip resImage3 flipVerticalresImage
-save res/ValueTest/vertical-flip-bro.jpg flipVerticalresImage
+save res/ValueTest/vertical-flip-Image.jpg flipVerticalresImage
 
 # brighten by 50
 brighten 50 resImage3 brighten-50-resImage
-save res/ValueTest/brighten-50-bro.jpg brighten-50-resImage
+save res/ValueTest/brighten-50-Image.jpg brighten-50-resImage
 
 # darken by 50
 brighten -50 resImage3 darken-50-resImage
-save res/ValueTest/darken-50-bro.jpg darken-50-resImage
+save res/ValueTest/darken-50-Image.jpg darken-50-resImage
 
 # rgb split
 rgb-split resImage3 destImageRed destImageGreen destImageBlue
-save res/ValueTest/split-red-bro.jpg destImageRed
-save res/ValueTest/split-green-bro.jpg destImageGreen
-save res/ValueTest/split-blue-bro.jpg destImageBlue
+save res/ValueTest/split-red-Image.jpg destImageRed
+save res/ValueTest/split-green-Image.jpg destImageGreen
+save res/ValueTest/split-blue-Image.jpg destImageBlue
 
 # rgb combine
-load res/ValueTest/split-red-bro.jpg sourceImageRed
-load res/ValueTest/split-green-bro.jpg sourceImageGreen
-load res/ValueTest/split-blue-bro.jpg sourceImageBlue
+load res/ValueTest/split-red-Image.jpg sourceImageRed
+load res/ValueTest/split-green-Image.jpg sourceImageGreen
+load res/ValueTest/split-blue-Image.jpg sourceImageBlue
 rgb-combine combinedImage sourceImageRed sourceImageGreen sourceImageBlue
-save res/ValueTest/combined-bro.jpg combinedImage
+save res/ValueTest/combined-Image.jpg combinedImage
 
 # blur
 blur resImage3 blurredImage1
 blur blurredImage1 blurredImage2
 blur blurredImage2 blurredImage3
-save res/ValueTest/blur-3times-bro.jpg blurredImage3
+save res/ValueTest/blur-3times-Image.jpg blurredImage3
 
 # sharpen
 sharpen resImage3 resImageSharpen
-save res/ValueTest/sharpen-1time-bro.jpg resImageSharpen
+save res/ValueTest/sharpen-1time-Image.jpg resImageSharpen
 
 # sepia
 sepia resImage3 resImageSepia
-save res/ValueTest/sepia-bro.jpg resImageSepia
+save res/ValueTest/sepia-Image.jpg resImageSepia
