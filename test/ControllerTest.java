@@ -961,7 +961,7 @@ public class ControllerTest {
 
   @Test
   public void runScript() {
-    String command = "run res/unitTestScript.txt";
+    String command = "run test/unitImages/unitTestScript.txt";
     in = new ByteArrayInputStream(command.getBytes());
     controller = new Controller(model, view, in);
     controller.start();
