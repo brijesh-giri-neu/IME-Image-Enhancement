@@ -57,7 +57,7 @@ public class IntegrationTest {
   @Test
   public void saveImageTest() {
     loadImage();
-    String command = "save \"testImage-saveTest.ppm\" resImage";
+    String command = "save test/integration/testImage-saveTest.ppm resImage";
 
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     view = new View(new PrintStream(bytes));
@@ -205,7 +205,7 @@ public class IntegrationTest {
   }
 
   @Test
-  public void redComponenet() {
+  public void redComponent() {
     loadImage();
     String command = "red-component resImage resImage-red";
 
@@ -232,7 +232,87 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("testImage-rgbcombine.ppm", "test/integration/resImage-red-tint", controller);
+    saveImage("test/integration/resImage-rgbcombine.ppm", "resImage-red-tint", controller);
+    assertEquals(expectedSuccess, bytes.toString());
+  }
+
+  @Test
+  public void greenComponent() {
+    loadImage();
+    String command = "green-component resImage resImage-green";
+
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    view = new View(new PrintStream(bytes));
+    in = new ByteArrayInputStream(command.getBytes());
+    controller = new Controller(model, view, in);
+    controller.start();
+
+    saveImage("test/integration/resImage-green.ppm", "resImage-green",
+        controller);
+    assertEquals(expectedSuccess, bytes.toString());
+  }
+
+  @Test
+  public void blueComponent() {
+    loadImage();
+    String command = "blue-component resImage resImage-blue";
+
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    view = new View(new PrintStream(bytes));
+    in = new ByteArrayInputStream(command.getBytes());
+    controller = new Controller(model, view, in);
+    controller.start();
+
+    saveImage("test/integration/resImage-blue.ppm", "resImage-blue",
+        controller);
+    assertEquals(expectedSuccess, bytes.toString());
+  }
+
+  @Test
+  public void valueComponent() {
+    loadImage();
+    String command = "value-component resImage resImage-value";
+
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    view = new View(new PrintStream(bytes));
+    in = new ByteArrayInputStream(command.getBytes());
+    controller = new Controller(model, view, in);
+    controller.start();
+
+    saveImage("test/integration/resImage-value.ppm", "resImage-value",
+        controller);
+    assertEquals(expectedSuccess, bytes.toString());
+  }
+
+  @Test
+  public void intensityComponent() {
+    loadImage();
+    String command = "intensity-component resImage resImage-intensity";
+
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    view = new View(new PrintStream(bytes));
+    in = new ByteArrayInputStream(command.getBytes());
+    controller = new Controller(model, view, in);
+    controller.start();
+
+    saveImage("test/integration/resImage-intensity.ppm", "resImage-intensity",
+        controller);
+    assertEquals(expectedSuccess, bytes.toString());
+  }
+
+  @Test
+  public void darken() {
+    loadImage();
+    String command = "brighten -50 resImage resImage-darken-50";
+
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    view = new View(new PrintStream(bytes));
+    in = new ByteArrayInputStream(command.getBytes());
+    controller = new Controller(model, view, in);
+    controller.start();
+
+    saveImage("test/integration/resImage-darken-50.ppm", "resImage-darken-50",
+        controller);
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -246,4 +326,5 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
   }
+
 }
