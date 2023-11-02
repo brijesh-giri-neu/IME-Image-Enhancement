@@ -12,6 +12,11 @@ import imeprogram.view.View;
  */
 public class Main {
 
+  /**
+   * Entry point of our program.
+   *
+   * @param args command line arguments.
+   */
   public static void main(String[] args) {
     // Instantiate the View with System.out. Will replace this in testing.
     IView view = new View(System.out);

@@ -22,6 +22,13 @@ public class Controller implements IController {
   private final IView view;
   private final InputStream in;
 
+  /**
+   * Instantiate the controller object.
+   *
+   * @param model the input model
+   * @param view  the input view
+   * @param in    the source of input commands
+   */
   public Controller(IModel model, IView view, InputStream in) {
     this.model = model;
     this.view = view;
@@ -63,7 +70,7 @@ public class Controller implements IController {
     } catch (FileNotFoundException e) {
       view.print("Error: Cannot save file. Please check provided path: " + filePath);
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, imageName));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, imageName));
     } catch (FileFormatException e) {
       view.print("Error: Cannot save file. Unsupported file extension");
     }
@@ -80,9 +87,9 @@ public class Controller implements IController {
       model.redComponent(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -97,9 +104,9 @@ public class Controller implements IController {
       model.greenComponent(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -114,9 +121,9 @@ public class Controller implements IController {
       model.blueComponent(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -131,9 +138,9 @@ public class Controller implements IController {
       model.valueComponent(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -148,9 +155,9 @@ public class Controller implements IController {
       model.lumaComponent(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -165,9 +172,9 @@ public class Controller implements IController {
       model.intensityComponent(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -182,9 +189,9 @@ public class Controller implements IController {
       model.horizontalFlip(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -199,9 +206,9 @@ public class Controller implements IController {
       model.verticalFlip(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -217,9 +224,9 @@ public class Controller implements IController {
       model.brighten(increment, sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -236,7 +243,7 @@ public class Controller implements IController {
       model.rgbSplit(sourceImage, destImageRed, destImageGreen, destImageBlue);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
       view.print("Error: One of the mentioned destImage alias is invalid");
     }
@@ -259,7 +266,7 @@ public class Controller implements IController {
     } catch (IllegalArgumentException e) {
       view.print("Error: Given images have different dimensions");
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -274,9 +281,9 @@ public class Controller implements IController {
       model.blur(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -291,9 +298,9 @@ public class Controller implements IController {
       model.sharpen(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -308,9 +315,9 @@ public class Controller implements IController {
       model.sepia(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
-      view.print(String.format(MessageHelper.imageNotFoundExceptionMsg, sourceImage));
+      view.print(String.format(MessageHelper.ImageNotFoundExceptionMsg, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.print(String.format(MessageHelper.imageNameExceptionMsg, destImage));
+      view.print(String.format(MessageHelper.ImageNameExceptionMsg, destImage));
     }
   }
 
@@ -455,7 +462,8 @@ public class Controller implements IController {
     }
   }
 
-  // Returns a new array beginning from given index. Trims the string elements of the array for whitespaces.
+  // Returns a new array beginning from given index.
+  // Trims the string elements of the array for whitespaces.
   private String[] getArrayBeginningFrom(String[] array, int index) {
     String[] result = new String[array.length - index];
     for (int i = index, j = 0; i < array.length; i++, j++) {
@@ -491,11 +499,14 @@ public class Controller implements IController {
     return quoteCount % 2 == 0 ? true : false;
   }
 
+  /**
+   * A helper class containing messages for the view.
+   */
   public static class MessageHelper {
 
     // Not used in 2 cases - load, rgbSplit
-    public static final String imageNameExceptionMsg = "Error: Mentioned destImage alias is invalid: %s. Please provide a different alias name";
+    public static final String ImageNameExceptionMsg = "Error: Mentioned destImage alias is invalid: %s. Please provide a different alias name";
     //Not used in 1 case - rgbCombine
-    public static final String imageNotFoundExceptionMsg = "Error: Mentioned image alias does not exist: %s. Please check the name";
+    public static final String ImageNotFoundExceptionMsg = "Error: Mentioned image alias does not exist: %s. Please check the name";
   }
 }
