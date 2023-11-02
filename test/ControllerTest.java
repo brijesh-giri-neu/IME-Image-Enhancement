@@ -28,9 +28,9 @@ public class ControllerTest {
   String expectedSuccess = "\n Operation successful";
 
   // Not used in 2 cases - load, rgbSplit
-  String imageNameExceptionMsg = "\n" + MessageHelper.imageNameExceptionMsg;
+  String imageNameExceptionMsg = "\n" + MessageHelper.ImageNameExceptionMsg;
   //Not used in 1 case - rgbCombine
-  String imageNotFoundExpcetionMsg = "\n" + MessageHelper.imageNotFoundExceptionMsg;
+  String imageNotFoundExpcetionMsg = "\n" + MessageHelper.ImageNotFoundExceptionMsg;
 
   @Before
   public void setUp() {
