@@ -49,7 +49,7 @@ This program provides a set of operations for processing 24-bit images with Red,
 - Function: Displays messages and success notifications to the user via the console.
 ### Image
 - Purpose: Contains the logic for the operations to be performed on the Image.
-- Function: Creates an Image object and operates on the image as per command from Model.
+- Function: Creates an Image object and operates on it.
 
 ## Interfaces
 ### IController
