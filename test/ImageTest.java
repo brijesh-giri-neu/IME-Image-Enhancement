@@ -69,7 +69,7 @@ public class ImageTest {
       Image image = Image.loadImageFromFile(testImagePath);
       fail("Test Failed: Exception not thrown for invalid file path");
     } catch (IOException e) {
-      assertTrue(true);
+      // To fix java style
     }
   }
 
@@ -1525,6 +1525,7 @@ public class ImageTest {
       testImgPNG.saveToFile(outputFilename);
       fail("Test Failed: Exception not thrown for invalid file path");
     } catch (FileNotFoundException e) {
+      // Fix java style error
     }
   }
 
@@ -2305,6 +2306,7 @@ public class ImageTest {
       Image image = Image.loadImageFromFile(outputFilename);
       fail("Test Failed: Exception not thrown for invalid filePath");
     } catch (IOException e) {
+      // Fix java style error
     }
   }
 

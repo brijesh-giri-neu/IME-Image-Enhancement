@@ -48,7 +48,14 @@ public class Image implements IImage {
     this.height = height;
   }
 
-  // Method to create image object from file
+  /**
+   * Loads an Image from the given filepath.
+   *
+   * @param filePath the input filepath
+   * @return an Image object
+   * @throws IllegalArgumentException if the provided file has corrupt data
+   * @throws IOException              if the provided file does not exists
+   */
   public static Image loadImageFromFile(String filePath)
       throws IllegalArgumentException, IOException {
     String fileExtension = getFileExtension(filePath);

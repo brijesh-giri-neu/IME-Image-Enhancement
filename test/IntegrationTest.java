@@ -30,9 +30,9 @@ public class IntegrationTest {
   String expectedSuccess = "\n Operation successful";
 
   // Not used in 2 cases - load, rgbSplit
-  String imageNameExceptionMsg = "\n" + MessageHelper.ImageNameExceptionMsg;
+  String imageNameExceptionMsg = "\n" + MessageHelper.IMAGE_NAME_EXCEPTION_MSG;
   //Not used in 1 case - rgbCombine
-  String imageNotFoundExpcetionMsg = "\n" + MessageHelper.ImageNotFoundExceptionMsg;
+  String imageNotFoundExpcetionMsg = "\n" + MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG;
 
   String inputFilePath = "test/integrationImages/testImage.ppm";
 
