@@ -1,6 +1,6 @@
-package IMEProgram.Model;
+package imeprogram.model;
 
-import IMEProgram.Exceptions.FileFormatException;
+import imeprogram.exceptions.FileFormatException;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.InputMismatchException;
-import java.util.Objects;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 

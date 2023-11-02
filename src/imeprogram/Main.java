@@ -1,11 +1,11 @@
-package IMEProgram;
+package imeprogram;
 
-import IMEProgram.Controller.Controller;
-import IMEProgram.Controller.IController;
-import IMEProgram.Model.IModel;
-import IMEProgram.Model.Model;
-import IMEProgram.View.IView;
-import IMEProgram.View.View;
+import imeprogram.controller.Controller;
+import imeprogram.controller.IController;
+import imeprogram.model.IModel;
+import imeprogram.model.Model;
+import imeprogram.view.IView;
+import imeprogram.view.View;
 
 /**
  * This class is the starting point of our IME application.

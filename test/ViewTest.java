@@ -1,7 +1,7 @@
 import static org.junit.Assert.assertEquals;
 
-import IMEProgram.View.IView;
-import IMEProgram.View.View;
+import imeprogram.view.IView;
+import imeprogram.view.View;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.Before;

@@ -1,13 +1,13 @@
 import static org.junit.Assert.assertEquals;
 
-import IMEProgram.Controller.Controller;
-import IMEProgram.Controller.Controller.MessageHelper;
-import IMEProgram.Controller.IController;
-import IMEProgram.Exceptions.FileFormatException;
-import IMEProgram.Exceptions.ImageNotFoundException;
-import IMEProgram.Exceptions.InvalidImageNameException;
-import IMEProgram.Model.IModel;
-import IMEProgram.View.IView;
+import imeprogram.controller.Controller;
+import imeprogram.controller.Controller.MessageHelper;
+import imeprogram.controller.IController;
+import imeprogram.exceptions.FileFormatException;
+import imeprogram.exceptions.ImageNotFoundException;
+import imeprogram.exceptions.InvalidImageNameException;
+import imeprogram.model.IModel;
+import imeprogram.view.IView;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;

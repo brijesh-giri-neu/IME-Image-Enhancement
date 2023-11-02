@@ -1,4 +1,4 @@
-package IMEProgram.Exceptions;
+package imeprogram.exceptions;
 
 /**
  * This class represents a Custom Exception thrown when an image is not found in the program.

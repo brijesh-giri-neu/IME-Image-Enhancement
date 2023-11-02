@@ -1,6 +1,6 @@
-package IMEProgram.Model;
+package imeprogram.model;
 
-import IMEProgram.Exceptions.FileFormatException;
+import imeprogram.exceptions.FileFormatException;
 import java.io.FileNotFoundException;
 
 /**
