@@ -1,10 +1,10 @@
-package IMEProgram.Controller;
+package imeprogram.controller;
 
-import IMEProgram.Exceptions.FileFormatException;
-import IMEProgram.Exceptions.ImageNotFoundException;
-import IMEProgram.Exceptions.InvalidImageNameException;
-import IMEProgram.Model.IModel;
-import IMEProgram.View.IView;
+import imeprogram.exceptions.FileFormatException;
+import imeprogram.exceptions.ImageNotFoundException;
+import imeprogram.exceptions.InvalidImageNameException;
+import imeprogram.model.IModel;
+import imeprogram.view.IView;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -28,7 +28,6 @@ public class Controller implements IController {
     this.in = in;
   }
 
-  // Handle spaces in filepath by asking professor to allow quotes in filepath beginning and end
   @Override
   public void loadImage(String[] args) {
     if (!isValidNumberOfArgs(args, 2)) {

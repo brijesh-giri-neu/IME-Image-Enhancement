@@ -1,4 +1,4 @@
-package IMEProgram.View;
+package imeprogram.view;
 
 /**
  * A text-based view for the IME program.

@@ -1,8 +1,8 @@
-package IMEProgram.Model;
+package imeprogram.model;
 
-import IMEProgram.Exceptions.FileFormatException;
-import IMEProgram.Exceptions.ImageNotFoundException;
-import IMEProgram.Exceptions.InvalidImageNameException;
+import imeprogram.exceptions.FileFormatException;
+import imeprogram.exceptions.ImageNotFoundException;
+import imeprogram.exceptions.InvalidImageNameException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;

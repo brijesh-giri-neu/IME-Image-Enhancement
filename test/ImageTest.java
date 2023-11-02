@@ -4,13 +4,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import IMEProgram.Model.IImage;
-import IMEProgram.Model.Image;
+import imeprogram.model.IImage;
+import imeprogram.model.Image;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
-import javax.imageio.IIOImage;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -23,8 +21,7 @@ public class ImageTest {
   private Image testImgJPG;
 
   /**
-   * Tests the working of the public constructor
-   * of the Image class.
+   * Tests the working of the public constructor of the Image class.
    */
   @Test
   public void testImageConstructor() {
@@ -42,8 +39,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the working of the LoadImageFromFile
-   * method using PPM Image.
+   * Tests the working of the LoadImageFromFile method using PPM Image.
    */
   @Test
   public void testLoadImageFromFile_Working_PPM() {
@@ -63,31 +59,27 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using Invalid File path for PPM Image.
+   * Tests the LoadImageFromFile method using Invalid File path for PPM Image.
    */
-  @Test (expected = FileNotFoundException.class)
+  @Test
   public void testLoadImageFromFile_InvalidFilePath_PPM() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/TestInvalidPath/Koala.ppm";
-
     try {
       // Load the image from the file
       Image image = Image.loadImageFromFile(testImagePath);
+      fail("Test Failed: Exception not thrown for invalid file path");
+    } catch (IOException e) {
 
-      // Verify that the image is not null
-      assertNotNull(image);
+    } catch (IllegalArgumentException e) {
 
-    } catch (Exception e) {
-      fail(" Exception thrown while loading the image: " + e.getMessage());
     }
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using Invalid File name for PPM Image.
+   * Tests the LoadImageFromFile method using Invalid File name for PPM Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileName_PPM() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/TestInvalidFileName.ppm";
@@ -105,10 +97,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using Invalid File Extension for PPM Image.
+   * Tests the LoadImageFromFile method using Invalid File Extension for PPM Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileExtension_PPM() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/Koala.TestInvalidFileExtension";
@@ -126,10 +117,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using No File Extension for PPM Image.
+   * Tests the LoadImageFromFile method using No File Extension for PPM Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_NoFileExtension_PPM() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/Koala";
@@ -208,8 +198,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getRedComponent method
-   * for PPM Image.
+   * Tests the getRedComponent method for PPM Image.
    */
   @Test
   public void test_getRedComponent_PPM() {
@@ -234,8 +223,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getGreenComponent method
-   * for PPM Image.
+   * Tests the getGreenComponent method for PPM Image.
    */
   @Test
   public void test_getGreenComponent_PPM() {
@@ -260,8 +248,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getBlueComponent method
-   * for PPM Image.
+   * Tests the getBlueComponent method for PPM Image.
    */
   @Test
   public void test_getBlueComponent_PPM() {
@@ -286,8 +273,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueComponent method
-   * for PPM Image.
+   * Tests the getValueComponent method for PPM Image.
    */
   @Test
   public void test_getValueComponent_PPM() {
@@ -312,8 +298,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getIntensityComponent method
-   * for PPM Image.
+   * Tests the getIntensityComponent method for PPM Image.
    */
   @Test
   public void test_getIntensityComponent_PPM() {
@@ -338,8 +323,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getLumaComponent method
-   * for PPM Image.
+   * Tests the getLumaComponent method for PPM Image.
    */
   @Test
   public void test_getLumaComponent_PPM() {
@@ -364,8 +348,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the flipHorizontal method
-   * for PPM Image.
+   * Tests the flipHorizontal method for PPM Image.
    */
   @Test
   public void test_flipHorizontal_PPM() {
@@ -390,8 +373,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the flipVertical method
-   * for PPM Image.
+   * Tests the flipVertical method for PPM Image.
    */
   @Test
   public void test_flipVertical_PPM() {
@@ -416,8 +398,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the brighten method
-   * by brightening for PPM Image.
+   * Tests the brighten method by brightening for PPM Image.
    */
   @Test
   public void test_brighten_bright_PPM() {
@@ -442,8 +423,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the brighten method
-   * by darkening for PPM Image.
+   * Tests the brighten method by darkening for PPM Image.
    */
   @Test
   public void test_brighten_dark_PPM() {
@@ -468,8 +448,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the splitRGB method
-   * for PPM Image.
+   * Tests the splitRGB method for PPM Image.
    */
   @Test
   public void test_splitRGB_PPM() {
@@ -510,8 +489,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the combineRGB method
-   * for PPM Image.
+   * Tests the combineRGB method for PPM Image.
    */
   @Test
   public void test_combineRGB_PPM() {
@@ -542,8 +520,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the gaussianBlur method
-   * for PPM Image.
+   * Tests the gaussianBlur method for PPM Image.
    */
   @Test
   public void test_gaussianBlur_PPM() {
@@ -568,8 +545,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the sharpen method
-   * for PPM Image.
+   * Tests the sharpen method for PPM Image.
    */
   @Test
   public void test_sharpen_PPM() {
@@ -594,8 +570,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the convertToGrayscale method
-   * for PPM Image.
+   * Tests the convertToGrayscale method for PPM Image.
    */
   @Test
   public void test_convertToGrayscale_PPM() {
@@ -620,8 +595,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the convertToSepia method
-   * for PPM Image.
+   * Tests the convertToSepia method for PPM Image.
    */
   @Test
   public void test_convertToSepia_PPM() {
@@ -646,8 +620,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueAtPixel method
-   * for PPM Image.
+   * Tests the getValueAtPixel method for PPM Image.
    */
   @Test
   public void test_getValueAtPixel_PPM() {
@@ -656,7 +629,7 @@ public class ImageTest {
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
-      int testResultPPM = testImgPPM.getValueAtPixel(0,0, 0);
+      int testResultPPM = testImgPPM.getValueAtPixel(0, 0, 0);
 
       assertEquals(expectedValues, testResultPPM);
 
@@ -666,8 +639,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for PPM Image to PPM Image.
+   * Tests the saveToFile method for PPM Image to PPM Image.
    */
   @Test
   public void test_saveToFile_PPM_PPM() {
@@ -688,8 +660,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for PPM Image to PNG Image.
+   * Tests the saveToFile method for PPM Image to PNG Image.
    */
   @Test
   public void test_saveToFile_PPM_PNG() {
@@ -710,8 +681,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for PPM Image to JPG Image.
+   * Tests the saveToFile method for PPM Image to JPG Image.
    */
   @Test
   public void test_saveToFile_PPM_JPG() {
@@ -732,16 +702,15 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueAtPixel method
-   * using Out of Bounds position for PPM Image.
+   * Tests the getValueAtPixel method using Out of Bounds position for PPM Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_OutOfBoundsPosition_PPM() {
     String testFilePathPPM = "res/ValueTest/bro.ppm";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
-      int testResultPPM = testImgPPM.getValueAtPixel(5,5, 5);
+      int testResultPPM = testImgPPM.getValueAtPixel(5, 5, 5);
 
     } catch (Exception e) {
       fail("Operation Failed: " + e.getMessage());
@@ -749,16 +718,15 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueAtPixel method
-   * using Negative position for PPM Image.
+   * Tests the getValueAtPixel method using Negative position for PPM Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_NegativePosition_PPM() {
     String testFilePathPPM = "res/ValueTest/bro.ppm";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
-      int testResultPPM = testImgPPM.getValueAtPixel(-3,-5, -1);
+      int testResultPPM = testImgPPM.getValueAtPixel(-3, -5, -1);
 
     } catch (Exception e) {
       fail("Operation Failed: " + e.getMessage());
@@ -766,10 +734,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for InvalidFilePath in PPM Image.
+   * Tests the saveToFile method for InvalidFilePath in PPM Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_saveToFile_InvalidFilePath_PPM() {
     String testFilePathPPM = "res/ValueTest/bro.ppm";
     String outputFilename = "res/KoalaTest/TestInvalidPath/Koala.ppm";
@@ -788,10 +755,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * InvalidFileExtension in PPM Image.
+   * Tests the saveToFile method InvalidFileExtension in PPM Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_saveToFile_InvalidFileExtension_PPM() {
     String testFilePathPPM = "res/ValueTest/bro.ppm";
     String outputFilename = "res/KoalaTest/Koala.TestInvalidFileExtension";
@@ -810,10 +776,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for NoFileExtension in PPM Image.
+   * Tests the saveToFile method for NoFileExtension in PPM Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_saveToFile_NoFileExtension_PPM() {
     String testFilePathPPM = "res/ValueTest/bro.ppm";
     String outputFilename = "res/KoalaTest/Koala";
@@ -832,10 +797,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the combineRGB method
-   * for inequality of size for PPM Image.
+   * Tests the combineRGB method for inequality of size for PPM Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_combineRGB_InequalSize_PPM() {
     String testFilePathPPM = "res/ValueTest/bro.ppm";
 
@@ -854,8 +818,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the working of the LoadImageFromFile
-   * method using PNG Image.
+   * Tests the working of the LoadImageFromFile method using PNG Image.
    */
   @Test
   public void testLoadImageFromFile_Working_PNG() {
@@ -875,10 +838,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using Invalid File path for PNG Image.
+   * Tests the LoadImageFromFile method using Invalid File path for PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFilePath_PNG() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/TestInvalidPath/Koala.png";
@@ -896,10 +858,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using Invalid File name for PNG Image.
+   * Tests the LoadImageFromFile method using Invalid File name for PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileName_PNG() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/TestInvalidFileName.png";
@@ -917,10 +878,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using Invalid File Extension for PNG Image.
+   * Tests the LoadImageFromFile method using Invalid File Extension for PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileExtension_PNG() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/Koala.TestInvalidFileExtension";
@@ -938,10 +898,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using No File Extension for PNG Image.
+   * Tests the LoadImageFromFile method using No File Extension for PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_NoFileExtension_PNG() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/Koala";
@@ -1020,8 +979,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getRedComponent method
-   * for PNG Image.
+   * Tests the getRedComponent method for PNG Image.
    */
   @Test
   public void test_getRedComponent_PNG() {
@@ -1046,8 +1004,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getGreenComponent method
-   * for PNG Image.
+   * Tests the getGreenComponent method for PNG Image.
    */
   @Test
   public void test_getGreenComponent_PNG() {
@@ -1072,8 +1029,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getBlueComponent method
-   * for PNG Image.
+   * Tests the getBlueComponent method for PNG Image.
    */
   @Test
   public void test_getBlueComponent_PNG() {
@@ -1098,8 +1054,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueComponent method
-   * for PNG Image.
+   * Tests the getValueComponent method for PNG Image.
    */
   @Test
   public void test_getValueComponent_PNG() {
@@ -1124,8 +1079,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getIntensityComponent method
-   * for PNG Image.
+   * Tests the getIntensityComponent method for PNG Image.
    */
   @Test
   public void test_getIntensityComponent_PNG() {
@@ -1150,8 +1104,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getLumaComponent method
-   * for PNG Image.
+   * Tests the getLumaComponent method for PNG Image.
    */
   @Test
   public void test_getLumaComponent_PNG() {
@@ -1176,8 +1129,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the flipHorizontal method
-   * for PNG Image.
+   * Tests the flipHorizontal method for PNG Image.
    */
   @Test
   public void test_flipHorizontal_PNG() {
@@ -1202,8 +1154,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the flipVertical method
-   * for PNG Image.
+   * Tests the flipVertical method for PNG Image.
    */
   @Test
   public void test_flipVertical_PNG() {
@@ -1228,8 +1179,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the brighten method
-   * by brightening for PNG Image.
+   * Tests the brighten method by brightening for PNG Image.
    */
   @Test
   public void test_brighten_bright_PNG() {
@@ -1254,8 +1204,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the brighten method
-   * by darkening for PNG Image.
+   * Tests the brighten method by darkening for PNG Image.
    */
   @Test
   public void test_brighten_dark_PNG() {
@@ -1281,8 +1230,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the splitRGB method
-   * for PNG Image.
+   * Tests the splitRGB method for PNG Image.
    */
   @Test
   public void test_splitRGB_PNG() {
@@ -1323,8 +1271,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the combineRGB method
-   * for PNG Image.
+   * Tests the combineRGB method for PNG Image.
    */
   @Test
   public void test_combineRGB_PNG() {
@@ -1355,8 +1302,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the gaussianBlur method
-   * for PNG Image.
+   * Tests the gaussianBlur method for PNG Image.
    */
   @Test
   public void test_gaussianBlur_PNG() {
@@ -1381,8 +1327,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the sharpen method
-   * for PNG Image.
+   * Tests the sharpen method for PNG Image.
    */
   @Test
   public void test_sharpen_PNG() {
@@ -1407,8 +1352,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the convertToGrayscale method
-   * for PNG Image.
+   * Tests the convertToGrayscale method for PNG Image.
    */
   @Test
   public void test_convertToGrayscale_PNG() {
@@ -1433,8 +1377,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the convertToSepia method
-   * for PNG Image.
+   * Tests the convertToSepia method for PNG Image.
    */
   @Test
   public void test_convertToSepia_PNG() {
@@ -1459,8 +1402,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueAtPixel method
-   * for PNG Image.
+   * Tests the getValueAtPixel method for PNG Image.
    */
   @Test
   public void test_getValueAtPixel_PNG() {
@@ -1469,7 +1411,7 @@ public class ImageTest {
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      int testResultPNG = testImgPNG.getValueAtPixel(0,0, 0);
+      int testResultPNG = testImgPNG.getValueAtPixel(0, 0, 0);
 
       assertEquals(expectedValues, testResultPNG);
 
@@ -1479,8 +1421,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for PNG Image to PNG Image.
+   * Tests the saveToFile method for PNG Image to PNG Image.
    */
   @Test
   public void test_saveToFile_PNG_PNG() {
@@ -1501,8 +1442,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for PNG Image to PNG Image.
+   * Tests the saveToFile method for PNG Image to PNG Image.
    */
   @Test
   public void test_saveToFile_PNG_PPM() {
@@ -1523,8 +1463,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for PNG Image to JPG Image.
+   * Tests the saveToFile method for PNG Image to JPG Image.
    */
   @Test
   public void test_saveToFile_PNG_JPG() {
@@ -1545,16 +1484,15 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueAtPixel method
-   * using Out of Bounds position for PNG Image.
+   * Tests the getValueAtPixel method using Out of Bounds position for PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_OutOfBoundsPosition_PNG() {
     String testFilePathPNG = "res/ValueTest/bro.png";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      int testResultPNG = testImgPNG.getValueAtPixel(5,5, 5);
+      int testResultPNG = testImgPNG.getValueAtPixel(5, 5, 5);
 
     } catch (Exception e) {
       fail("Operation Failed: " + e.getMessage());
@@ -1562,16 +1500,15 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueAtPixel method
-   * using Negative position for PNG Image.
+   * Tests the getValueAtPixel method using Negative position for PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_NegativePosition_PNG() {
     String testFilePathPNG = "res/ValueTest/bro.png";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      int testResultPNG = testImgPNG.getValueAtPixel(-3,-5, -1);
+      int testResultPNG = testImgPNG.getValueAtPixel(-3, -5, -1);
 
     } catch (Exception e) {
       fail("Operation Failed: " + e.getMessage());
@@ -1579,32 +1516,25 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for InvalidFilePath in PNG Image.
+   * Tests the saveToFile method for InvalidFilePath in PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test
   public void test_saveToFile_InvalidFilePath_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
     String outputFilename = "res/KoalaTest/TestInvalidPath/Koala.png";
 
+    Image testImgPNG = new Image(10, 10);
+
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
       testImgPNG.saveToFile(outputFilename);
-
-      Image image = Image.loadImageFromFile(outputFilename);
-
-      assertNotNull(image);
-
-    } catch (Exception e) {
-      fail("Operation Failed: " + e.getMessage());
+      fail("Test Failed: Exception not thrown for invalid file path");
+    } catch (FileNotFoundException e) {
     }
   }
 
   /**
-   * Tests the saveToFile method
-   * InvalidFileExtension in PNG Image.
+   * Tests the saveToFile method InvalidFileExtension in PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_saveToFile_InvalidFileExtension_PNG() {
     String testFilePathPNG = "res/ValueTest/bro.png";
     String outputFilename = "res/KoalaTest/Koala.TestInvalidFileExtension";
@@ -1623,10 +1553,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for NoFileExtension in PNG Image.
+   * Tests the saveToFile method for NoFileExtension in PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_saveToFile_NoFileExtension_PNG() {
     String testFilePathPNG = "res/ValueTest/bro.png";
     String outputFilename = "res/KoalaTest/Koala";
@@ -1645,10 +1574,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the combineRGB method
-   * for inequality of size for PNG Image.
+   * Tests the combineRGB method for inequality of size for PNG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_combineRGB_InequalSize_PNG() {
     String testFilePathPNG = "res/ValueTest/bro.png";
 
@@ -1667,8 +1595,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the working of the LoadImageFromFile
-   * method using JPG Image.
+   * Tests the working of the LoadImageFromFile method using JPG Image.
    */
   @Test
   public void testLoadImageFromFile_Working_JPG() {
@@ -1688,10 +1615,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using Invalid File path for JPG Image.
+   * Tests the LoadImageFromFile method using Invalid File path for JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFilePath_JPG() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/TestInvalidPath/Koala.jpg";
@@ -1709,10 +1635,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using Invalid File name for JPG Image.
+   * Tests the LoadImageFromFile method using Invalid File name for JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileName_JPG() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/TestInvalidFileName.jpg";
@@ -1730,10 +1655,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using Invalid File Extension for JPG Image.
+   * Tests the LoadImageFromFile method using Invalid File Extension for JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileExtension_JPG() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/Koala.TestInvalidFileExtension";
@@ -1751,10 +1675,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the LoadImageFromFile method
-   * using No File Extension for JPG Image.
+   * Tests the LoadImageFromFile method using No File Extension for JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_NoFileExtension_JPG() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/Koala";
@@ -1833,8 +1756,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getRedComponent method
-   * for JPG Image.
+   * Tests the getRedComponent method for JPG Image.
    */
   @Test
   public void test_getRedComponent_JPG() {
@@ -1859,8 +1781,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getGreenComponent method
-   * for JPG Image.
+   * Tests the getGreenComponent method for JPG Image.
    */
   @Test
   public void test_getGreenComponent_JPG() {
@@ -1885,8 +1806,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getBlueComponent method
-   * for JPG Image.
+   * Tests the getBlueComponent method for JPG Image.
    */
   @Test
   public void test_getBlueComponent_JPG() {
@@ -1911,8 +1831,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueComponent method
-   * for JPG Image.
+   * Tests the getValueComponent method for JPG Image.
    */
   @Test
   public void test_getValueComponent_JPG() {
@@ -1937,8 +1856,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getIntensityComponent method
-   * for JPG Image.
+   * Tests the getIntensityComponent method for JPG Image.
    */
   @Test
   public void test_getIntensityComponent_JPG() {
@@ -1963,8 +1881,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getLumaComponent method
-   * for JPG Image.
+   * Tests the getLumaComponent method for JPG Image.
    */
   @Test
   public void test_getLumaComponent_JPG() {
@@ -1990,8 +1907,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the flipHorizontal method
-   * for JPG Image.
+   * Tests the flipHorizontal method for JPG Image.
    */
   @Test
   public void test_flipHorizontal_JPG() {
@@ -2016,16 +1932,15 @@ public class ImageTest {
   }
 
   /**
-   * Tests the flipVertical method
-   * for JPG Image.
+   * Tests the flipVertical method for JPG Image.
    */
   @Test
   public void test_flipVertical_JPG() {
     String testFilePathJPG = "res/ValueTest/bro.jpg";
     int[][][] expectedValues = {
-      {{0, 28, 35}, {0, 50, 57}, {0, 225, 203}},
-      {{209, 143, 153}, {255, 224, 234}, {138, 107, 141}},
-      {{113, 47, 57}, {255, 222, 232}, {18, 0, 21}}
+        {{0, 28, 35}, {0, 50, 57}, {0, 225, 203}},
+        {{209, 143, 153}, {255, 224, 234}, {138, 107, 141}},
+        {{113, 47, 57}, {255, 222, 232}, {18, 0, 21}}
     };
 
     try {
@@ -2042,8 +1957,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the brighten method
-   * by brightening for JPG Image.
+   * Tests the brighten method by brightening for JPG Image.
    */
   @Test
   public void test_brighten_bright_JPG() {
@@ -2068,8 +1982,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the brighten method
-   * by darkening for JPG Image.
+   * Tests the brighten method by darkening for JPG Image.
    */
   @Test
   public void test_brighten_dark_JPG() {
@@ -2095,8 +2008,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the splitRGB method
-   * for JPG Image.
+   * Tests the splitRGB method for JPG Image.
    */
   @Test
   public void test_splitRGB_JPG() {
@@ -2137,8 +2049,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the combineRGB method
-   * for JPG Image.
+   * Tests the combineRGB method for JPG Image.
    */
   @Test
   public void test_combineRGB_JPG() {
@@ -2169,8 +2080,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the gaussianBlur method
-   * for JPG Image.
+   * Tests the gaussianBlur method for JPG Image.
    */
   @Test
   public void test_gaussianBlur_JPG() {
@@ -2195,8 +2105,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the sharpen method
-   * for JPG Image.
+   * Tests the sharpen method for JPG Image.
    */
   @Test
   public void test_sharpen_JPG() {
@@ -2221,8 +2130,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the convertToGrayscale method
-   * for JPG Image.
+   * Tests the convertToGrayscale method for JPG Image.
    */
   @Test
   public void test_convertToGrayscale_JPG() {
@@ -2247,8 +2155,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the convertToSepia method
-   * for JPG Image.
+   * Tests the convertToSepia method for JPG Image.
    */
   @Test
   public void test_convertToSepia_JPG() {
@@ -2273,8 +2180,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueAtPixel method
-   * for JPG Image.
+   * Tests the getValueAtPixel method for JPG Image.
    */
   @Test
   public void test_getValueAtPixel_JPG() {
@@ -2283,7 +2189,7 @@ public class ImageTest {
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
-      int testResultJPG = testImgJPG.getValueAtPixel(0,0, 0);
+      int testResultJPG = testImgJPG.getValueAtPixel(0, 0, 0);
 
       assertEquals(expectedValues, testResultJPG);
 
@@ -2293,8 +2199,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for JPG Image to JPG Image.
+   * Tests the saveToFile method for JPG Image to JPG Image.
    */
   @Test
   public void test_saveToFile_JPG_JPG() {
@@ -2315,8 +2220,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for JPG Image to JPG Image.
+   * Tests the saveToFile method for JPG Image to JPG Image.
    */
   @Test
   public void test_saveToFile_JPG_PPM() {
@@ -2337,8 +2241,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for JPG Image to JPG Image.
+   * Tests the saveToFile method for JPG Image to JPG Image.
    */
   @Test
   public void test_saveToFile_JPG_PNG() {
@@ -2359,16 +2262,15 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueAtPixel method
-   * using Out of Bounds position for JPG Image.
+   * Tests the getValueAtPixel method using Out of Bounds position for JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_OutOfBoundsPosition_JPG() {
     String testFilePathJPG = "res/ValueTest/bro.jpg";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
-      int testResultJPG = testImgJPG.getValueAtPixel(5,5, 5);
+      int testResultJPG = testImgJPG.getValueAtPixel(5, 5, 5);
 
     } catch (Exception e) {
       fail("Operation Failed: " + e.getMessage());
@@ -2376,16 +2278,15 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getValueAtPixel method
-   * using Negative position for JPG Image.
+   * Tests the getValueAtPixel method using Negative position for JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_NegativePosition_JPG() {
     String testFilePathJPG = "res/ValueTest/bro.jpg";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
-      int testResultJPG = testImgJPG.getValueAtPixel(-3,-5, -1);
+      int testResultJPG = testImgJPG.getValueAtPixel(-3, -5, -1);
 
     } catch (Exception e) {
       fail("Operation Failed: " + e.getMessage());
@@ -2393,10 +2294,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for InvalidFilePath in JPG Image.
+   * Tests the saveToFile method for InvalidFilePath in JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test
   public void test_saveToFile_InvalidFilePath_JPG() {
     String testFilePathJPG = "res/ValueTest/bro.jpg";
     String outputFilename = "res/KoalaTest/TestInvalidPath/Koala.jpg";
@@ -2406,19 +2306,15 @@ public class ImageTest {
       testImgJPG.saveToFile(outputFilename);
 
       Image image = Image.loadImageFromFile(outputFilename);
-
-      assertNotNull(image);
-
-    } catch (Exception e) {
-      fail("Operation Failed: " + e.getMessage());
+      fail("Test Failed: Exception not thrown for invalid filePath");
+    } catch (IOException e) {
     }
   }
 
   /**
-   * Tests the saveToFile method
-   * InvalidFileExtension in JPG Image.
+   * Tests the saveToFile method InvalidFileExtension in JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_saveToFile_InvalidFileExtension_JPG() {
     String testFilePathJPG = "res/ValueTest/bro.jpg";
     String outputFilename = "res/KoalaTest/Koala.TestInvalidFileExtension";
@@ -2437,10 +2333,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the saveToFile method
-   * for NoFileExtension in JPG Image.
+   * Tests the saveToFile method for NoFileExtension in JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_saveToFile_NoFileExtension_JPG() {
     String testFilePathJPG = "res/ValueTest/bro.jpg";
     String outputFilename = "res/KoalaTest/Koala";
@@ -2459,10 +2354,9 @@ public class ImageTest {
   }
 
   /**
-   * Tests the combineRGB method
-   * for inequality of size for JPG Image.
+   * Tests the combineRGB method for inequality of size for JPG Image.
    */
-  @Test (expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void test_combineRGB_InequalSize_JPG() {
     String testFilePathJPG = "res/ValueTest/bro.jpg";
 
