@@ -15,7 +15,8 @@ import java.util.Map;
 public class Model implements IModel {
   // NOTE - No action for convert to grayscale.
 
-  // Represents the session memory of the application. In the future, it can be moved to a database or the web.
+  // Represents the session memory of the application.
+  // In the future, it can be moved to a database or the web.
   private Map<String, IImage> loadedImages;
   private static final String VALID_ALIAS_NAME_CHARS_REGEX = "[a-zA-Z0-9._-]+";
 
@@ -27,7 +28,8 @@ public class Model implements IModel {
   public void loadImageFromFile(String filePath, String imageName)
       throws FileNotFoundException, FileFormatException, InvalidImageNameException {
     // Delegate FileNotFoundException to the Image class.
-    // Image class needs a public const which takes filepath as arg or a builder method that takes filepath.
+    // Image class needs a public const,
+    // which takes filepath as arg or a builder method that takes filepath.
     IImage sourceImage;
     try {
       sourceImage = Image.loadImageFromFile(filePath);
@@ -217,8 +219,10 @@ public class Model implements IModel {
    * @param imageName the name of the image to be checked
    * @return True if an image with the provided image name exists, False otherwise
    */
-  // In the near future, this method may call a database or the web to check if an Image exists in the memory of the application.
-  // Hence, a separate method has been created for a logic that seems too trivial to deserve its own method.
+  // In the near future, this method may call a database or the web
+  // to check if an Image exists in the memory of the application.
+  // Hence, a separate method has been created for a logic that seems too trivial to
+  // deserve its own method.
   private boolean doesImageExist(String imageName) {
     return imageName != null && loadedImages.containsKey(imageName);
   }

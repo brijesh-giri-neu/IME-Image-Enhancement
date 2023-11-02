@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 
@@ -37,11 +36,10 @@ public class Image implements IImage {
   }
 
   /**
-   * Instantiate an Image object with
-   * the given width, height and rgbvalues.
+   * Instantiate an Image object with the given width, height and rgbvalues.
    *
-   * @param height height of the image.
-   * @param width  width of the image.
+   * @param height    height of the image.
+   * @param width     width of the image.
    * @param rgbValues array of pixel values.
    */
   private Image(int[][][] rgbValues, int width, int height) {
@@ -100,10 +98,9 @@ public class Image implements IImage {
    * @param filePath path of the file.
    * @return Image object.
    */
-  private static Image loadPpmImage(String filePath) throws IOException
-      , InputMismatchException {
+  private static Image loadPpmImage(String filePath) throws IOException {
 
-    if ( !isValidPpmFileContent(filePath) ) {
+    if (!isValidPpmFileContent(filePath)) {
       throw new IllegalArgumentException("Provided ppm file is invalid");
     }
 
@@ -144,8 +141,7 @@ public class Image implements IImage {
   }
 
   /**
-   * Checks if a PPM file
-   * contains valid data.
+   * Checks if a PPM file contains valid data.
    *
    * @param filePath path of the file.
    * @return True or False.
@@ -558,9 +554,8 @@ public class Image implements IImage {
     if (horizontalPos < 0 || verticalPos < 0 || channel < 0) {
       throw new IllegalArgumentException("Arguments cannot be negative.");
     }
-    if (horizontalPos >= this.rgbValues.length ||
-        verticalPos >= this.rgbValues[0].length ||
-        channel >= this.rgbValues[0][0].length) {
+    if (horizontalPos >= this.rgbValues.length || verticalPos >= this.rgbValues[0].length
+        || channel >= this.rgbValues[0][0].length) {
       throw new IndexOutOfBoundsException("Arguments are out of bound.");
     }
     return this.rgbValues[horizontalPos][verticalPos][channel];

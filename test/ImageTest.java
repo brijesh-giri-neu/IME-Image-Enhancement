@@ -60,7 +60,7 @@ public class ImageTest {
   /**
    * Tests the LoadImageFromFile method using Invalid File path for PPM Image.
    */
-  @Test
+  @Test(expected = IllegalArgumentException.class)
   public void testLoadImageFromFile_InvalidFilePath_PPM() {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/TestInvalidPath/Koala.ppm";
@@ -69,9 +69,7 @@ public class ImageTest {
       Image image = Image.loadImageFromFile(testImagePath);
       fail("Test Failed: Exception not thrown for invalid file path");
     } catch (IOException e) {
-
-    } catch (IllegalArgumentException e) {
-
+      assertTrue(true);
     }
   }
 
