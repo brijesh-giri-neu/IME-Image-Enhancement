@@ -34,7 +34,7 @@ public class IntegrationTest {
   //Not used in 1 case - rgbCombine
   String imageNotFoundExpcetionMsg = "\n" + MessageHelper.imageNotFoundExceptionMsg;
 
-  String inputFilePath = "testImage.ppm";
+  String inputFilePath = "test/integrationImages/testImage.ppm";
 
   @Before
   public void setUp() {

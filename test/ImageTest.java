@@ -8,7 +8,6 @@ import imeprogram.model.IImage;
 import imeprogram.model.Image;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 import org.junit.Test;
 
 /**
@@ -44,7 +43,7 @@ public class ImageTest {
   @Test
   public void testLoadImageFromFile_Working_PPM() {
     // Provide the file path of a test image
-    String testImagePath = "res/ValueTest/bro.ppm";
+    String testImagePath = "test/unitImages/bro.ppm";
 
     try {
       // Load the image from the file
@@ -823,7 +822,7 @@ public class ImageTest {
   @Test
   public void testLoadImageFromFile_Working_PNG() {
     // Provide the file path of a test image
-    String testImagePath = "res/ValueTest/bro.png";
+    String testImagePath = "test/unitImages/bro.png";
 
     try {
       // Load the image from the file
@@ -1600,7 +1599,7 @@ public class ImageTest {
   @Test
   public void testLoadImageFromFile_Working_JPG() {
     // Provide the file path of a test image
-    String testImagePath = "res/ValueTest/bro.jpg";
+    String testImagePath = "test/unitImages/bro.jpg";
 
     try {
       // Load the image from the file
@@ -1897,7 +1896,7 @@ public class ImageTest {
       IImage testResultImgJPG = testImgJPG.getLumaComponent();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
-      System.out.println(Arrays.deepToString(rgbValues));
+      // System.out.println(Arrays.deepToString(rgbValues));
 
       assertArrayEquals(expectedValues, rgbValues);
 
