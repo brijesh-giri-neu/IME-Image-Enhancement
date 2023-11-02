@@ -1,4 +1,4 @@
-package IMEProgram.Exceptions;
+package imeprogram.exceptions;
 
 /**
  * This class represents a custom exception thrown when an invalid name is encountered, which cannot

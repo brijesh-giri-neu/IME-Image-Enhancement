@@ -1,4 +1,4 @@
-package IMEProgram.Exceptions;
+package imeprogram.exceptions;
 
 /**
  * This exception is thrown when an unsupported File Format is encountered by the application.

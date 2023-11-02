@@ -1,4 +1,4 @@
-package IMEProgram.Controller;
+package imeprogram.controller;
 
 /**
  * This interface represents a Controller of the IME program.

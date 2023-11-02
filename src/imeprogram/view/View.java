@@ -1,4 +1,4 @@
-package IMEProgram.View;
+package imeprogram.view;
 
 import java.io.PrintStream;
 
