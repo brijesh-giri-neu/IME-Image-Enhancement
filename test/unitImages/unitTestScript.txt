@@ -1,0 +1,12 @@
+load "res/folder path/file.txt" resImage
+red-component koala koala-red
+blue-component koala koala-blue
+luma-component koala 
+horizontal-flip koala koala-horizontalFlip
+brighten 50 koala koala-brighten
+rgb-split koala koala-red koala-green koala-blue
+brighten koala
+rgb-combine koala-red-tint koala-red koala-green koala-blue
+sharpen koala koala-sharpen
+sepia koala koala-sepia
+save "res/folderpath/file.txt" resImage

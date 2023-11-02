@@ -66,7 +66,7 @@ public class IntegrationTest {
     controller.start();
 
     try {
-      Image.loadImageFromFile("testImage-saveTest.ppm");
+      Image.loadImageFromFile("test/integration/testImage-saveTest.ppm");
     } catch (IOException e) {
       fail(e.getMessage());
     }

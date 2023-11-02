@@ -138,7 +138,7 @@ public class ImageTest {
    */
   @Test
   public void testInvalidHeight_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
@@ -159,7 +159,7 @@ public class ImageTest {
    */
   @Test
   public void testInvalidWidth_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
@@ -180,7 +180,7 @@ public class ImageTest {
    */
   @Test
   public void testInvalidRGBValues_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
@@ -199,7 +199,7 @@ public class ImageTest {
    */
   @Test
   public void test_getRedComponent_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{255, 0, 0}, {0, 0, 0}, {0, 0, 0}},
         {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
@@ -224,7 +224,7 @@ public class ImageTest {
    */
   @Test
   public void test_getGreenComponent_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
         {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}},
@@ -249,7 +249,7 @@ public class ImageTest {
    */
   @Test
   public void test_getBlueComponent_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{0, 0, 0}, {0, 0, 0}, {0, 0, 255}},
         {{0, 0, 0}, {0, 0, 255}, {0, 0, 0}},
@@ -274,7 +274,7 @@ public class ImageTest {
    */
   @Test
   public void test_getValueComponent_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
         {{255, 255, 255}, {255, 255, 255}, {0, 0, 0}},
@@ -299,7 +299,7 @@ public class ImageTest {
    */
   @Test
   public void test_getIntensityComponent_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{85, 85, 85}, {85, 85, 85}, {85, 85, 85}},
         {{170, 170, 170}, {255, 255, 255}, {0, 0, 0}},
@@ -324,7 +324,7 @@ public class ImageTest {
    */
   @Test
   public void test_getLumaComponent_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{54, 54, 54}, {182, 182, 182}, {18, 18, 18}},
         {{237, 237, 237}, {255, 255, 255}, {0, 0, 0}},
@@ -349,7 +349,7 @@ public class ImageTest {
    */
   @Test
   public void test_flipHorizontal_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{0, 0, 255}, {0, 255, 0}, {255, 0, 0}},
         {{0, 0, 0}, {255, 255, 255}, {255, 255, 0}},
@@ -374,7 +374,7 @@ public class ImageTest {
    */
   @Test
   public void test_flipVertical_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{0, 0, 0}, {255, 0, 255}, {0, 255, 255}},
         {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}},
@@ -399,7 +399,7 @@ public class ImageTest {
    */
   @Test
   public void test_brighten_bright_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{255, 50, 50}, {50, 255, 50}, {50, 50, 255}},
         {{255, 255, 50}, {255, 255, 255}, {50, 50, 50}},
@@ -424,7 +424,7 @@ public class ImageTest {
    */
   @Test
   public void test_brighten_dark_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{205, 0, 0}, {0, 205, 0}, {0, 0, 205}},
         {{205, 205, 0}, {205, 205, 205}, {0, 0, 0}},
@@ -449,7 +449,7 @@ public class ImageTest {
    */
   @Test
   public void test_splitRGB_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] rExpectedValues = {
         {{255, 0, 0}, {0, 0, 0}, {0, 0, 0}},
         {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
@@ -490,7 +490,7 @@ public class ImageTest {
    */
   @Test
   public void test_combineRGB_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
 
     int[][][] expectedValues = {
         {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}},
@@ -521,7 +521,7 @@ public class ImageTest {
    */
   @Test
   public void test_gaussianBlur_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{112, 80, 16}, {80, 112, 64}, {16, 48, 80}},
         {{143, 112, 48}, {143, 143, 128}, {48, 80, 112}},
@@ -546,7 +546,7 @@ public class ImageTest {
    */
   @Test
   public void test_sharpen_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}},
         {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}},
@@ -571,7 +571,7 @@ public class ImageTest {
    */
   @Test
   public void test_convertToGrayscale_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{54, 54, 54}, {182, 182, 182}, {18, 18, 18}},
         {{237, 237, 237}, {255, 255, 255}, {0, 0, 0}},
@@ -596,7 +596,7 @@ public class ImageTest {
    */
   @Test
   public void test_convertToSepia_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
         {{100, 89, 69}, {196, 175, 136}, {48, 43, 33}},
         {{255, 255, 206}, {255, 255, 239}, {0, 0, 0}},
@@ -621,7 +621,7 @@ public class ImageTest {
    */
   @Test
   public void test_getValueAtPixel_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     int expectedValues = 255;
 
     try {
@@ -640,8 +640,8 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_PPM_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
-    String outputFilename = "result.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
+    String outputFilename = "test/unitResults/result.ppm";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
@@ -661,8 +661,8 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_PPM_PNG() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
-    String outputFilename = "result.png";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
+    String outputFilename = "test/unitResults/result.png";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
@@ -682,8 +682,8 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_PPM_JPG() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
-    String outputFilename = "result.jpg";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
+    String outputFilename = "test/unitResults/result.jpg";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
@@ -703,7 +703,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_OutOfBoundsPosition_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
@@ -719,7 +719,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_NegativePosition_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
@@ -735,7 +735,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_saveToFile_InvalidFilePath_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     String outputFilename = "res/KoalaTest/TestInvalidPath/Koala.ppm";
 
     try {
@@ -756,7 +756,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_saveToFile_InvalidFileExtension_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     String outputFilename = "res/KoalaTest/Koala.TestInvalidFileExtension";
 
     try {
@@ -777,7 +777,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_saveToFile_NoFileExtension_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
     String outputFilename = "res/KoalaTest/Koala";
 
     try {
@@ -798,7 +798,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_combineRGB_InequalSize_PPM() {
-    String testFilePathPPM = "res/ValueTest/bro.ppm";
+    String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
       Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
@@ -919,7 +919,7 @@ public class ImageTest {
    */
   @Test
   public void testInvalidHeight_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
@@ -940,7 +940,7 @@ public class ImageTest {
    */
   @Test
   public void testInvalidWidth_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
@@ -961,7 +961,7 @@ public class ImageTest {
    */
   @Test
   public void testInvalidRGBValues_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
@@ -980,7 +980,7 @@ public class ImageTest {
    */
   @Test
   public void test_getRedComponent_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
         {{0, 0, 0}, {255, 0, 0}, {255, 0, 0}},
@@ -1005,7 +1005,7 @@ public class ImageTest {
    */
   @Test
   public void test_getGreenComponent_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
         {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}},
@@ -1030,7 +1030,7 @@ public class ImageTest {
    */
   @Test
   public void test_getBlueComponent_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
         {{0, 0, 0}, {0, 0, 255}, {0, 0, 255}},
@@ -1055,7 +1055,7 @@ public class ImageTest {
    */
   @Test
   public void test_getValueComponent_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{255, 255, 255}, {255, 255, 255}, {0, 0, 0}},
         {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
@@ -1080,7 +1080,7 @@ public class ImageTest {
    */
   @Test
   public void test_getIntensityComponent_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{85, 85, 85}, {170, 170, 170}, {0, 0, 0}},
         {{85, 85, 85}, {255, 255, 255}, {170, 170, 170}},
@@ -1105,7 +1105,7 @@ public class ImageTest {
    */
   @Test
   public void test_getLumaComponent_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{54, 54, 54}, {237, 237, 237}, {0, 0, 0}},
         {{182, 182, 182}, {255, 255, 255}, {73, 73, 73}},
@@ -1130,7 +1130,7 @@ public class ImageTest {
    */
   @Test
   public void test_flipHorizontal_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{0, 0, 0}, {255, 255, 0}, {255, 0, 0}},
         {{255, 0, 255}, {255, 255, 255}, {0, 255, 0}},
@@ -1155,7 +1155,7 @@ public class ImageTest {
    */
   @Test
   public void test_flipVertical_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{0, 0, 255}, {0, 0, 0}, {0, 255, 255}},
         {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}},
@@ -1180,7 +1180,7 @@ public class ImageTest {
    */
   @Test
   public void test_brighten_bright_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{255, 50, 50}, {255, 255, 50}, {50, 50, 50}},
         {{50, 255, 50}, {255, 255, 255}, {255, 50, 255}},
@@ -1205,7 +1205,7 @@ public class ImageTest {
    */
   @Test
   public void test_brighten_dark_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{205, 0, 0}, {205, 205, 0}, {0, 0, 0}},
         {{0, 205, 0}, {205, 205, 205}, {205, 0, 205}},
@@ -1231,7 +1231,7 @@ public class ImageTest {
    */
   @Test
   public void test_splitRGB_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] rExpectedValues = {
         {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
         {{0, 0, 0}, {255, 0, 0}, {255, 0, 0}},
@@ -1272,7 +1272,7 @@ public class ImageTest {
    */
   @Test
   public void test_combineRGB_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
 
     int[][][] expectedValues = {
         {{255, 0, 0}, {255, 255, 0}, {0, 0, 0}},
@@ -1303,7 +1303,7 @@ public class ImageTest {
    */
   @Test
   public void test_gaussianBlur_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{112, 80, 16}, {143, 112, 48}, {80, 48, 48}},
         {{80, 112, 64}, {143, 143, 128}, {112, 80, 128}},
@@ -1328,7 +1328,7 @@ public class ImageTest {
    */
   @Test
   public void test_sharpen_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{255, 0, 0}, {255, 255, 0}, {0, 0, 0}},
         {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}},
@@ -1353,7 +1353,7 @@ public class ImageTest {
    */
   @Test
   public void test_convertToGrayscale_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{54, 54, 54}, {237, 237, 237}, {0, 0, 0}},
         {{182, 182, 182}, {255, 255, 255}, {73, 73, 73}},
@@ -1378,7 +1378,7 @@ public class ImageTest {
    */
   @Test
   public void test_convertToSepia_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int[][][] expectedValues = {
         {{100, 89, 69}, {255, 255, 206}, {0, 0, 0}},
         {{196, 175, 136}, {255, 255, 239}, {148, 132, 103}},
@@ -1403,7 +1403,7 @@ public class ImageTest {
    */
   @Test
   public void test_getValueAtPixel_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     int expectedValues = 255;
 
     try {
@@ -1422,8 +1422,8 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_PNG_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
-    String outputFilename = "result.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
+    String outputFilename = "test/unitResults/result.png";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
@@ -1443,8 +1443,8 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_PNG_PPM() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
-    String outputFilename = "result.ppm";
+    String testFilePathPNG = "test/unitImages/bro.png";
+    String outputFilename = "test/unitResults/result.ppm";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
@@ -1464,8 +1464,8 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_PNG_JPG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
-    String outputFilename = "result.jpg";
+    String testFilePathPNG = "test/unitImages/bro.png";
+    String outputFilename = "test/unitResults/result.jpg";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
@@ -1485,7 +1485,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_OutOfBoundsPosition_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
@@ -1501,7 +1501,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_NegativePosition_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
@@ -1534,7 +1534,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_saveToFile_InvalidFileExtension_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     String outputFilename = "res/KoalaTest/Koala.TestInvalidFileExtension";
 
     try {
@@ -1555,7 +1555,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_saveToFile_NoFileExtension_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
     String outputFilename = "res/KoalaTest/Koala";
 
     try {
@@ -1576,7 +1576,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_combineRGB_InequalSize_PNG() {
-    String testFilePathPNG = "res/ValueTest/bro.png";
+    String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
       Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
@@ -1697,7 +1697,7 @@ public class ImageTest {
    */
   @Test
   public void testInvalidHeight_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
@@ -1718,7 +1718,7 @@ public class ImageTest {
    */
   @Test
   public void testInvalidWidth_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
@@ -1739,7 +1739,7 @@ public class ImageTest {
    */
   @Test
   public void testInvalidRGBValues_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
@@ -1758,7 +1758,7 @@ public class ImageTest {
    */
   @Test
   public void test_getRedComponent_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{113, 0, 0}, {255, 0, 0}, {18, 0, 0}},
         {{209, 0, 0}, {255, 0, 0}, {138, 0, 0}},
@@ -1783,7 +1783,7 @@ public class ImageTest {
    */
   @Test
   public void test_getGreenComponent_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{0, 47, 0}, {0, 222, 0}, {0, 0, 0}},
         {{0, 143, 0}, {0, 224, 0}, {0, 107, 0}},
@@ -1808,7 +1808,7 @@ public class ImageTest {
    */
   @Test
   public void test_getBlueComponent_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{0, 0, 57}, {0, 0, 232}, {0, 0, 21}},
         {{0, 0, 153}, {0, 0, 234}, {0, 0, 141}},
@@ -1833,7 +1833,7 @@ public class ImageTest {
    */
   @Test
   public void test_getValueComponent_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{113, 113, 113}, {255, 255, 255}, {21, 21, 21}},
         {{209, 209, 209}, {255, 255, 255}, {141, 141, 141}},
@@ -1858,7 +1858,7 @@ public class ImageTest {
    */
   @Test
   public void test_getIntensityComponent_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{72, 72, 72}, {236, 236, 236}, {13, 13, 13}},
         {{168, 168, 168}, {237, 237, 237}, {128, 128, 128}},
@@ -1883,7 +1883,7 @@ public class ImageTest {
    */
   @Test
   public void test_getLumaComponent_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{62, 62, 62}, {230, 230, 230}, {5, 5, 5}},
         {{158, 158, 158}, {231, 231, 231}, {116, 116, 116}},
@@ -1909,7 +1909,7 @@ public class ImageTest {
    */
   @Test
   public void test_flipHorizontal_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{18, 0, 21}, {255, 222, 232}, {113, 47, 57}},
         {{138, 107, 141}, {255, 224, 234}, {209, 143, 153}},
@@ -1934,7 +1934,7 @@ public class ImageTest {
    */
   @Test
   public void test_flipVertical_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{0, 28, 35}, {0, 50, 57}, {0, 225, 203}},
         {{209, 143, 153}, {255, 224, 234}, {138, 107, 141}},
@@ -1959,7 +1959,7 @@ public class ImageTest {
    */
   @Test
   public void test_brighten_bright_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{163, 97, 107}, {255, 255, 255}, {68, 50, 71}},
         {{255, 193, 203}, {255, 255, 255}, {188, 157, 191}},
@@ -1984,7 +1984,7 @@ public class ImageTest {
    */
   @Test
   public void test_brighten_dark_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{63, 0, 7}, {205, 172, 182}, {0, 0, 0}},
         {{159, 93, 103}, {205, 174, 184}, {88, 57, 91}},
@@ -2010,7 +2010,7 @@ public class ImageTest {
    */
   @Test
   public void test_splitRGB_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] rExpectedValues = {
         {{113, 0, 0}, {255, 0, 0}, {18, 0, 0}},
         {{209, 0, 0}, {255, 0, 0}, {138, 0, 0}},
@@ -2051,7 +2051,7 @@ public class ImageTest {
    */
   @Test
   public void test_combineRGB_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
 
     int[][][] expectedValues = {
         {{113, 47, 57}, {255, 222, 232}, {18, 0, 21}},
@@ -2082,7 +2082,7 @@ public class ImageTest {
    */
   @Test
   public void test_gaussianBlur_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{102, 71, 77}, {134, 105, 115}, {70, 55, 67}},
         {{114, 90, 97}, {147, 140, 151}, {85, 100, 111}},
@@ -2107,7 +2107,7 @@ public class ImageTest {
    */
   @Test
   public void test_sharpen_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{255, 0, 0}, {255, 255, 255}, {0, 0, 0}},
         {{255, 255, 255}, {255, 255, 255}, {255, 242, 255}},
@@ -2132,7 +2132,7 @@ public class ImageTest {
    */
   @Test
   public void test_convertToGrayscale_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{62, 62, 62}, {230, 230, 230}, {5, 5, 5}},
         {{158, 158, 158}, {231, 231, 231}, {116, 116, 116}},
@@ -2157,7 +2157,7 @@ public class ImageTest {
    */
   @Test
   public void test_convertToSepia_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int[][][] expectedValues = {
         {{91, 81, 63}, {255, 255, 218}, {11, 10, 8}},
         {{221, 197, 153}, {255, 255, 220}, {163, 145, 113}},
@@ -2182,7 +2182,7 @@ public class ImageTest {
    */
   @Test
   public void test_getValueAtPixel_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     int expectedValues = 113;
 
     try {
@@ -2201,8 +2201,8 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_JPG_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
-    String outputFilename = "result.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
+    String outputFilename = "test/unitResults/result.jpg";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
@@ -2222,8 +2222,8 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_JPG_PPM() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
-    String outputFilename = "result.ppm";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
+    String outputFilename = "test/unitResults/result.ppm";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
@@ -2243,8 +2243,8 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_JPG_PNG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
-    String outputFilename = "result.png";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
+    String outputFilename = "test/unitResults/result.png";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
@@ -2264,7 +2264,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_OutOfBoundsPosition_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
@@ -2280,7 +2280,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_getValueAtPixel_NegativePosition_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
@@ -2296,7 +2296,7 @@ public class ImageTest {
    */
   @Test
   public void test_saveToFile_InvalidFilePath_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     String outputFilename = "res/KoalaTest/TestInvalidPath/Koala.jpg";
 
     try {
@@ -2315,7 +2315,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_saveToFile_InvalidFileExtension_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     String outputFilename = "res/KoalaTest/Koala.TestInvalidFileExtension";
 
     try {
@@ -2336,7 +2336,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_saveToFile_NoFileExtension_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
     String outputFilename = "res/KoalaTest/Koala";
 
     try {
@@ -2357,7 +2357,7 @@ public class ImageTest {
    */
   @Test(expected = AssertionError.class)
   public void test_combineRGB_InequalSize_JPG() {
-    String testFilePathJPG = "res/ValueTest/bro.jpg";
+    String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
       Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
