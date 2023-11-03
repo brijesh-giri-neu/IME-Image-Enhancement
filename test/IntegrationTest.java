@@ -85,6 +85,11 @@ public class IntegrationTest {
     controller.start();
 
     saveImage("test/integration/resImage-verticalFlip.ppm", "resImage-verticalFlip", controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-verticalFlip.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -101,6 +106,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-horizontalFlip.ppm", "resImage-horizontalFlip",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-horizontalFlip.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -117,6 +127,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-blur.ppm", "resImage-blur",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-blur.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -133,6 +148,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-sharpen.ppm", "resImage-sharpen",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-sharpen.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -149,6 +169,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-sepia.ppm", "resImage-sepia",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-sepia.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -165,6 +190,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-brighten-50.ppm", "resImage-brighten-50",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-brighten-50.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -185,6 +215,13 @@ public class IntegrationTest {
         controller);
     saveImage("test/integration/resImage-blue.ppm", "resImage-blue",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-red.ppm");
+      Image.loadImageFromFile("test/integration/resImage-green.ppm");
+      Image.loadImageFromFile("test/integration/resImage-blue.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -201,6 +238,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-greyscale.ppm", "resImage-greyscale",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-greyscale.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -217,6 +259,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-red.ppm", "resImage-red",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-red.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -233,6 +280,11 @@ public class IntegrationTest {
     controller.start();
 
     saveImage("test/integration/resImage-rgbcombine.ppm", "resImage-red-tint", controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-rgbcombine.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -249,6 +301,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-green.ppm", "resImage-green",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-green.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -265,6 +322,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-blue.ppm", "resImage-blue",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-blue.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -281,6 +343,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-value.ppm", "resImage-value",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-value.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -297,6 +364,11 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-intensity.ppm", "resImage-intensity",
         controller);
+    try {
+      Image.loadImageFromFile("test/integration/resImage-intensity.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
     assertEquals(expectedSuccess, bytes.toString());
   }
 
@@ -313,6 +385,13 @@ public class IntegrationTest {
 
     saveImage("test/integration/resImage-darken-50.ppm", "resImage-darken-50",
         controller);
+
+    try {
+      Image.loadImageFromFile("test/integration/resImage-darken-50.ppm");
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
     assertEquals(expectedSuccess, bytes.toString());
   }
 

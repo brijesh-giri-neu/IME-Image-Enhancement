@@ -569,7 +569,16 @@ public class Image implements IImage {
   }
 
   public int[][][] getRgbValues() {
-    return this.rgbValues;
+    int[][][] copyValues = new int[this.height][this.width][3];
+
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        copyValues[i][j][0] = this.rgbValues[i][j][0];  // Red value
+        copyValues[i][j][1] = this.rgbValues[i][j][1];  // Green value
+        copyValues[i][j][2] = this.rgbValues[i][j][2];  // Blue value
+      }
+    }
+    return copyValues;
   }
 
   @Override
