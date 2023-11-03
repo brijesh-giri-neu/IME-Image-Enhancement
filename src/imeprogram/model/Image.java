@@ -42,10 +42,21 @@ public class Image implements IImage {
    * @param width     width of the image.
    * @param rgbValues array of pixel values.
    */
-  private Image(int[][][] rgbValues, int width, int height) {
-    this.rgbValues = rgbValues;
-    this.width = width;
-    this.height = height;
+  Image(int[][][] rgbValues, int width, int height) {
+    int[][][] newValues = new int[height][width][3];
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        // Create deep copy
+        newValues[i][j][0] = rgbValues[i][j][0];  // Red value
+        newValues[i][j][1] = rgbValues[i][j][1];  // Green value
+        newValues[i][j][2] = rgbValues[i][j][2];  // Blue value
+      }
+
+      this.rgbValues = newValues;
+      this.width = width;
+      this.height = height;
+    }
   }
 
   /**
@@ -56,8 +67,8 @@ public class Image implements IImage {
    * @throws IllegalArgumentException if the provided file has corrupt data
    * @throws IOException              if the provided file does not exists
    */
-  public static Image loadImageFromFile(String filePath)
-      throws IllegalArgumentException, IOException {
+  public static Image loadImageFromFile(String filePath) throws
+      IllegalArgumentException, IOException {
     String fileExtension = getFileExtension(filePath);
 
     if (fileExtension != null) {
@@ -274,7 +285,8 @@ public class Image implements IImage {
     int[][][] valueValues = new int[height][width][3];
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        int value = Math.max(rgbValues[i][j][0], Math.max(rgbValues[i][j][1], rgbValues[i][j][2]));
+        int value = Math.max(rgbValues[i][j][0],
+            Math.max(rgbValues[i][j][1], rgbValues[i][j][2]));
         valueValues[i][j][0] = value;  // Red value
         valueValues[i][j][1] = value;  // Green value
         valueValues[i][j][2] = value;  // Blue value
@@ -363,7 +375,8 @@ public class Image implements IImage {
         blueValues[i][j][2] = this.rgbValues[i][j][2];  // Blue value
       }
     }
-    return new IImage[]{new Image(redValues, width, height), new Image(greenValues, width, height),
+    return new IImage[]{new Image(redValues, width, height),
+        new Image(greenValues, width, height),
         new Image(blueValues, width, height)};
   }
 

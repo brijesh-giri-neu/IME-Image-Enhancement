@@ -110,7 +110,7 @@ public class ControllerTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    String expected = "\n" + "Error: Cannot load file. Unsupported file extension";
+    String expected = "\n" + "Error: Cannot load file. Invalid file";
     assertEquals(expected, viewLog.toString());
   }
 

@@ -18,10 +18,13 @@ public class Model implements IModel {
   // Represents the session memory of the application.
   // In the future, it can be moved to a database or the web.
   private Map<String, IImage> loadedImages;
+
+  private IImageFileIOFactory imageIOFactory;
   private static final String VALID_ALIAS_NAME_CHARS_REGEX = "[a-zA-Z0-9._-]+";
 
-  public Model() {
+  public Model(IImageFileIOFactory imageIOFactory) {
     this.loadedImages = new HashMap<String, IImage>();
+    this.imageIOFactory = imageIOFactory;
   }
 
   @Override
@@ -32,7 +35,9 @@ public class Model implements IModel {
     // which takes filepath as arg or a builder method that takes filepath.
     IImage sourceImage;
     try {
-      sourceImage = Image.loadImageFromFile(filePath);
+      // sourceImage = Image.loadImageFromFile(filePath);
+      IImageFileIO imageIO = imageIOFactory.getImageParser(filePath);
+      sourceImage = imageIO.loadFromFile(filePath);
     } catch (IOException e) {
       throw new FileNotFoundException(e.getMessage());
     } catch (IllegalArgumentException e) {
@@ -48,7 +53,13 @@ public class Model implements IModel {
     IImage image = getImageFromMemory(imageName);
 
     // Delegate InvalidFilePathException to the Image class.
-    image.saveToFile(filePath);
+    // image.saveToFile(filePath);
+    IImageFileIO imageIO = imageIOFactory.getImageParser(filePath);
+    try {
+      imageIO.saveToFile(filePath, image);
+    } catch (IOException e) {
+      throw new FileNotFoundException();
+    }
   }
 
   @Override
