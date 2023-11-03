@@ -1,18 +1,13 @@
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import imeprogram.exceptions.FileFormatException;
-import imeprogram.model.IModel;
-import imeprogram.model.Image;
 import imeprogram.model.Model;
-import java.io.FileNotFoundException;
-import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests the working of the LoadImageFromFile method.
+ */
 public class ModelTest {
-  /**
-   * Tests the working of the LoadImageFromFile method.
-   */
+
   @Test
   public void testLoadImageFromFile_Working() {
 
@@ -29,7 +24,7 @@ public class ModelTest {
   /**
    * Tests the LoadImageFromFile method for Invalid Name.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidName() {
 
     Model model = new Model();
@@ -45,7 +40,7 @@ public class ModelTest {
   /**
    * Tests the LoadImageFromFile method for InvalidFilePath.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFilePath() {
 
     Model model = new Model();
@@ -61,7 +56,7 @@ public class ModelTest {
   /**
    * Tests the LoadImageFromFile method for InvalidFileName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileName() {
 
     Model model = new Model();
@@ -77,7 +72,7 @@ public class ModelTest {
   /**
    * Tests the LoadImageFromFile method for InvalidFileExtension.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileExtension() {
 
     Model model = new Model();
@@ -93,7 +88,7 @@ public class ModelTest {
   /**
    * Tests the LoadImageFromFile method for NoExtension.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_NoExtension() {
 
     Model model = new Model();
@@ -116,7 +111,7 @@ public class ModelTest {
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
-      model.saveImageToFile( "SampleImage", "test/unitImages/bro.png");
+      model.saveImageToFile("SampleImage", "test/unitResults/broresult.png");
     } catch (Exception e) {
       fail("Exception not expected for a valid image file.");
     }
@@ -126,14 +121,14 @@ public class ModelTest {
   /**
    * Tests the SaveImageToFile method for Invalid Name.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testSaveImageToFile_InvalidName() {
 
     Model model = new Model();
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
-      model.saveImageToFile( "Invalid&&Name", "test/unitImages/bro.png");
+      model.saveImageToFile("Invalid&&Name", "test/unitResults/broresult.png");
     } catch (Exception e) {
       fail("Exception not expected for a valid image file.");
     }
@@ -143,14 +138,14 @@ public class ModelTest {
   /**
    * Tests the SaveImageToFile method for InvalidFilePath.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testSaveImageToFile_InvalidFilePath() {
 
     Model model = new Model();
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
-      model.saveImageToFile( "SampleImage", "test/InvalidFilePath/bro.png");
+      model.saveImageToFile("SampleImage", "test/InvalidFilePath/bro.png");
     } catch (Exception e) {
       fail("Exception not expected for a valid image file.");
     }
@@ -160,14 +155,14 @@ public class ModelTest {
   /**
    * Tests the SaveImageToFile method for InvalidFileExtension.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testSaveImageToFile_InvalidFileExtension() {
 
     Model model = new Model();
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
-      model.saveImageToFile("SampleImage", "test/unitImages/bro.InvalidFileExtension");
+      model.saveImageToFile("SampleImage", "test/unitResults/bro.InvalidFileExtension");
     } catch (Exception e) {
       fail("Exception not expected for a valid image file.");
     }
@@ -177,14 +172,14 @@ public class ModelTest {
   /**
    * Tests the SaveImageToFile method for NoExtension.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testSaveImageToFile_NoExtension() {
 
     Model model = new Model();
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
-      model.saveImageToFile("SampleImage", "test/unitImages/bro");
+      model.saveImageToFile("SampleImage", "test/unitResults/broresult");
     } catch (Exception e) {
       fail("Exception not expected for a valid image file.");
     }
@@ -194,7 +189,7 @@ public class ModelTest {
   /**
    * Tests the redComponent method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testRedComponent_InvalidSourceName() {
 
     Model model = new Model();
@@ -211,7 +206,7 @@ public class ModelTest {
   /**
    * Tests the redComponent method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testRedComponent_InvalidDestName() {
 
     Model model = new Model();
@@ -228,7 +223,7 @@ public class ModelTest {
   /**
    * Tests the greenComponent method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testGreenComponent_InvalidSourceName() {
 
     Model model = new Model();
@@ -245,7 +240,7 @@ public class ModelTest {
   /**
    * Tests the greenComponent method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testGreenComponent_InvalidDestName() {
 
     Model model = new Model();
@@ -262,7 +257,7 @@ public class ModelTest {
   /**
    * Tests the blueComponent method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testBlueComponent_InvalidSourceName() {
 
     Model model = new Model();
@@ -279,7 +274,7 @@ public class ModelTest {
   /**
    * Tests the blueComponent method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testBlueComponent_InvalidDestName() {
 
     Model model = new Model();
@@ -296,7 +291,7 @@ public class ModelTest {
   /**
    * Tests the valueComponent method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testValueComponent_InvalidSourceName() {
 
     Model model = new Model();
@@ -313,7 +308,7 @@ public class ModelTest {
   /**
    * Tests the valueComponent method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testValueComponent_InvalidDestName() {
 
     Model model = new Model();
@@ -330,7 +325,7 @@ public class ModelTest {
   /**
    * Tests the lumaComponent method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLumaComponent_InvalidSourceName() {
 
     Model model = new Model();
@@ -347,7 +342,7 @@ public class ModelTest {
   /**
    * Tests the lumaComponent method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testLumaComponent_InvalidDestName() {
 
     Model model = new Model();
@@ -364,7 +359,7 @@ public class ModelTest {
   /**
    * Tests the intensityComponent method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testIntensityComponent_InvalidSourceName() {
 
     Model model = new Model();
@@ -381,7 +376,7 @@ public class ModelTest {
   /**
    * Tests the intensityComponent method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testIntensityComponent_InvalidDestName() {
 
     Model model = new Model();
@@ -398,7 +393,7 @@ public class ModelTest {
   /**
    * Tests the horizontalFlip method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testHorizontalFlip_InvalidSourceName() {
 
     Model model = new Model();
@@ -415,7 +410,7 @@ public class ModelTest {
   /**
    * Tests the horizontalFlip method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testHorizontalFlip_InvalidDestName() {
 
     Model model = new Model();
@@ -432,7 +427,7 @@ public class ModelTest {
   /**
    * Tests the verticalFlip method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testVerticalFlip_InvalidSourceName() {
 
     Model model = new Model();
@@ -449,7 +444,7 @@ public class ModelTest {
   /**
    * Tests the verticalFlip method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testVerticalFlip_InvalidDestName() {
 
     Model model = new Model();
@@ -466,7 +461,7 @@ public class ModelTest {
   /**
    * Tests the brighten method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testBrighten_InvalidSourceName() {
 
     Model model = new Model();
@@ -483,7 +478,7 @@ public class ModelTest {
   /**
    * Tests the brighten method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testBrighten_InvalidDestName() {
 
     Model model = new Model();
@@ -500,7 +495,7 @@ public class ModelTest {
   /**
    * Tests the rgbSplit method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testRgbSplit_InvalidSourceName() {
 
     Model model = new Model();
@@ -517,7 +512,7 @@ public class ModelTest {
   /**
    * Tests the rgbSplit method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testRgbSplit_InvalidDestName() {
 
     Model model = new Model();
@@ -534,7 +529,7 @@ public class ModelTest {
   /**
    * Tests the rgbCombine method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testrgbCombine_InvalidSourceName() {
 
     Model model = new Model();
@@ -552,7 +547,7 @@ public class ModelTest {
   /**
    * Tests the rgbCombine method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testrgbCombine_InvalidDestName() {
 
     Model model = new Model();
@@ -570,7 +565,7 @@ public class ModelTest {
   /**
    * Tests the blur method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testBlur_InvalidSourceName() {
 
     Model model = new Model();
@@ -587,7 +582,7 @@ public class ModelTest {
   /**
    * Tests the blur method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testBlur_InvalidDestName() {
 
     Model model = new Model();
@@ -605,7 +600,7 @@ public class ModelTest {
   /**
    * Tests the sepia method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testSepia_InvalidSourceName() {
 
     Model model = new Model();
@@ -622,7 +617,7 @@ public class ModelTest {
   /**
    * Tests the sepia method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testSepia_InvalidDestName() {
 
     Model model = new Model();
@@ -639,7 +634,7 @@ public class ModelTest {
   /**
    * Tests the sharpen method for Invalid SourceName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testSharpen_InvalidSourceName() {
 
     Model model = new Model();
@@ -656,7 +651,7 @@ public class ModelTest {
   /**
    * Tests the sharpen method for Invalid destName.
    */
-  @Test ( expected = AssertionError.class)
+  @Test(expected = AssertionError.class)
   public void testSharpen_InvalidDestName() {
 
     Model model = new Model();

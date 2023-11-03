@@ -49,7 +49,7 @@ public class Controller implements IController {
     } catch (FileNotFoundException e) {
       view.print("Error: Cannot load file. Please check path");
     } catch (FileFormatException e) {
-      view.print("Error: Cannot load file. Unsupported file extension");
+      view.print("Error: Cannot load file. Invalid file");
     } catch (InvalidImageNameException e) {
       view.print(
           String.format("Error: %s cannot be used as an alias to refer to an image", imageName));
