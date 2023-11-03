@@ -20,6 +20,7 @@ class PPMImageIO implements IImageFileIO {
    * Initialize the PPMImageIO object.
    */
   PPMImageIO() {
+    // Test it.
   }
 
   @Override

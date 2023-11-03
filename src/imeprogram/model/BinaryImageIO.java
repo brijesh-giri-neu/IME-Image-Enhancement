@@ -16,6 +16,7 @@ class BinaryImageIO implements IImageFileIO {
    * Initialize the BinaryImageIO object.
    */
   BinaryImageIO() {
+    // Test it.
   }
 
   @Override
