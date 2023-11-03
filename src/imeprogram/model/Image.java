@@ -568,6 +568,7 @@ public class Image implements IImage {
     return this.rgbValues[horizontalPos][verticalPos][channel];
   }
 
+  @Override
   public int[][][] getRgbValues() {
     int[][][] copyValues = new int[this.height][this.width][3];
 
