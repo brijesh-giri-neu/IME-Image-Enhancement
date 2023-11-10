@@ -517,7 +517,6 @@ public class Image implements IImage {
     return new Image(sepiaValues, width, height);
   }
 
-  @Override
   public void saveToFile(String filepath) throws FileNotFoundException, FileFormatException {
     // Extract the file extension from the filepath
     String extension = "";

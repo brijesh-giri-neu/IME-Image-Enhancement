@@ -1,8 +1,5 @@
 package imeprogram.model;
 
-import imeprogram.exceptions.FileFormatException;
-import java.io.FileNotFoundException;
-
 /**
  * This interface represents a 24-bit Image with Red, Green, and Blue channels. And operations that
  * can be performed on it.
@@ -126,15 +123,6 @@ public interface IImage {
    * @return a new IImage with the sepia tone filter applied.
    */
   IImage convertToSepia();
-
-  /**
-   * Saves this IImage to the specified file path.
-   *
-   * @param filepath The file path where the image will be saved.
-   * @throws FileNotFoundException If the image cannot be saved at the specified file path.
-   * @throws FileFormatException   If the provided file format is not supported
-   */
-  void saveToFile(String filepath) throws FileNotFoundException, FileFormatException;
 
   /**
    * Gets the value of a specific channel at a given pixel position.

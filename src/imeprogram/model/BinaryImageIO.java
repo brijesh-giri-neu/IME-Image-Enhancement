@@ -12,13 +12,6 @@ import javax.imageio.ImageIO;
  */
 class BinaryImageIO implements IImageFileIO {
 
-  /**
-   * Initialize the BinaryImageIO object.
-   */
-  BinaryImageIO() {
-    // Test it.
-  }
-
   @Override
   public IImage loadFromFile(String filePath) throws IOException, FileFormatException {
     fileFormatCheck(filePath);

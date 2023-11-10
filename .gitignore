@@ -34,3 +34,4 @@ bin/
 ### JUnitTest results ###
 test/unitResults
 test/integrationResults
+/testscriptLocal.txt

@@ -16,13 +16,6 @@ import java.util.Scanner;
  */
 class PPMImageIO implements IImageFileIO {
 
-  /**
-   * Initialize the PPMImageIO object.
-   */
-  PPMImageIO() {
-    // Test it.
-  }
-
   @Override
   public IImage loadFromFile(String filePath) throws IOException, IllegalArgumentException {
     fileFormatCheck(filePath);
@@ -52,8 +45,6 @@ class PPMImageIO implements IImageFileIO {
 
     int width = sc.nextInt();
     int height = sc.nextInt();
-    int maxValue = sc.nextInt();
-
     int[][][] rgbValues = new int[height][width][3];
 
     for (int i = 0; i < height; i++) {
