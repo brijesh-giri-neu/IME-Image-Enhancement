@@ -32,5 +32,3 @@ bin/
 *.help.txt
 
 ### JUnitTest results ###
-test/integrationResults
-test/unitResults
