@@ -11,13 +11,9 @@ import java.io.IOException;
 import org.junit.Test;
 
 /**
- * This Class tests the Image class.
+ * A Junit test class for the Image class.
  */
 public class ImageTest {
-
-  private Image testImgPPM;
-  private Image testImgPNG;
-  private Image testImgJPG;
 
   /**
    * Tests the working of the public constructor of the Image class.
