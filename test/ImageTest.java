@@ -11,7 +11,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 /**
- * This Class tests the Image class.
+ * A Junit test class for the Image class.
  */
 public class ImageTest {
 
