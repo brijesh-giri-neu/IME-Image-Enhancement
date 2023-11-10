@@ -63,6 +63,13 @@ public class Model implements IModel {
   }
 
   @Override
+  public int[][][] getImageData(String sourceImageName) throws ImageNotFoundException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    return sourceImg.getRgbValues();
+  }
+
+  @Override
   public void redComponent(String sourceImageName, String destImageName)
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);

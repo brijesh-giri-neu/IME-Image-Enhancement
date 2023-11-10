@@ -7,6 +7,43 @@ package imeprogram.model;
 public interface IImage {
 
   /**
+   * Gets the value of a specific channel at a given pixel position.
+   *
+   * @param horizontalPos The column (horizontal position) of the pixel.
+   * @param verticalPos   The verticalPos (vertical position) of the pixel.
+   * @param channel       The color channel to retrieve (0 for Red, 1 for Green, 2 for Blue).
+   * @return The value of the specified channel at the given pixel position.
+   * @throws IndexOutOfBoundsException If the provided horizontalPos or verticalPos values are out
+   *                                   of bounds.
+   * @throws IllegalArgumentException  If an invalid channel value is provided.
+   */
+  int getValueAtPixel(int horizontalPos, int verticalPos, int channel)
+      throws IndexOutOfBoundsException, IllegalArgumentException;
+
+  /**
+   * Gets the width of the Image.
+   *
+   * @return the width of the Image.
+   */
+  int getWidth();
+
+  /**
+   * Gets the height of the Image.
+   *
+   * @return the height of the Image.
+   */
+  int getHeight();
+
+  /**
+   * Gets the RGB values of the Image.
+   *
+   * @return an int[][][] where, the first dim corresponds to the height, the second dim corresponds
+   *     to the width, and the third dim corresponds to the channel. The channels are returned in
+   *     the following order, index0 -> Red, index1 -> Green, index2 -> Blue.
+   */
+  int[][][] getRgbValues();
+
+  /**
    * Return an IImage where [G,B] channels of the Image are set to 0.
    *
    * @return an IImage where [G,B] channels of the Image are set to 0.
@@ -123,39 +160,4 @@ public interface IImage {
    * @return a new IImage with the sepia tone filter applied.
    */
   IImage convertToSepia();
-
-  /**
-   * Gets the value of a specific channel at a given pixel position.
-   *
-   * @param horizontalPos The column (horizontal position) of the pixel.
-   * @param verticalPos   The verticalPos (vertical position) of the pixel.
-   * @param channel       The color channel to retrieve (0 for Red, 1 for Green, 2 for Blue).
-   * @return The value of the specified channel at the given pixel position.
-   * @throws IndexOutOfBoundsException If the provided horizontalPos or verticalPos values are out
-   *                                   of bounds.
-   * @throws IllegalArgumentException  If an invalid channel value is provided.
-   */
-  int getValueAtPixel(int horizontalPos, int verticalPos, int channel)
-      throws IndexOutOfBoundsException, IllegalArgumentException;
-
-  /**
-   * Gets the width of the Image.
-   *
-   * @return the width of the Image.
-   */
-  int getWidth();
-
-  /**
-   * Gets the height of the Image.
-   *
-   * @return the height of the Image.
-   */
-  int getHeight();
-
-  /**
-   * Gets the RGBvalues array of the Image.
-   *
-   * @return the RGBvalues array of the Image.
-   */
-  int[][][] getRgbValues();
 }

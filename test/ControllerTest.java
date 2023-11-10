@@ -1067,6 +1067,13 @@ public class ControllerTest {
     }
 
     @Override
+    public int[][][] getImageData(String sourceImageName) throws ImageNotFoundException {
+      checkExceptions();
+      logInputs(new String[]{sourceImageName});
+      return new int[3][3][3];
+    }
+
+    @Override
     public void redComponent(String sourceImageName, String destImageName)
         throws ImageNotFoundException, InvalidImageNameException {
       checkExceptions();

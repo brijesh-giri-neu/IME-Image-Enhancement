@@ -38,6 +38,17 @@ public interface IModel {
       throws ImageNotFoundException, FileNotFoundException, FileFormatException;
 
   /**
+   * Gets the pixel values of a specific image.
+   *
+   * @param sourceImageName The name of the image whose pixel values are to be returned.
+   * @return an int[][][] where, the first dim corresponds to the height, the second dim corresponds
+   *     to the width, and the third dim corresponds to the channel. The channels are returned in
+   *     the following order, index0 -> Red, index1 -> Green, index2 -> Blue.
+   * @throws ImageNotFoundException If the specified source image does not exist.
+   */
+  int[][][] getImageData(String sourceImageName) throws ImageNotFoundException;
+
+  /**
    * Extract the red component of an image and save it with the specified image name.
    *
    * @param sourceImageName The name of the source image.
