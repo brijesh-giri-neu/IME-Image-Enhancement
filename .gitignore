@@ -2,7 +2,6 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-res/
 
 ### Eclipse ###
 .apt_generated
@@ -31,3 +30,7 @@ bin/
 
 ### Design decisions ###
 *.help.txt
+
+### JUnitTest results ###
+test/integrationResults
+test/unitResults

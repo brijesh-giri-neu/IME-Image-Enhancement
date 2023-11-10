@@ -15,10 +15,6 @@ import org.junit.Test;
  */
 public class ImageTest {
 
-  private Image testImgPPM;
-  private Image testImgPNG;
-  private Image testImgJPG;
-
   /**
    * Tests the working of the public constructor of the Image class.
    */
