@@ -1,14 +1,8 @@
 #load a png image file 
 load Image.png resImage3
 
-# save in same format
+# save in jpg format
 save res/saveimage.jpg resImage3
-
-#save in png format
-save res/saveimage.png resImage3
-
-#save in ppm format
-save res/saveimage.ppm resImage3
 
 # Get red-component
 red-component resImage3 redResImage
