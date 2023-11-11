@@ -456,6 +456,21 @@ public class Image implements IImage {
         {-1.0/8, -1.0/8, -1.0/8, -1.0/8, -1.0/8}
     };
 
+    // Calculate the sum of the kernel values
+    double sum = 0;
+    for (double[] doubles : kernel) {
+      for (double aDouble : doubles) {
+        sum += aDouble;
+      }
+    }
+
+    // Normalize the kernel
+    for (int i = 0; i < kernel.length; i++) {
+      for (int j = 0; j < kernel[i].length; j++) {
+        kernel[i][j] /= sum;
+      }
+    }
+
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         double r = 0;
@@ -483,7 +498,7 @@ public class Image implements IImage {
         sharpenedImage[i][j][2] = (int) b;
       }
     }
-
+    System.out.println(Arrays.deepToString(sharpenedImage));
     return new Image(sharpenedImage, width, height);
   }
 
