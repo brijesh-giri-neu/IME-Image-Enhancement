@@ -1,5 +1,6 @@
 import static org.junit.Assert.fail;
 
+import imeprogram.model.ImageFileIOFactory;
 import imeprogram.model.Model;
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ public class ModelTest {
   @Test
   public void testLoadImageFromFile_Working() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -27,7 +28,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "Invalid&&Name");
@@ -43,7 +44,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFilePath() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/InvalidFilePath/bro.png", "SampleImage");
@@ -59,7 +60,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/InvalidFileName.png", "SampleImage");
@@ -75,7 +76,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_InvalidFileExtension() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.InvalidFileExtension", "SampleImage");
@@ -91,7 +92,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testLoadImageFromFile_NoExtension() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro", "SampleImage");
@@ -107,7 +108,7 @@ public class ModelTest {
   @Test
   public void testSaveImageToFile_Working() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -124,7 +125,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testSaveImageToFile_InvalidName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -141,7 +142,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testSaveImageToFile_InvalidFilePath() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -158,7 +159,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testSaveImageToFile_InvalidFileExtension() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -175,7 +176,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testSaveImageToFile_NoExtension() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -192,7 +193,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testRedComponent_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -209,7 +210,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testRedComponent_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -226,7 +227,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testGreenComponent_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -243,7 +244,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testGreenComponent_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -260,7 +261,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testBlueComponent_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -277,7 +278,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testBlueComponent_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -294,7 +295,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testValueComponent_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -311,7 +312,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testValueComponent_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -328,7 +329,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testLumaComponent_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -345,7 +346,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testLumaComponent_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -362,7 +363,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testIntensityComponent_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -379,7 +380,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testIntensityComponent_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -396,7 +397,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testHorizontalFlip_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -413,7 +414,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testHorizontalFlip_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -430,7 +431,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testVerticalFlip_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -447,7 +448,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testVerticalFlip_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -464,7 +465,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testBrighten_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -481,7 +482,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testBrighten_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -498,7 +499,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testRgbSplit_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -515,7 +516,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testRgbSplit_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -532,7 +533,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testrgbCombine_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -550,7 +551,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testrgbCombine_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -568,7 +569,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testBlur_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -585,7 +586,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testBlur_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -603,7 +604,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testSepia_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -620,7 +621,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testSepia_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -637,7 +638,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testSharpen_InvalidSourceName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
@@ -654,7 +655,7 @@ public class ModelTest {
   @Test(expected = AssertionError.class)
   public void testSharpen_InvalidDestName() {
 
-    Model model = new Model();
+    Model model = new Model(new ImageFileIOFactory());
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");

@@ -1,78 +1,72 @@
 #load a png image file 
 load Image.png resImage3
 
-# save in same format
-save demo/saveimage.jpg resImage3
-
-#save in png format
-save demo/saveimage.png resImage3
-
-#save in ppm format
-save demo/saveimage.ppm resImage3
+# save in jpg format
+save res/saveimage.jpg resImage3
 
 # Get red-component
 red-component resImage3 redResImage
-save demo/red-Image.jpg redResImage
+save res/red-Image.jpg redResImage
 
 # Get green-component
 green-component resImage3 greenResImage
-save demo/green-Image.jpg greenResImage
+save res/green-Image.jpg greenResImage
 
 # Get blue-component
 blue-component resImage3 blueResImage
-save demo/blue-Image.jpg blueResImage
+save res/blue-Image.jpg blueResImage
 
 # Get value-component
 value-component resImage3 valueResImage
-save demo/value-Image.jpg valueResImage
+save res/value-Image.jpg valueResImage
 
 # Get intensity-component
 intensity-component resImage3 intensityResImage
-save demo/intensity-Image.jpg intensityResImage
+save res/intensity-Image.jpg intensityResImage
 
 # Get luma-component
 luma-component resImage3 lumaResImage
-save demo/luma-Image.jpg lumaResImage
+save res/luma-Image.jpg lumaResImage
 
 # horizontal-flip
 horizontal-flip resImage3 flipHorizontalresImage
-save demo/horizontal-flip-Image.jpg flipHorizontalresImage
+save res/horizontal-flip-Image.jpg flipHorizontalresImage
 
 # vertical-flip
 vertical-flip resImage3 flipVerticalresImage
-save demo/vertical-flip-Image.jpg flipVerticalresImage
+save res/vertical-flip-Image.jpg flipVerticalresImage
 
 # brighten by 50
 brighten 50 resImage3 brighten-50-resImage
-save demo/brighten-50-Image.jpg brighten-50-resImage
+save res/brighten-50-Image.jpg brighten-50-resImage
 
 # darken by 50
 brighten -50 resImage3 darken-50-resImage
-save demo/darken-50-Image.jpg darken-50-resImage
+save res/darken-50-Image.jpg darken-50-resImage
 
 # rgb split
 rgb-split resImage3 destImageRed destImageGreen destImageBlue
-save demo/split-red-Image.jpg destImageRed
-save demo/split-green-Image.jpg destImageGreen
-save demo/split-blue-Image.jpg destImageBlue
+save res/split-red-Image.jpg destImageRed
+save res/split-green-Image.jpg destImageGreen
+save res/split-blue-Image.jpg destImageBlue
 
 # rgb combine
-load demo/split-red-Image.jpg sourceImageRed
-load demo/split-green-Image.jpg sourceImageGreen
-load demo/split-blue-Image.jpg sourceImageBlue
+load res/split-red-Image.jpg sourceImageRed
+load res/split-green-Image.jpg sourceImageGreen
+load res/split-blue-Image.jpg sourceImageBlue
 rgb-combine combinedImage sourceImageRed sourceImageGreen sourceImageBlue
-save demo/combined-Image.jpg combinedImage
+save res/combined-Image.jpg combinedImage
 
 # blur
 blur resImage3 blurredImage1
 blur blurredImage1 blurredImage2
 blur blurredImage2 blurredImage3
-save demo/blur-3times-Image.jpg blurredImage3
+save res/blur-3times-Image.jpg blurredImage3
 
 # sharpen
 sharpen resImage3 resImageSharpen
-save demo/sharpen-1time-Image.jpg resImageSharpen
+save res/sharpen-1time-Image.jpg resImageSharpen
 
 # sepia
 sepia resImage3 resImageSepia
-save demo/sepia-Image.jpg resImageSepia
+save res/sepia-Image.jpg resImageSepia
