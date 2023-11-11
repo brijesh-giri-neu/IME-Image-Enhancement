@@ -11,6 +11,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * This class represents the Controller of the IMEProgram.
@@ -21,6 +24,7 @@ public class Controller implements IController {
   private final IModel model;
   private final IView view;
   private final InputStream in;
+  private Map<String, Consumer<String[]>> knownCommands;
 
   /**
    * Instantiate the controller object.
@@ -33,6 +37,7 @@ public class Controller implements IController {
     this.model = model;
     this.view = view;
     this.in = in;
+    initializeCommands();
   }
 
   @Override
@@ -401,64 +406,16 @@ public class Controller implements IController {
       return;
     }
 
-    String operation = tokens[0].trim();
+    String operation = tokens[0].trim().toLowerCase();
     // Remove operation from tokens
     tokens = getArrayBeginningFrom(tokens, 1);
 
-    switch (operation.toLowerCase()) {
-      case "load":
-        loadImage(tokens);
-        break;
-      case "save":
-        saveImage(tokens);
-        break;
-      case "red-component":
-        redComponent(tokens);
-        break;
-      case "green-component":
-        greenComponent(tokens);
-        break;
-      case "blue-component":
-        blueComponent(tokens);
-        break;
-      case "value-component":
-        valueComponent(tokens);
-        break;
-      case "luma-component":
-        lumaComponent(tokens);
-        break;
-      case "intensity-component":
-        intensityComponent(tokens);
-        break;
-      case "vertical-flip":
-        verticalFlip(tokens);
-        break;
-      case "horizontal-flip":
-        horizontalFlip(tokens);
-        break;
-      case "brighten":
-        brighten(tokens);
-        break;
-      case "rgb-split":
-        rgbSplit(tokens);
-        break;
-      case "rgb-combine":
-        rgbCombine(tokens);
-        break;
-      case "blur":
-        blur(tokens);
-        break;
-      case "sharpen":
-        sharpen(tokens);
-        break;
-      case "sepia":
-        sepia(tokens);
-        break;
-      case "run":
-        runScript(tokens);
-        break;
-      default:
-        view.print("Error: Invalid command. Please try again.");
+    // Invoke relevant command
+    Consumer<String[]> cmd = knownCommands.getOrDefault(operation, null);
+    if (cmd == null) {
+      view.print("Error: Invalid command. Please try again.");
+    } else {
+      cmd.accept(tokens);
     }
   }
 
@@ -497,6 +454,27 @@ public class Controller implements IController {
     }
 
     return quoteCount % 2 == 0 ? true : false;
+  }
+
+  private void initializeCommands() {
+    knownCommands = new HashMap<String, Consumer<String[]>>();
+    knownCommands.put("load", s -> loadImage(s));
+    knownCommands.put("save", s -> saveImage(s));
+    knownCommands.put("red-component", s -> redComponent(s));
+    knownCommands.put("green-component", s -> greenComponent(s));
+    knownCommands.put("blue-component", s -> blueComponent(s));
+    knownCommands.put("value-component", s -> valueComponent(s));
+    knownCommands.put("luma-component", s -> lumaComponent(s));
+    knownCommands.put("intensity-component", s -> intensityComponent(s));
+    knownCommands.put("vertical-flip", s -> verticalFlip(s));
+    knownCommands.put("horizontal-flip", s -> horizontalFlip(s));
+    knownCommands.put("brighten", s -> brighten(s));
+    knownCommands.put("rgb-split", s -> rgbSplit(s));
+    knownCommands.put("rgb-combine", s -> rgbCombine(s));
+    knownCommands.put("blur", s -> blur(s));
+    knownCommands.put("sharpen", s -> sharpen(s));
+    knownCommands.put("sepia", s -> sepia(s));
+    knownCommands.put("run", s -> runScript(s));
   }
 
   /**
