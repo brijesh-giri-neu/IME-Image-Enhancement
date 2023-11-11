@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 
@@ -447,21 +448,42 @@ public class Image implements IImage {
     int[][][] sharpenedImage = new int[height][width][3];
 
     // Define the sharpening kernel
-    int[][] kernel = {{-1, -1, -1}, {-1, 9, -1}, {-1, -1, -1}};
+    double[][] kernel = {
+        {-1.0/8, -1.0/8, -1.0/8, -1.0/8, -1.0/8},
+        {-1.0/8, 1.0/4, 1.0/4, 1.0/4, -1.0/8},
+        {-1.0/8, 1.0/4, 1.0/4, 1.0/4, -1.0/8},
+        {-1.0/8, 1.0/4, 1.0/4, 1.0/4, -1.0/8},
+        {-1.0/8, -1.0/8, -1.0/8, -1.0/8, -1.0/8}
+    };
+
+    // Calculate the sum of the kernel values
+    double sum = 0;
+    for (double[] doubles : kernel) {
+      for (double aDouble : doubles) {
+        sum += aDouble;
+      }
+    }
+
+    // Normalize the kernel
+    for (int i = 0; i < kernel.length; i++) {
+      for (int j = 0; j < kernel[i].length; j++) {
+        kernel[i][j] /= sum;
+      }
+    }
 
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        int r = 0;
-        int g = 0;
-        int b = 0;
+        double r = 0;
+        double g = 0;
+        double b = 0;
 
         // Apply the kernel to each pixel
-        for (int ki = -1; ki <= 1; ki++) {
-          for (int kj = -1; kj <= 1; kj++) {
+        for (int ki = -2; ki <= 2; ki++) {
+          for (int kj = -2; kj <= 2; kj++) {
             if (i + ki >= 0 && i + ki < height && j + kj >= 0 && j + kj < width) {
-              r += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][0];
-              g += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][1];
-              b += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][2];
+              r += kernel[ki + 2][kj + 2] * rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + 2][kj + 2] * rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + 2][kj + 2] * rgbValues[i + ki][j + kj][2];
             }
           }
         }
@@ -471,12 +493,12 @@ public class Image implements IImage {
         g = Math.min(255, Math.max(0, g));
         b = Math.min(255, Math.max(0, b));
 
-        sharpenedImage[i][j][0] = r;
-        sharpenedImage[i][j][1] = g;
-        sharpenedImage[i][j][2] = b;
+        sharpenedImage[i][j][0] = (int) r;
+        sharpenedImage[i][j][1] = (int) g;
+        sharpenedImage[i][j][2] = (int) b;
       }
     }
-
+    System.out.println(Arrays.deepToString(sharpenedImage));
     return new Image(sharpenedImage, width, height);
   }
 
