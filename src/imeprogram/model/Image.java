@@ -498,7 +498,6 @@ public class Image implements IImage {
         sharpenedImage[i][j][2] = (int) b;
       }
     }
-    System.out.println(Arrays.deepToString(sharpenedImage));
     return new Image(sharpenedImage, width, height);
   }
 
