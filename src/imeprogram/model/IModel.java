@@ -224,4 +224,54 @@ public interface IModel {
    */
   void sepia(String sourceImageName, String destImageName)
       throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Apply a blur effect to a split view of an image and save it with the specified image name.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the blurred image.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   */
+  void blur(String sourceImageName, String destImageName, int splitWidth)
+      throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Apply a sharpening effect to split view of an image and save it with the specified image name.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the sharpened image.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   */
+  void sharpen(String sourceImageName, String destImageName, int splitWidth)
+      throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Apply a sepia tone effect to a split view of an image and save it with the specified image
+   * name.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the sepia-toned image.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   */
+  void sepia(String sourceImageName, String destImageName, int splitWidth)
+      throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Extract the luma component of a split view of an image and save it with the specified image
+   * name.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the luma component image.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   */
+  void lumaComponent(String sourceImageName, String destImageName, int splitWidth)
+      throws ImageNotFoundException, InvalidImageNameException;
 }

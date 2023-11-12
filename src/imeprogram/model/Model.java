@@ -197,6 +197,38 @@ public class Model implements IModel {
     saveImageToMemory(sourceImg.convertToSepia(), destImageName);
   }
 
+  @Override
+  public void blur(String sourceImageName, String destImageName, int splitWidth)
+      throws ImageNotFoundException, InvalidImageNameException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.gaussianBlur(splitWidth), destImageName);
+  }
+
+  @Override
+  public void sharpen(String sourceImageName, String destImageName, int splitWidth)
+      throws ImageNotFoundException, InvalidImageNameException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.sharpen(splitWidth), destImageName);
+  }
+
+  @Override
+  public void sepia(String sourceImageName, String destImageName, int splitWidth)
+      throws ImageNotFoundException, InvalidImageNameException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.convertToSepia(splitWidth), destImageName);
+  }
+
+  @Override
+  public void lumaComponent(String sourceImageName, String destImageName, int splitWidth)
+      throws ImageNotFoundException, InvalidImageNameException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.getLumaComponent(splitWidth), destImageName);
+  }
+
   /**
    * Gets an image from the application memory with the provided image name.
    *

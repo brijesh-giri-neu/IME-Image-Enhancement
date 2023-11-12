@@ -160,4 +160,44 @@ public interface IImage {
    * @return a new IImage with the sepia tone filter applied.
    */
   IImage convertToSepia();
+
+  /**
+   * Applies a Gaussian blur effect to a portion of the Image determined by the splitWidth. The
+   * Image is split vertically into two halves, with the split position being determined by the
+   * splitWidth, and the effect is applied to the right portion of the Image.
+   *
+   * @param splitWidth horizontal position of the split in terms of percentage of width.
+   * @return a new IImage with Gaussian blur filter applied.
+   */
+  IImage gaussianBlur(int splitWidth);
+
+  /**
+   * Applies a Sharpening effect to a portion of the Image determined by the splitWidth. The Image
+   * is split vertically into two halves, with the split position being determined by the
+   * splitWidth, and the effect is applied to the right portion of the Image.
+   *
+   * @param splitWidth horizontal position of the split in terms of percentage of width.
+   * @return a new IImage with the sharpening effect applied.
+   */
+  IImage sharpen(int splitWidth);
+
+  /**
+   * Applies a sepia tone effect to a portion of the Image determined by the splitWidth. The Image
+   * is split vertically into two halves, with the split position being determined by the
+   * splitWidth, and the effect is applied to the right portion of the Image.
+   *
+   * @param splitWidth horizontal position of the split in terms of percentage of width.
+   * @return a new IImage with the sepia tone filter applied.
+   */
+  IImage convertToSepia(int splitWidth);
+
+  /**
+   * Applies luma function to each channel of a portion of the Image determined by the splitWidth.
+   * The Image is split vertically into two halves, with the split position being determined by the
+   * splitWidth, and the effect is applied to the right portion of the Image.
+   *
+   * @param splitWidth horizontal position of the split in terms of percentage of width.
+   * @return an IImage where values for all 3 channels are calculated by using the Luma function.
+   */
+  IImage getLumaComponent(int splitWidth);
 }

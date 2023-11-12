@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 
@@ -68,8 +67,8 @@ public class Image implements IImage {
    * @throws IllegalArgumentException if the provided file has corrupt data
    * @throws IOException              if the provided file does not exists
    */
-  public static Image loadImageFromFile(String filePath) throws
-      IllegalArgumentException, IOException {
+  public static Image loadImageFromFile(String filePath)
+      throws IllegalArgumentException, IOException {
     String fileExtension = getFileExtension(filePath);
 
     if (fileExtension != null) {
@@ -286,8 +285,7 @@ public class Image implements IImage {
     int[][][] valueValues = new int[height][width][3];
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        int value = Math.max(rgbValues[i][j][0],
-            Math.max(rgbValues[i][j][1], rgbValues[i][j][2]));
+        int value = Math.max(rgbValues[i][j][0], Math.max(rgbValues[i][j][1], rgbValues[i][j][2]));
         valueValues[i][j][0] = value;  // Red value
         valueValues[i][j][1] = value;  // Green value
         valueValues[i][j][2] = value;  // Blue value
@@ -312,16 +310,9 @@ public class Image implements IImage {
 
   @Override
   public IImage getLumaComponent() {
-    int[][][] lumaValues = new int[height][width][3];
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        int luma = (int) Math.round(0.2126 * rgbValues[i][j][0] + 0.7152 * rgbValues[i][j][1]
-            + 0.0722 * rgbValues[i][j][2]);
-        lumaValues[i][j][0] = luma;  // Red value
-        lumaValues[i][j][1] = luma;  // Green value
-        lumaValues[i][j][2] = luma;  // Blue value
-      }
-    }
+    Window clipWindow = new Window(0, this.height, 0, this.width);
+    int[][][] lumaValues = _getLumaComponent(clipWindow);
+
     return new Image(lumaValues, width, height);
   }
 
@@ -376,8 +367,7 @@ public class Image implements IImage {
         blueValues[i][j][2] = this.rgbValues[i][j][2];  // Blue value
       }
     }
-    return new IImage[]{new Image(redValues, width, height),
-        new Image(greenValues, width, height),
+    return new IImage[]{new Image(redValues, width, height), new Image(greenValues, width, height),
         new Image(blueValues, width, height)};
   }
 
@@ -406,99 +396,55 @@ public class Image implements IImage {
 
   @Override
   public IImage gaussianBlur() {
-    int[][][] blurredImage = new int[height][width][3];
+    Window portionToOperate = new Window(0, this.height, 0, this.width);
+    int[][][] blurredImage = _gaussianBlur(portionToOperate);
 
-    // Define the Gaussian blur kernel
-    double[][] kernel = {{1.0 / 16, 2.0 / 16, 1.0 / 16}, {2.0 / 16, 4.0 / 16, 2.0 / 16},
-        {1.0 / 16, 2.0 / 16, 1.0 / 16}};
+    return new Image(blurredImage, width, height);
+  }
 
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
+  @Override
+  public IImage gaussianBlur(int splitWidth) {
+    int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
 
-        // Apply the kernel to each pixel
-        for (int ki = -1; ki <= 1; ki++) {
-          for (int kj = -1; kj <= 1; kj++) {
-            if (i + ki >= 0 && i + ki < height && j + kj >= 0 && j + kj < width) {
-              r += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][0];
-              g += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][1];
-              b += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][2];
-            }
-          }
-        }
-
-        // Clamp the RGB values
-        int ri = Math.min(255, Math.max(0, (int) Math.round(r)));
-        int gi = Math.min(255, Math.max(0, (int) Math.round(g)));
-        int bi = Math.min(255, Math.max(0, (int) Math.round(b)));
-
-        blurredImage[i][j][0] = ri;
-        blurredImage[i][j][1] = gi;
-        blurredImage[i][j][2] = bi;
-      }
-    }
+    Window portionToOperate = new Window(0, this.height, splitHorizontalPosition, this.width);
+    int[][][] blurredImage = _gaussianBlur(portionToOperate);
 
     return new Image(blurredImage, width, height);
   }
 
   @Override
   public IImage sharpen() {
-    int[][][] sharpenedImage = new int[height][width][3];
+    Window portionToOperate = new Window(0, this.height, 0, this.width);
+    int[][][] sharpenedImage = _sharpen(portionToOperate);
 
-    // Define the sharpening kernel
-    double[][] kernel = {
-        {-1.0/8, -1.0/8, -1.0/8, -1.0/8, -1.0/8},
-        {-1.0/8, 1.0/4, 1.0/4, 1.0/4, -1.0/8},
-        {-1.0/8, 1.0/4, 1.0/4, 1.0/4, -1.0/8},
-        {-1.0/8, 1.0/4, 1.0/4, 1.0/4, -1.0/8},
-        {-1.0/8, -1.0/8, -1.0/8, -1.0/8, -1.0/8}
-    };
-
-    // Calculate the sum of the kernel values
-    double sum = 0;
-    for (double[] doubles : kernel) {
-      for (double aDouble : doubles) {
-        sum += aDouble;
-      }
-    }
-
-    // Normalize the kernel
-    for (int i = 0; i < kernel.length; i++) {
-      for (int j = 0; j < kernel[i].length; j++) {
-        kernel[i][j] /= sum;
-      }
-    }
-
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
-
-        // Apply the kernel to each pixel
-        for (int ki = -2; ki <= 2; ki++) {
-          for (int kj = -2; kj <= 2; kj++) {
-            if (i + ki >= 0 && i + ki < height && j + kj >= 0 && j + kj < width) {
-              r += kernel[ki + 2][kj + 2] * rgbValues[i + ki][j + kj][0];
-              g += kernel[ki + 2][kj + 2] * rgbValues[i + ki][j + kj][1];
-              b += kernel[ki + 2][kj + 2] * rgbValues[i + ki][j + kj][2];
-            }
-          }
-        }
-
-        // Clamp the RGB values
-        r = Math.min(255, Math.max(0, r));
-        g = Math.min(255, Math.max(0, g));
-        b = Math.min(255, Math.max(0, b));
-
-        sharpenedImage[i][j][0] = (int) r;
-        sharpenedImage[i][j][1] = (int) g;
-        sharpenedImage[i][j][2] = (int) b;
-      }
-    }
     return new Image(sharpenedImage, width, height);
+  }
+
+  @Override
+  public IImage sharpen(int splitWidth) {
+    int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
+
+    Window portionToOperate = new Window(0, this.height, splitHorizontalPosition, this.width);
+    int[][][] sharpenedImage = _sharpen(portionToOperate);
+    return new Image(sharpenedImage, width, height);
+  }
+
+  @Override
+  public IImage convertToSepia(int splitWidth) {
+    int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
+
+    Window clipWindow = new Window(0, this.height, splitHorizontalPosition, this.width);
+    int[][][] sepiaValues = _convertToSepia(clipWindow);
+    return new Image(sepiaValues, width, height);
+  }
+
+  @Override
+  public IImage getLumaComponent(int splitWidth) {
+    int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
+
+    Window clipWindow = new Window(0, this.height, splitHorizontalPosition, this.width);
+    int[][][] lumaValues = _getLumaComponent(clipWindow);
+    return new Image(lumaValues, width, height);
   }
 
   @Override
@@ -521,20 +467,8 @@ public class Image implements IImage {
 
   @Override
   public IImage convertToSepia() {
-    int[][][] sepiaValues = new int[height][width][3];
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        int r = rgbValues[i][j][0];
-        int g = rgbValues[i][j][1];
-        int b = rgbValues[i][j][2];
-        sepiaValues[i][j][0] = Math.min(255,
-            Math.max(0, (int) Math.round(0.393 * r + 0.769 * g + 0.189 * b)));  // Red value
-        sepiaValues[i][j][1] = Math.min(255,
-            Math.max(0, (int) Math.round(0.349 * r + 0.686 * g + 0.168 * b)));  // Green value
-        sepiaValues[i][j][2] = Math.min(255,
-            Math.max(0, (int) Math.round(0.272 * r + 0.534 * g + 0.131 * b)));  // Blue value
-      }
-    }
+    Window clipWindow = new Window(0, this.height, 0, this.width);
+    int[][][] sepiaValues = _convertToSepia(clipWindow);
     return new Image(sepiaValues, width, height);
   }
 
@@ -623,5 +557,175 @@ public class Image implements IImage {
   @Override
   public int getHeight() {
     return this.height;
+  }
+
+  // Blur a rectangular portion of the given image.
+  // Pixel data is used from this.
+  private int[][][] _gaussianBlur(Window clipWindow) {
+    int[][][] blurredImage = _getDeepCopy(this.rgbValues);
+
+    // Define the Gaussian blur kernel
+    double[][] kernel = {{1.0 / 16, 2.0 / 16, 1.0 / 16}, {2.0 / 16, 4.0 / 16, 2.0 / 16},
+        {1.0 / 16, 2.0 / 16, 1.0 / 16}};
+
+    for (int i = clipWindow.heightStart; i < clipWindow.heightEnd; i++) {
+      for (int j = clipWindow.widthStart; j < clipWindow.widthEnd; j++) {
+        double r = 0;
+        double g = 0;
+        double b = 0;
+
+        // Apply the kernel to each pixel
+        for (int ki = -1; ki <= 1; ki++) {
+          for (int kj = -1; kj <= 1; kj++) {
+            if (i + ki >= 0 && i + ki < clipWindow.heightEnd && j + kj >= 0
+                && j + kj < clipWindow.widthEnd) {
+              r += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][2];
+            }
+          }
+        }
+        // Clamp the RGB values
+        r = Math.min(255, Math.max(0, r));
+        g = Math.min(255, Math.max(0, g));
+        b = Math.min(255, Math.max(0, b));
+        // Round off to nearest int
+        blurredImage[i][j][0] = (int) Math.round(r);
+        blurredImage[i][j][1] = (int) Math.round(g);
+        blurredImage[i][j][2] = (int) Math.round(b);
+      }
+    }
+    return blurredImage;
+  }
+
+  // Sharpens a rectangular portion of the given image.
+  // Pixel data is used from this.
+  private int[][][] _sharpen(Window clipWindow) {
+    int[][][] sharpenedImage = _getDeepCopy(this.rgbValues);
+
+    // Define the sharpening kernel
+    double[][] kernel = {
+        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}
+    };
+
+    // Calculate the sum of the kernel values
+    double sum = 0;
+    for (double[] doubles : kernel) {
+      for (double aDouble : doubles) {
+        sum += aDouble;
+      }
+    }
+    // Normalize the kernel
+    for (int i = 0; i < kernel.length; i++) {
+      for (int j = 0; j < kernel[i].length; j++) {
+        kernel[i][j] /= sum;
+      }
+    }
+
+    for (int i = clipWindow.heightStart; i < clipWindow.heightEnd; i++) {
+      for (int j = clipWindow.widthStart; j < clipWindow.widthEnd; j++) {
+        double r = 0;
+        double g = 0;
+        double b = 0;
+
+        // Apply the kernel to each pixel
+        for (int ki = -2; ki <= 2; ki++) {
+          for (int kj = -2; kj <= 2; kj++) {
+            if (i + ki >= 0 && i + ki < clipWindow.heightEnd && j + kj >= 0
+                && j + kj < clipWindow.widthEnd) {
+              r += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][2];
+            }
+          }
+        }
+        // Clamp the RGB values
+        r = Math.min(255, Math.max(0, r));
+        g = Math.min(255, Math.max(0, g));
+        b = Math.min(255, Math.max(0, b));
+        // Round off to nearest int
+        sharpenedImage[i][j][0] = (int) Math.round(r);
+        sharpenedImage[i][j][1] = (int) Math.round(g);
+        sharpenedImage[i][j][2] = (int) Math.round(b);
+      }
+    }
+    return sharpenedImage;
+  }
+
+  // Sepia tones a rectangular portion of the given image.
+  // Pixel data is used from this.
+  private int[][][] _convertToSepia(Window clipWindow) {
+    int[][][] sepiaValues = _getDeepCopy(this.rgbValues);
+
+    for (int i = clipWindow.heightStart; i < clipWindow.heightEnd; i++) {
+      for (int j = clipWindow.widthStart; j < clipWindow.widthEnd; j++) {
+        int r = this.rgbValues[i][j][0];
+        int g = this.rgbValues[i][j][1];
+        int b = this.rgbValues[i][j][2];
+        sepiaValues[i][j][0] = Math.min(255,
+            Math.max(0, (int) Math.round(0.393 * r + 0.769 * g + 0.189 * b)));  // Red value
+        sepiaValues[i][j][1] = Math.min(255,
+            Math.max(0, (int) Math.round(0.349 * r + 0.686 * g + 0.168 * b)));  // Green value
+        sepiaValues[i][j][2] = Math.min(255,
+            Math.max(0, (int) Math.round(0.272 * r + 0.534 * g + 0.131 * b)));  // Blue value
+      }
+    }
+    return sepiaValues;
+  }
+
+  // Luma transforms a rectangular portion of the given image.
+  // Pixel data is used from this.
+  private int[][][] _getLumaComponent(Window clipWindow) {
+    int[][][] lumaValues = _getDeepCopy(this.rgbValues);
+
+    for (int i = clipWindow.heightStart; i < clipWindow.heightEnd; i++) {
+      for (int j = clipWindow.widthStart; j < clipWindow.widthEnd; j++) {
+        int luma = (int) Math.round(0.2126 * this.rgbValues[i][j][0] + 0.7152 * this.rgbValues[i][j][1]
+            + 0.0722 * this.rgbValues[i][j][2]);
+        lumaValues[i][j][0] = luma;  // Red value
+        lumaValues[i][j][1] = luma;  // Green value
+        lumaValues[i][j][2] = luma;  // Blue value
+      }
+    }
+    return lumaValues;
+  }
+
+  private int _getSplitPosition(int width, int splitPercentage) {
+    return Math.round((width * splitPercentage) / 100);
+  }
+
+  private int[][][] _getDeepCopy(int[][][] inputArray) {
+    int[][][] copyArray = new int[inputArray.length][inputArray[0].length][inputArray[0][0].length];
+
+    for (int dim1 = 0; dim1 < inputArray.length; dim1++) {
+      for (int dim2 = 0; dim2 < inputArray[0].length; dim2++) {
+        for (int dim3 = 0; dim3 < inputArray[0][0].length; dim3++) {
+          copyArray[dim1][dim2][dim3] = inputArray[dim1][dim2][dim3];
+        }
+      }
+    }
+    return copyArray;
+  }
+
+  /**
+   * Helper class used represent a rectangular window, whose height and width start from top left.
+   */
+  private class Window {
+
+    private int heightStart;
+    private int heightEnd;
+    private int widthStart;
+    private int widthEnd;
+
+    private Window(int heightStart, int heightEnd, int widthStart, int widthEnd) {
+      this.heightStart = heightStart;
+      this.heightEnd = heightEnd;
+      this.widthStart = widthStart;
+      this.widthEnd = widthEnd;
+    }
   }
 }

@@ -151,13 +151,23 @@ public class Controller implements IController {
 
   @Override
   public void lumaComponent(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!isValidNumberOfArgs(args, 2, 4)) {
       return;
+    }
+    if (args.length == 4) {
+      if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
+        view.print("Invalid arguments for command");
+      }
     }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
-      model.lumaComponent(sourceImage, destImage);
+      if (args.length == 4) {
+        int splitWidth = Integer.parseInt(args[3]);
+        model.lumaComponent(sourceImage, destImage, splitWidth);
+      } else {
+        model.lumaComponent(sourceImage, destImage);
+      }
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
@@ -277,13 +287,24 @@ public class Controller implements IController {
 
   @Override
   public void blur(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!isValidNumberOfArgs(args, 2, 4)) {
       return;
     }
+    if (args.length == 4) {
+      if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
+        view.print("Invalid arguments for command");
+      }
+    }
+
     String sourceImage = args[0];
     String destImage = args[1];
     try {
-      model.blur(sourceImage, destImage);
+      if (args.length == 4) {
+        int splitWidth = Integer.parseInt(args[3]);
+        model.blur(sourceImage, destImage, splitWidth);
+      } else {
+        model.blur(sourceImage, destImage);
+      }
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
@@ -294,13 +315,23 @@ public class Controller implements IController {
 
   @Override
   public void sharpen(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!isValidNumberOfArgs(args, 2, 4)) {
       return;
+    }
+    if (args.length == 4) {
+      if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
+        view.print("Invalid arguments for command");
+      }
     }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
-      model.sharpen(sourceImage, destImage);
+      if (args.length == 4) {
+        int splitWidth = Integer.parseInt(args[3]);
+        model.sharpen(sourceImage, destImage, splitWidth);
+      } else {
+        model.sharpen(sourceImage, destImage);
+      }
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
@@ -311,13 +342,23 @@ public class Controller implements IController {
 
   @Override
   public void sepia(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!isValidNumberOfArgs(args, 2, 4)) {
       return;
+    }
+    if (args.length == 4) {
+      if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
+        view.print("Invalid arguments for command");
+      }
     }
     String sourceImage = args[0];
     String destImage = args[1];
     try {
-      model.sepia(sourceImage, destImage);
+      if (args.length == 4) {
+        int splitWidth = Integer.parseInt(args[3]);
+        model.sepia(sourceImage, destImage, splitWidth);
+      } else {
+        model.sepia(sourceImage, destImage);
+      }
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
@@ -437,8 +478,17 @@ public class Controller implements IController {
    * @param requiredCount the number of args required
    * @return True if number of provided args is valid, false otherwise
    */
-  private boolean isValidNumberOfArgs(String[] args, int requiredCount) {
-    if (args.length != requiredCount) {
+  private boolean isValidNumberOfArgs(String[] args, int... requiredCount) {
+    boolean isValid = false;
+
+    for (int count : requiredCount) {
+      if (args.length == count) {
+        isValid = true;
+        break;
+      }
+    }
+
+    if (!isValid) {
       view.print("Invalid number of arguments");
       return false;
     }

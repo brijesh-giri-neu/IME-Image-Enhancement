@@ -1174,6 +1174,30 @@ public class ControllerTest {
       checkExceptions();
       logInputs(new String[]{sourceImageName, destImageName});
     }
+
+    @Override
+    public void blur(String sourceImageName, String destImageName, int splitWidth)
+        throws ImageNotFoundException, InvalidImageNameException {
+      logInputs(new String[]{sourceImageName, destImageName, String.valueOf(splitWidth)});
+    }
+
+    @Override
+    public void sharpen(String sourceImageName, String destImageName, int splitWidth)
+        throws ImageNotFoundException, InvalidImageNameException {
+      logInputs(new String[]{sourceImageName, destImageName, String.valueOf(splitWidth)});
+    }
+
+    @Override
+    public void sepia(String sourceImageName, String destImageName, int splitWidth)
+        throws ImageNotFoundException, InvalidImageNameException {
+      logInputs(new String[]{sourceImageName, destImageName, String.valueOf(splitWidth)});
+    }
+
+    @Override
+    public void lumaComponent(String sourceImageName, String destImageName, int splitWidth)
+        throws ImageNotFoundException, InvalidImageNameException {
+      logInputs(new String[]{sourceImageName, destImageName, String.valueOf(splitWidth)});
+    }
   }
 
   class MockView implements IView {
