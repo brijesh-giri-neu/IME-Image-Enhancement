@@ -406,7 +406,7 @@ public class Image implements IImage {
   public IImage gaussianBlur(int splitWidth) {
     int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
 
-    Window portionToOperate = new Window(0, this.height, splitHorizontalPosition, this.width);
+    Window portionToOperate = new Window(0, this.height, 0, splitHorizontalPosition);
     int[][][] blurredImage = _gaussianBlur(portionToOperate);
 
     return new Image(blurredImage, width, height);
@@ -424,7 +424,7 @@ public class Image implements IImage {
   public IImage sharpen(int splitWidth) {
     int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
 
-    Window portionToOperate = new Window(0, this.height, splitHorizontalPosition, this.width);
+    Window portionToOperate = new Window(0, this.height, 0, splitHorizontalPosition);
     int[][][] sharpenedImage = _sharpen(portionToOperate);
     return new Image(sharpenedImage, width, height);
   }
@@ -433,7 +433,7 @@ public class Image implements IImage {
   public IImage convertToSepia(int splitWidth) {
     int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
 
-    Window clipWindow = new Window(0, this.height, splitHorizontalPosition, this.width);
+    Window clipWindow = new Window(0, this.height, 0, splitHorizontalPosition);
     int[][][] sepiaValues = _convertToSepia(clipWindow);
     return new Image(sepiaValues, width, height);
   }
@@ -442,7 +442,7 @@ public class Image implements IImage {
   public IImage getLumaComponent(int splitWidth) {
     int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
 
-    Window clipWindow = new Window(0, this.height, splitHorizontalPosition, this.width);
+    Window clipWindow = new Window(0, this.height, 0, splitHorizontalPosition);
     int[][][] lumaValues = _getLumaComponent(clipWindow);
     return new Image(lumaValues, width, height);
   }
@@ -577,8 +577,10 @@ public class Image implements IImage {
         // Apply the kernel to each pixel
         for (int ki = -1; ki <= 1; ki++) {
           for (int kj = -1; kj <= 1; kj++) {
-            if (i + ki >= 0 && i + ki < clipWindow.heightEnd && j + kj >= 0
-                && j + kj < clipWindow.widthEnd) {
+            // Consider pixels from entire image while applying kernel
+            // And not just pixels within our clipping window
+            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0
+                && j + kj < this.width) {
               r += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][0];
               g += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][1];
               b += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][2];
@@ -635,8 +637,10 @@ public class Image implements IImage {
         // Apply the kernel to each pixel
         for (int ki = -2; ki <= 2; ki++) {
           for (int kj = -2; kj <= 2; kj++) {
-            if (i + ki >= 0 && i + ki < clipWindow.heightEnd && j + kj >= 0
-                && j + kj < clipWindow.widthEnd) {
+            // Consider pixels from entire image while applying kernel
+            // And not just pixels within our clipping window
+            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0
+                && j + kj < this.width) {
               r += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][0];
               g += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][1];
               b += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][2];

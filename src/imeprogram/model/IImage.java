@@ -164,7 +164,7 @@ public interface IImage {
   /**
    * Applies a Gaussian blur effect to a portion of the Image determined by the splitWidth. The
    * Image is split vertically into two halves, with the split position being determined by the
-   * splitWidth, and the effect is applied to the right portion of the Image.
+   * splitWidth, and the effect is applied to the left portion of the Image.
    *
    * @param splitWidth horizontal position of the split in terms of percentage of width.
    * @return a new IImage with Gaussian blur filter applied.
@@ -174,7 +174,7 @@ public interface IImage {
   /**
    * Applies a Sharpening effect to a portion of the Image determined by the splitWidth. The Image
    * is split vertically into two halves, with the split position being determined by the
-   * splitWidth, and the effect is applied to the right portion of the Image.
+   * splitWidth, and the effect is applied to the left portion of the Image.
    *
    * @param splitWidth horizontal position of the split in terms of percentage of width.
    * @return a new IImage with the sharpening effect applied.
@@ -184,7 +184,7 @@ public interface IImage {
   /**
    * Applies a sepia tone effect to a portion of the Image determined by the splitWidth. The Image
    * is split vertically into two halves, with the split position being determined by the
-   * splitWidth, and the effect is applied to the right portion of the Image.
+   * splitWidth, and the effect is applied to the left portion of the Image.
    *
    * @param splitWidth horizontal position of the split in terms of percentage of width.
    * @return a new IImage with the sepia tone filter applied.
@@ -194,7 +194,7 @@ public interface IImage {
   /**
    * Applies luma function to each channel of a portion of the Image determined by the splitWidth.
    * The Image is split vertically into two halves, with the split position being determined by the
-   * splitWidth, and the effect is applied to the right portion of the Image.
+   * splitWidth, and the effect is applied to the left portion of the Image.
    *
    * @param splitWidth horizontal position of the split in terms of percentage of width.
    * @return an IImage where values for all 3 channels are calculated by using the Luma function.
