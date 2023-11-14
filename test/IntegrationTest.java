@@ -6,7 +6,7 @@ import imeprogram.controller.Controller.MessageHelper;
 import imeprogram.controller.IController;
 import imeprogram.model.IModel;
 import imeprogram.model.Image;
-import imeprogram.model.ImageFileIOFactory;
+import imeprogram.fileparser.ImageFileIOFactory;
 import imeprogram.model.Model;
 import imeprogram.view.IView;
 import imeprogram.view.View;

@@ -1,6 +1,6 @@
 import static org.junit.Assert.fail;
 
-import imeprogram.model.ImageFileIOFactory;
+import imeprogram.fileparser.ImageFileIOFactory;
 import imeprogram.model.Model;
 import org.junit.Test;
 

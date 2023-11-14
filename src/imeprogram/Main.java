@@ -3,7 +3,7 @@ package imeprogram;
 import imeprogram.controller.Controller;
 import imeprogram.controller.IController;
 import imeprogram.model.IModel;
-import imeprogram.model.ImageFileIOFactory;
+import imeprogram.fileparser.ImageFileIOFactory;
 import imeprogram.model.Model;
 import imeprogram.view.IView;
 import imeprogram.view.View;

@@ -1,6 +1,8 @@
-package imeprogram.model;
+package imeprogram.fileparser;
 
 import imeprogram.exceptions.FileFormatException;
+import imeprogram.model.IImage;
+import imeprogram.model.Image;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;

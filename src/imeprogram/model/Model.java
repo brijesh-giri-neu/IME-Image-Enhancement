@@ -3,6 +3,8 @@ package imeprogram.model;
 import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
+import imeprogram.fileparser.IImageFileIO;
+import imeprogram.fileparser.IImageFileIOFactory;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;

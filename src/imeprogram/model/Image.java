@@ -42,7 +42,7 @@ public class Image implements IImage {
    * @param width     width of the image.
    * @param rgbValues array of pixel values.
    */
-  Image(int[][][] rgbValues, int width, int height) {
+  public Image(int[][][] rgbValues, int width, int height) {
     int[][][] newValues = new int[height][width][3];
 
     for (int i = 0; i < height; i++) {
