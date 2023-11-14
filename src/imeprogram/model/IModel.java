@@ -274,4 +274,17 @@ public interface IModel {
    */
   void lumaComponent(String sourceImageName, String destImageName, int splitWidth)
       throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Generate a line graph of histogram of the given source image and save it with the specified
+   * image name.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the histogram line graph.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   */
+  void histogram(String sourceImageName, String destImageName)
+      throws ImageNotFoundException, InvalidImageNameException;
 }

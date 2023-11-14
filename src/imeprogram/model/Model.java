@@ -231,6 +231,14 @@ public class Model implements IModel {
     saveImageToMemory(sourceImg.getLumaComponent(splitWidth), destImageName);
   }
 
+  @Override
+  public void histogram(String sourceImageName, String destImageName)
+      throws ImageNotFoundException, InvalidImageNameException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.getHistogram(), destImageName);
+  }
+
   /**
    * Gets an image from the application memory with the provided image name.
    *

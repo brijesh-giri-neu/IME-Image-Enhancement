@@ -2,6 +2,7 @@ package imeprogram.model;
 
 import imeprogram.exceptions.FileFormatException;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,6 +23,8 @@ public class Image implements IImage {
   private int[][][] rgbValues;
   private int height;
   private int width;
+  private final int bitDepth = 256;
+  private final int numChannels = 3;
 
   /**
    * Instantiate an Image object with all pixel values set to Zero.
@@ -448,6 +451,72 @@ public class Image implements IImage {
   }
 
   @Override
+  public IImage getHistogram() {
+    int histogramHeight = this.bitDepth;
+    int histogramWidth = this.bitDepth;
+    int[][] histogramData = _getHistogram();
+    int[][][] histImageValues = new int[histogramHeight][histogramWidth][this.numChannels];
+
+    int topMargin = 1;
+    // Normalize the histogram. Scale its height to 256.
+    histogramData = _normalizeHistogram(histogramData, histogramHeight - (topMargin));
+
+    // Create a BufferedImage object to draw the line graph
+    BufferedImage histImage = new BufferedImage(histogramWidth, histogramHeight,
+        BufferedImage.TYPE_INT_ARGB);
+    Graphics2D g2d = histImage.createGraphics();
+    // Fill the background with white color
+    g2d.setColor(Color.WHITE);
+    g2d.fillRect(0, 0, histogramWidth, histogramHeight);
+    // Set grid line colors
+    g2d.setColor(Color.LIGHT_GRAY);
+    // Draw vertical grid lines
+    int numVerticalLines = 8;
+    for (int i = 1; i <= numVerticalLines; i++) {
+      int x = i * (histogramWidth / numVerticalLines);
+      g2d.drawLine(x, 0, x, histogramHeight);
+    }
+    // Draw horizontal grid lines
+    int numHorizontalLines = 8;
+    for (int i = 1; i < numHorizontalLines; i++) {
+      int y = i * (histogramHeight / numHorizontalLines);
+      g2d.drawLine(0, y, histogramWidth, y);
+    }
+    // Set histogram line colors
+    Color[] lineColors = {Color.RED, Color.GREEN, Color.BLUE};
+    // Draw the actual histogram
+    // Draw a line from each point from 0 to 254. Last line is from 254 to 255.
+    for (int i = 0; i < this.bitDepth - 1; i++) {
+      // Horizontal position of line
+      int x1 = i;
+      int x2 = (i + 1);
+      for (int c = 0; c < this.numChannels; c++) {
+        // Draw the line based on channel frequency
+        int y1 = histogramHeight - topMargin - histogramData[i][c];
+        int y2 = histogramHeight - topMargin - histogramData[i + 1][c];
+        g2d.setColor(lineColors[c % lineColors.length]); // Sets color based on channel loop
+        g2d.drawLine(x1, y1, x2, y2);
+      }
+    }
+    // Convert BufferedImage to IImage
+    for (int x = 0; x < histogramHeight; x++) {
+      for (int y = 0; y < histogramWidth; y++) {
+        Color pixel = new Color(histImage.getRGB(y, x));
+        histImageValues[x][y][0] = pixel.getRed();   // Red
+        histImageValues[x][y][1] = pixel.getGreen(); // Green
+        histImageValues[x][y][2] = pixel.getBlue();  // Blue
+      }
+    }
+    return new Image(histImageValues, histogramWidth, histogramHeight);
+  }
+
+  @Override
+  public IImage applyColorCorrection() {
+
+    return null;
+  }
+
+  @Override
   public IImage convertToGrayscale() {
     int[][][] grayscaleValues = new int[height][width][3];
     for (int i = 0; i < height; i++) {
@@ -579,8 +648,7 @@ public class Image implements IImage {
           for (int kj = -1; kj <= 1; kj++) {
             // Consider pixels from entire image while applying kernel
             // And not just pixels within our clipping window
-            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0
-                && j + kj < this.width) {
+            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
               r += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][0];
               g += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][1];
               b += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][2];
@@ -606,13 +674,11 @@ public class Image implements IImage {
     int[][][] sharpenedImage = _getDeepCopy(this.rgbValues);
 
     // Define the sharpening kernel
-    double[][] kernel = {
-        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
+    double[][] kernel = {{-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
         {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
         {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
         {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
-        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}
-    };
+        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}};
 
     // Calculate the sum of the kernel values
     double sum = 0;
@@ -639,8 +705,7 @@ public class Image implements IImage {
           for (int kj = -2; kj <= 2; kj++) {
             // Consider pixels from entire image while applying kernel
             // And not just pixels within our clipping window
-            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0
-                && j + kj < this.width) {
+            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
               r += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][0];
               g += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][1];
               b += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][2];
@@ -688,8 +753,9 @@ public class Image implements IImage {
 
     for (int i = clipWindow.heightStart; i < clipWindow.heightEnd; i++) {
       for (int j = clipWindow.widthStart; j < clipWindow.widthEnd; j++) {
-        int luma = (int) Math.round(0.2126 * this.rgbValues[i][j][0] + 0.7152 * this.rgbValues[i][j][1]
-            + 0.0722 * this.rgbValues[i][j][2]);
+        int luma = (int) Math.round(
+            0.2126 * this.rgbValues[i][j][0] + 0.7152 * this.rgbValues[i][j][1]
+                + 0.0722 * this.rgbValues[i][j][2]);
         lumaValues[i][j][0] = luma;  // Red value
         lumaValues[i][j][1] = luma;  // Green value
         lumaValues[i][j][2] = luma;  // Blue value
@@ -700,6 +766,45 @@ public class Image implements IImage {
 
   private int _getSplitPosition(int width, int splitPercentage) {
     return Math.round((width * splitPercentage) / 100);
+  }
+
+  /**
+   * Returns the frequency histogram of this IImage.
+   *
+   * @return an int[pixelValue][channel] containing frequency values for each intensity value of the
+   *     RGB channels. The output array size is int[256][3], where index0 -> pixel values, index1 ->
+   *     channel.
+   */
+  private int[][] _getHistogram() {
+    int[][] histogram = new int[this.bitDepth][this.numChannels];
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        for (int c = 0; c < this.numChannels; c++) {
+          histogram[this.rgbValues[i][j][c]][c]++;
+        }
+      }
+    }
+    return histogram;
+  }
+
+  private int[][] _normalizeHistogram(int[][] histogram, int scaleFactor) {
+    int[][] normalizedHistogram = new int[this.bitDepth][this.numChannels];
+    // Find the maximum frequency in the histogram
+    int maxFrequency = 0;
+    for (int i = 0; i < this.bitDepth; i++) {
+      for (int c = 0; c < this.numChannels; c++) {
+        if (histogram[i][c] > maxFrequency) {
+          maxFrequency = histogram[i][c];
+        }
+      }
+    }
+    // Normalize the histogram values
+    for (int i = 0; i < 256; i++) {
+      for (int c = 0; c < this.numChannels; c++) {
+        normalizedHistogram[i][c] = (int) (histogram[i][c] * ((double) scaleFactor / maxFrequency));
+      }
+    }
+    return normalizedHistogram;
   }
 
   private int[][][] _getDeepCopy(int[][][] inputArray) {

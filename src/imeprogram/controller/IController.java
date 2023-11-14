@@ -128,4 +128,11 @@ public interface IController {
    * @param args The arguments for executing the script.
    */
   void runScript(String[] args);
+
+  /**
+   * Generate a line graph of the histogram of given image.
+   *
+   * @param args The arguments for generating histogram.
+   */
+  void histogram(String[] args);
 }

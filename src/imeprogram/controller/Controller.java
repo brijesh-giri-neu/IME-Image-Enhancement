@@ -432,6 +432,23 @@ public class Controller implements IController {
     }
   }
 
+  @Override
+  public void histogram(String[] args) {
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
+    String sourceImage = args[0];
+    String destImage = args[1];
+    try {
+      model.histogram(sourceImage, destImage);
+      view.success();
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    }
+  }
+
   private void executeCommand(String command) {
     // At this point program has at least 1 token.
 
@@ -525,6 +542,7 @@ public class Controller implements IController {
     knownCommands.put("sharpen", s -> sharpen(s));
     knownCommands.put("sepia", s -> sepia(s));
     knownCommands.put("run", s -> runScript(s));
+    knownCommands.put("histogram", s -> histogram(s));
   }
 
   /**

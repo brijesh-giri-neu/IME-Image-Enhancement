@@ -200,4 +200,20 @@ public interface IImage {
    * @return an IImage where values for all 3 channels are calculated by using the Luma function.
    */
   IImage getLumaComponent(int splitWidth);
+
+  /**
+   * Returns a 256x256 line graph representing the normalized histogram of this IImage.
+   *
+   * @return a 256x256 line graph representing the normalized histogram of this IImage.
+   */
+  IImage getHistogram();
+
+  /**
+   * Color corrects an Image by aligning the meaningful peaks of its histogram. The corrected peak
+   * position in its histogram is determined by the average of peak pixel values across channels
+   * i.e. AVG(PixelValue(Peak_Red), PixelValue(Peak_Green), PixelValue(Peak_Blue))
+   *
+   * @return a new IImage with aligned histogram peaks, that visually looks black and white.
+   */
+  IImage applyColorCorrection();
 }
