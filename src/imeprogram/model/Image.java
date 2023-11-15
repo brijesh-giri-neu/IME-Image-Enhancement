@@ -463,21 +463,21 @@ public class Image implements IImage {
 
     // Create a BufferedImage object to draw the line graph
     BufferedImage histImage = new BufferedImage(histogramWidth, histogramHeight,
-        BufferedImage.TYPE_INT_ARGB);
+        BufferedImage.TYPE_INT_RGB);
     Graphics2D g2d = histImage.createGraphics();
     // Fill the background with white color
     g2d.setColor(Color.WHITE);
     g2d.fillRect(0, 0, histogramWidth, histogramHeight);
-    // Set grid line colors
-    g2d.setColor(Color.LIGHT_GRAY);
+    // Set grid line colors. Light grey with transparency.
+    g2d.setColor(new Color(192, 192, 192, 95));
     // Draw vertical grid lines
-    int numVerticalLines = 8;
+    int numVerticalLines = 10;
     for (int i = 1; i <= numVerticalLines; i++) {
       int x = i * (histogramWidth / numVerticalLines);
       g2d.drawLine(x, 0, x, histogramHeight);
     }
     // Draw horizontal grid lines
-    int numHorizontalLines = 8;
+    int numHorizontalLines = 10;
     for (int i = 1; i < numHorizontalLines; i++) {
       int y = i * (histogramHeight / numHorizontalLines);
       g2d.drawLine(0, y, histogramWidth, y);
@@ -511,9 +511,43 @@ public class Image implements IImage {
   }
 
   @Override
-  public IImage applyColorCorrection() {
+  public IImage colorCorrect() {
+    int[][][] correctedPixels = new int[this.height][this.width][this.numChannels];
+    int[][] histogramData = _getHistogram();
+    int[][] channelPeaks = _getPeaks(histogramData, 11, 244);
 
-    return null;
+    // Get position of individual channel peaks
+    int redPeakPosition = channelPeaks[0][0];     // Red Peak
+    int greenPeakPosition = channelPeaks[1][0];   // Green Peak
+    int bluePeakPosition = channelPeaks[2][0];    // Blue Peak
+    // Get the average position for alignment
+    int alignedPosition = Math.round(redPeakPosition + greenPeakPosition + bluePeakPosition) / 3;
+    // Calculate offset for each channel
+    int redOffset = alignedPosition - redPeakPosition;
+    int greenOffset = alignedPosition - greenPeakPosition;
+    int blueOffset = alignedPosition - bluePeakPosition;
+    // Align the peaks of each channel by applying an offset to the pixel values.
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        // Get the pixel value at (i, j) that is to be color corrected.
+        int correctedRed = this.rgbValues[i][j][0];
+        int correctedGreen = this.rgbValues[i][j][1];
+        int correctedBlue = this.rgbValues[i][j][2];
+        // Apply offsets to align histogram peaks
+        correctedRed += redOffset;
+        correctedGreen += greenOffset;
+        correctedBlue += blueOffset;
+        // Clamp the values to stay within the valid range (0-255)
+        correctedRed = Math.min(Math.max(correctedRed, 0), 255);
+        correctedGreen = Math.min(Math.max(correctedGreen, 0), 255);
+        correctedBlue = Math.min(Math.max(correctedBlue, 0), 255);
+        // Set the color corrected values in the result image
+        correctedPixels[i][j][0] = correctedRed;
+        correctedPixels[i][j][1] = correctedGreen;
+        correctedPixels[i][j][2] = correctedBlue;
+      }
+    }
+    return new Image(correctedPixels, width, height);
   }
 
   @Override
@@ -789,22 +823,55 @@ public class Image implements IImage {
 
   private int[][] _normalizeHistogram(int[][] histogram, int scaleFactor) {
     int[][] normalizedHistogram = new int[this.bitDepth][this.numChannels];
+    int maxFreqChannel = 0;
+    int maxFreqPosition = 0;
     // Find the maximum frequency in the histogram
     int maxFrequency = 0;
     for (int i = 0; i < this.bitDepth; i++) {
       for (int c = 0; c < this.numChannels; c++) {
         if (histogram[i][c] > maxFrequency) {
           maxFrequency = histogram[i][c];
+          maxFreqPosition = i;
+          maxFreqChannel = c;
         }
       }
     }
     // Normalize the histogram values
     for (int i = 0; i < 256; i++) {
       for (int c = 0; c < this.numChannels; c++) {
-        normalizedHistogram[i][c] = (int) (histogram[i][c] * ((double) scaleFactor / maxFrequency));
+        normalizedHistogram[i][c] = (int) (histogram[i][c] * ((double) scaleFactor
+            / maxFrequency));
       }
     }
     return normalizedHistogram;
+  }
+
+  /**
+   * Returns the histogram peak for each channel of the given histogram.
+   *
+   * @param histogramData histogram whose peaks are required. Should be in the format
+   *                      [pixelValue][channel].
+   * @param minValue      the minimum value to be considered in the peak calculation.
+   * @param maxValue      the maximum value to be considered in the peak calculation.
+   * @return an int[][] containing the histogram peak for each channel in [channel][peak] format,
+   *     where the indices for the peak represent the following, index0 -> position on horizontal
+   *     axis, index1 -> height of the peak.
+   */
+  private int[][] _getPeaks(int[][] histogramData, int minValue, int maxValue) {
+    int[][] peaks = new int[this.numChannels][2];
+
+    for (int i = minValue; i <= maxValue; i++) {
+      for (int c = 0; c < this.numChannels; c++) {
+        // If frequency at (i) is greater than current peak frequency for the channel.
+        if (histogramData[i][c] > peaks[c][1]) {
+          // Peak frequency value
+          peaks[c][1] = histogramData[i][c];
+          // Peak frequency position
+          peaks[c][0] = i;
+        }
+      }
+    }
+    return peaks;
   }
 
   private int[][][] _getDeepCopy(int[][][] inputArray) {

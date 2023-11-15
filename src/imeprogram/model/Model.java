@@ -239,6 +239,14 @@ public class Model implements IModel {
     saveImageToMemory(sourceImg.getHistogram(), destImageName);
   }
 
+  @Override
+  public void colorCorrect(String sourceImageName, String destImageName)
+      throws ImageNotFoundException, InvalidImageNameException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.colorCorrect(), destImageName);
+  }
+
   /**
    * Gets an image from the application memory with the provided image name.
    *

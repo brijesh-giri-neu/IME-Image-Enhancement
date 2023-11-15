@@ -135,4 +135,11 @@ public interface IController {
    * @param args The arguments for generating histogram.
    */
   void histogram(String[] args);
+
+  /**
+   * Apply color correction to the given image.
+   *
+   * @param args The arguments for color correcting an image.
+   */
+  void colorCorrect(String[] args);
 }

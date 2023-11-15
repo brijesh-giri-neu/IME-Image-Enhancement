@@ -215,5 +215,5 @@ public interface IImage {
    *
    * @return a new IImage with aligned histogram peaks, that visually looks black and white.
    */
-  IImage applyColorCorrection();
+  IImage colorCorrect();
 }

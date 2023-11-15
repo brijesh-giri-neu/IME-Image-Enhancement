@@ -1209,6 +1209,13 @@ public class ControllerTest {
       checkExceptions();
       logInputs(new String[]{sourceImageName, destImageName});
     }
+
+    @Override
+    public void colorCorrect(String sourceImageName, String destImageName)
+        throws ImageNotFoundException, InvalidImageNameException {
+      checkExceptions();
+      logInputs(new String[]{sourceImageName, destImageName});
+    }
   }
 
   class MockView implements IView {

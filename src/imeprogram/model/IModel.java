@@ -287,4 +287,16 @@ public interface IModel {
    */
   void histogram(String sourceImageName, String destImageName)
       throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Apply color correction to the given source image by aligning the peaks of its histogram.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the color corrected image.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   */
+  void colorCorrect(String sourceImageName, String destImageName)
+      throws ImageNotFoundException, InvalidImageNameException;
 }
