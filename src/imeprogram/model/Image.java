@@ -552,7 +552,9 @@ public class Image implements IImage {
 
   @Override
   public IImage adjustLevels(int black, int mid, int white) throws IllegalArgumentException {
-    if (!(black < mid && black < white && mid < white)) {
+    // black, mid, and white should be in ascending order. And should be in [0, 255] range.
+    if (!(black < mid && black < white && mid < white) && (black >= 0 && black <= 255) && (mid >= 0
+        && mid <= 255) && (white >= 0 && white <= 255)) {
       throw new IllegalArgumentException("Provided black, mid, and white levels are not valid");
     }
 
