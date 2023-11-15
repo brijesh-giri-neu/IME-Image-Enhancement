@@ -142,4 +142,11 @@ public interface IController {
    * @param args The arguments for color correcting an image.
    */
   void colorCorrect(String[] args);
+
+  /**
+   * Apply levels adjustment to the given image.
+   *
+   * @param args The arguments for levels adjustment on an image.
+   */
+  void adjustLevels(String[] args);
 }

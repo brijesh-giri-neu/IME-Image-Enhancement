@@ -466,6 +466,31 @@ public class Controller implements IController {
     }
   }
 
+  @Override
+  public void adjustLevels(String[] args) {
+    if (!isValidNumberOfArgs(args, 5)) {
+      return;
+    }
+
+    String sourceImage = args[3];
+    String destImage = args[4];
+    try {
+      int black = Integer.parseInt(args[0]);
+      int mid = Integer.parseInt(args[1]);
+      int white = Integer.parseInt(args[2]);
+      model.adjustLevels(sourceImage, destImage, black, mid, white);
+      view.success();
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    } catch (NumberFormatException e) {
+      view.print(MessageHelper.NUMBER_FORMAT_EXCEPTION_MSG);
+    } catch (IllegalArgumentException e) {
+      view.print("Error: Provided black, mid, and white values are illegal");
+    }
+  }
+
   private void executeCommand(String command) {
     // At this point program has at least 1 token.
 
@@ -561,6 +586,7 @@ public class Controller implements IController {
     knownCommands.put("run", s -> runScript(s));
     knownCommands.put("histogram", s -> histogram(s));
     knownCommands.put("color-correct", s -> colorCorrect(s));
+    knownCommands.put("levels-adjust", s -> adjustLevels(s));
   }
 
   /**
@@ -574,5 +600,7 @@ public class Controller implements IController {
     //Not used in 1 case - rgbCombine
     public static final String IMAGE_NOT_FOUND_EXCEPTION_MSG =
         "Error: Mentioned image alias does not exist: %s";
+    public static final String NUMBER_FORMAT_EXCEPTION_MSG =
+        "Error: Provided input value is not a valid number";
   }
 }

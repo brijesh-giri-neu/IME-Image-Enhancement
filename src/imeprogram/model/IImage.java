@@ -216,4 +216,20 @@ public interface IImage {
    * @return a new IImage with aligned histogram peaks, that visually looks black and white.
    */
   IImage colorCorrect();
+
+  /**
+   * Performs levels adjustment operation in the histogram of an image using the given black, mid,
+   * and white levels. Valid black, mid, and white levels are in the [0,255] range in ascending
+   * order i.e. black < mid < white, and all of them are between [0,255].
+   *
+   * @param black the horizontal position of black level i.e. shadows. Also known as, the furthest
+   *              horizontal position of frequency 0 in the histogram.
+   * @param mid   the horizontal position of mid-level. Also known as, the furthest horizontal
+   *              position of frequency 128 in the histogram.
+   * @param white the horizontal position of white level i.e. highlights. Also known as, the
+   *              furthest horizontal position of frequency 255 in the histogram.
+   * @return a new IImage with adjusted levels that has enhanced contrast.
+   * @throws IllegalArgumentException If the provided black, mid, and white levels are not valid.
+   */
+  IImage adjustLevels(int black, int mid, int white) throws IllegalArgumentException;
 }

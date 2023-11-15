@@ -551,6 +551,39 @@ public class Image implements IImage {
   }
 
   @Override
+  public IImage adjustLevels(int black, int mid, int white) throws IllegalArgumentException {
+    if (!(black < mid && black < white && mid < white)) {
+      throw new IllegalArgumentException("Provided black, mid, and white levels are not valid");
+    }
+
+    int[][][] adjustedPixels = new int[this.height][this.width][this.numChannels];
+    int b = black;
+    int m = mid;
+    int w = white;
+    // Curve fitting formulas
+    double denomA = ((b * b) * (m - w)) - (b * ((m * m) - (w * w))) + (w * m * m) - (m * w * w);
+    double numA = (127 * b) + (128 * w) - (255 * m);
+    double numB = (-127 * b * b) + (255 * m * m) - (128 * w * w);
+    double numC = ((b * b) * ((255 * m) - (128 * w))) - (b * ((255 * m * m) - (128 * w * w)));
+    // Get quadratic curve equation coefficients
+    double coeffA = numA / denomA;
+    double coeffB = numB / denomA;
+    double coeffC = numC / denomA;
+    // Apply the quadratic curve function to each pixel in each channel
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        for (int c = 0; c < this.numChannels; c++) {
+          int x = this.rgbValues[i][j][c];
+          double y = (coeffA * Math.pow(x, 2)) + (coeffB * x) + coeffC;
+          // Clamp the values, round-off to nearest, and set it in the image
+          adjustedPixels[i][j][c] = Math.min(255, Math.max(0, (int) Math.round(y))); // Clamp values
+        }
+      }
+    }
+    return new Image(adjustedPixels, width, height);
+  }
+
+  @Override
   public IImage convertToGrayscale() {
     int[][][] grayscaleValues = new int[height][width][3];
     for (int i = 0; i < height; i++) {
@@ -827,7 +860,9 @@ public class Image implements IImage {
     int maxFreqPosition = 0;
     // Find the maximum frequency in the histogram
     int maxFrequency = 0;
-    for (int i = 0; i < this.bitDepth; i++) {
+    // Discard boundary values (0,255) for max frequency calculation
+    // This is done as presence of clamped pixels can alter the histogram drawn
+    for (int i = 1; i < this.bitDepth - 1; i++) {
       for (int c = 0; c < this.numChannels; c++) {
         if (histogram[i][c] > maxFrequency) {
           maxFrequency = histogram[i][c];

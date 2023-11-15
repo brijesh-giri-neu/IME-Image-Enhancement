@@ -299,4 +299,22 @@ public interface IModel {
    */
   void colorCorrect(String sourceImageName, String destImageName)
       throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Applies levels adjustment to the given source image.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the levels adjusted image.
+   * @param black           The intensity level for shadows.
+   * @param mid             The intensity level for mid.
+   * @param white           The intensity level for highlights.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   * @throws IllegalArgumentException  If the given black, mid, and white levels are invalid. Valid
+   *                                   levels are in the range of [0,255] and have the following
+   *                                   order black < mid < white.
+   */
+  void adjustLevels(String sourceImageName, String destImageName, int black, int mid, int white)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException;
 }

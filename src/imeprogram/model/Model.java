@@ -247,6 +247,15 @@ public class Model implements IModel {
     saveImageToMemory(sourceImg.colorCorrect(), destImageName);
   }
 
+  @Override
+  public void adjustLevels(String sourceImageName, String destImageName, int black, int mid,
+      int white)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.adjustLevels(black, mid, white), destImageName);
+  }
+
   /**
    * Gets an image from the application memory with the provided image name.
    *
