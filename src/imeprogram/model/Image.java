@@ -46,20 +46,9 @@ public class Image implements IImage {
    * @param rgbValues array of pixel values.
    */
   public Image(int[][][] rgbValues, int width, int height) {
-    int[][][] newValues = new int[height][width][3];
-
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        // Create deep copy
-        newValues[i][j][0] = rgbValues[i][j][0];  // Red value
-        newValues[i][j][1] = rgbValues[i][j][1];  // Green value
-        newValues[i][j][2] = rgbValues[i][j][2];  // Blue value
-      }
-
-      this.rgbValues = newValues;
-      this.width = width;
-      this.height = height;
-    }
+    this.height = height;
+    this.width = width;
+    this.rgbValues = _getDeepCopy(rgbValues);
   }
 
   /**
@@ -758,16 +747,7 @@ public class Image implements IImage {
 
   @Override
   public int[][][] getRgbValues() {
-    int[][][] copyValues = new int[this.height][this.width][3];
-
-    for (int i = 0; i < this.height; i++) {
-      for (int j = 0; j < this.width; j++) {
-        copyValues[i][j][0] = this.rgbValues[i][j][0];  // Red value
-        copyValues[i][j][1] = this.rgbValues[i][j][1];  // Green value
-        copyValues[i][j][2] = this.rgbValues[i][j][2];  // Blue value
-      }
-    }
-    return copyValues;
+    return _getDeepCopy(this.rgbValues);
   }
 
   @Override
