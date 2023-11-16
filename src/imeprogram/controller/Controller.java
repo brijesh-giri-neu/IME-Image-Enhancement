@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -151,23 +152,19 @@ public class Controller implements IController {
 
   @Override
   public void lumaComponent(String[] args) {
-    if (!isValidNumberOfArgs(args, 2, 4)) {
+    if (args.length == 4) {
+      splitView(args, model::lumaComponent);
       return;
     }
-    if (args.length == 4) {
-      if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
-        view.print("Invalid arguments for command");
-      }
+
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
     }
+
     String sourceImage = args[0];
     String destImage = args[1];
     try {
-      if (args.length == 4) {
-        int splitWidth = Integer.parseInt(args[3]);
-        //model.lumaComponent(sourceImage, destImage, splitWidth);
-      } else {
-        model.lumaComponent(sourceImage, destImage);
-      }
+      model.lumaComponent(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
@@ -238,6 +235,8 @@ public class Controller implements IController {
       int increment = Integer.parseInt(args[0]);
       model.brighten(sourceImage, destImage, increment);
       view.success();
+    } catch (NumberFormatException e) {
+      view.print(MessageHelper.NUMBER_FORMAT_EXCEPTION_MSG);
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
     } catch (InvalidImageNameException e) {
@@ -287,24 +286,19 @@ public class Controller implements IController {
 
   @Override
   public void blur(String[] args) {
-    if (!isValidNumberOfArgs(args, 2, 4)) {
+    if (args.length == 4) {
+      splitView(args, model::blur);
       return;
     }
-    if (args.length == 4) {
-      if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
-        view.print("Invalid arguments for command");
-      }
+
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
     }
 
     String sourceImage = args[0];
     String destImage = args[1];
     try {
-      if (args.length == 4) {
-        int splitWidth = Integer.parseInt(args[3]);
-        //model.blur(sourceImage, destImage, splitWidth);
-      } else {
-        model.blur(sourceImage, destImage);
-      }
+      model.blur(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
@@ -315,23 +309,19 @@ public class Controller implements IController {
 
   @Override
   public void sharpen(String[] args) {
-    if (!isValidNumberOfArgs(args, 2, 4)) {
+    if (args.length == 4) {
+      splitView(args, model::sharpen);
       return;
     }
-    if (args.length == 4) {
-      if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
-        view.print("Invalid arguments for command");
-      }
+
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
     }
+
     String sourceImage = args[0];
     String destImage = args[1];
     try {
-      if (args.length == 4) {
-        int splitWidth = Integer.parseInt(args[3]);
-        //model.sharpen(sourceImage, destImage, splitWidth);
-      } else {
-        model.sharpen(sourceImage, destImage);
-      }
+      model.sharpen(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
@@ -342,23 +332,19 @@ public class Controller implements IController {
 
   @Override
   public void sepia(String[] args) {
-    if (!isValidNumberOfArgs(args, 2, 4)) {
+    if (args.length == 4) {
+      splitView(args, model::sepia);
       return;
     }
-    if (args.length == 4) {
-      if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
-        view.print("Invalid arguments for command");
-      }
+
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
     }
+
     String sourceImage = args[0];
     String destImage = args[1];
     try {
-      if (args.length == 4) {
-        int splitWidth = Integer.parseInt(args[3]);
-        //model.sepia(sourceImage, destImage, splitWidth);
-      } else {
-        model.sepia(sourceImage, destImage);
-      }
+      model.sepia(sourceImage, destImage);
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
@@ -489,6 +475,39 @@ public class Controller implements IController {
     } catch (IllegalArgumentException e) {
       view.print("Error: Provided black, mid, and white values are illegal");
     }
+  }
+
+  private void splitView(String[] args, BiConsumer<String, String> operation) {
+    if (!isValidNumberOfArgs(args, 4)) {
+      return;
+    }
+    if (!_isValidSplitViewArgs(args)) {
+      return;
+    }
+
+    String sourceImage = args[0];
+    String destImage = args[1];
+    try {
+      int splitRatio = Integer.parseInt(args[3]);
+      // Do the operation
+      operation.accept(sourceImage, destImage);
+      model.splitView(sourceImage, destImage, splitRatio);
+      view.success();
+    } catch (NumberFormatException e) {
+      view.print(MessageHelper.NUMBER_FORMAT_EXCEPTION_MSG);
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    }
+  }
+
+  private boolean _isValidSplitViewArgs(String[] args) {
+    if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
+      view.print("Invalid arguments for command");
+      return false;
+    }
+    return true;
   }
 
   private void executeCommand(String command) {
