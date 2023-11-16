@@ -232,4 +232,21 @@ public interface IImage {
    * @throws IllegalArgumentException If the provided black, mid, and white levels are not valid.
    */
   IImage adjustLevels(int black, int mid, int white) throws IllegalArgumentException;
+
+  /**
+   * Merges this image with the other image, in the given split ratio. Dimensions of both the images
+   * must match for this operation. Resulting image gets its left portion from this image and its
+   * right portion from the other image.
+   *
+   * @param other      the other image to merge with.
+   * @param splitRatio the ratio of this image in the result, which is a percentage of horizontal
+   *                   width. This image contributes [0, splitRatio] of its width to the result
+   *                   image and the other image contributes [splitRatio, 100] of its width to the
+   *                   result image.
+   * @return an IImage that contains this image in its left portion and the other image in its right
+   *     portion.
+   * @throws IllegalArgumentException If the dimensions of this image and the other image don't
+   *                                  match.
+   */
+  IImage splitView(IImage other, int splitRatio) throws IllegalArgumentException;
 }

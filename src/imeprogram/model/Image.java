@@ -586,6 +586,31 @@ public class Image implements IImage {
   }
 
   @Override
+  public IImage splitView(IImage other, int splitRatio) throws IllegalArgumentException {
+    if (this.width != other.getWidth() || this.height != other.getHeight()) {
+      throw new IllegalArgumentException("Dimensions of given images dont match");
+    }
+
+    int[][][] splitValues = new int[this.height][this.width][this.numChannels];
+    int splitHorizontalPosition = _getSplitPosition(this.width, splitRatio);
+    for (int i = 0; i < this.height; i++) {
+      // Fill left portion of result
+      for (int j = 0; j < splitHorizontalPosition; j++) {
+        splitValues[i][j][0] = this.rgbValues[i][j][0]; // Red
+        splitValues[i][j][1] = this.rgbValues[i][j][1]; // Green
+        splitValues[i][j][2] = this.rgbValues[i][j][2]; // Blue
+      }
+      // Fill right portion of result
+      for (int j = splitHorizontalPosition; j < this.width; j++) {
+        splitValues[i][j][0] = other.getValueAtPixel(i, j, 0); // Red
+        splitValues[i][j][1] = other.getValueAtPixel(i, j, 1); // Green
+        splitValues[i][j][2] = other.getValueAtPixel(i, j, 2); // Blue
+      }
+    }
+    return new Image(splitValues, width, height);
+  }
+
+  @Override
   public IImage convertToGrayscale() {
     int[][][] grayscaleValues = new int[height][width][3];
     for (int i = 0; i < height; i++) {

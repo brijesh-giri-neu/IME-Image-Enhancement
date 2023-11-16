@@ -136,7 +136,7 @@ public class Model implements IModel {
   }
 
   @Override
-  public void brighten(int increment, String sourceImageName, String destImageName)
+  public void brighten(String sourceImageName, String destImageName, int increment)
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
@@ -254,6 +254,15 @@ public class Model implements IModel {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
     saveImageToMemory(sourceImg.adjustLevels(black, mid, white), destImageName);
+  }
+
+  @Override
+  public void splitView(String sourceImageName, String destImageName, int splitRatio)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+    IImage destImg = getImageFromMemory(destImageName);
+
+    saveImageToMemory(destImg.splitView(sourceImg, splitRatio), destImageName);
   }
 
   /**

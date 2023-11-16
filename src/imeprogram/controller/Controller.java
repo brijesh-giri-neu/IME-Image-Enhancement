@@ -236,7 +236,7 @@ public class Controller implements IController {
     String destImage = args[2];
     try {
       int increment = Integer.parseInt(args[0]);
-      model.brighten(increment, sourceImage, destImage);
+      model.brighten(sourceImage, destImage, increment);
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));

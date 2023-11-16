@@ -147,14 +147,14 @@ public interface IModel {
   /**
    * Brighten an image by the specified increment and save it with the specified image name.
    *
-   * @param increment       The amount to brighten the image (positive integer).
    * @param sourceImageName The name of the source image.
    * @param destImageName   The name to assign to the brightened image.
+   * @param increment       The amount to brighten the image (positive integer).
    * @throws ImageNotFoundException    If the specified source image does not exist.
    * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
    *                                   an image in the application.
    */
-  void brighten(int increment, String sourceImageName, String destImageName)
+  void brighten(String sourceImageName, String destImageName, int increment)
       throws ImageNotFoundException, InvalidImageNameException;
 
   /**
@@ -316,5 +316,22 @@ public interface IModel {
    *                                   order black < mid < white.
    */
   void adjustLevels(String sourceImageName, String destImageName, int black, int mid, int white)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException;
+
+  /**
+   * Generates a vertical split view by merging the given destination image with the source image in
+   * that order. Saves the result in the destination image by overwriting it.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to dest image.
+   * @param splitRatio      The ratio of the dest image in the split view, (1 - splitRatio) is the
+   *                        ratio of the source image in the split view.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   * @throws IllegalArgumentException  If the dimensions of the source image and the dest image do
+   *                                   not match.
+   */
+  void splitView(String sourceImageName, String destImageName, int splitRatio)
       throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException;
 }

@@ -469,7 +469,7 @@ public class ModelTest {
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
-      model.brighten(50, "Sample&&Image", "BrightenImage");
+      model.brighten("Sample&&Image", "BrightenImage", 50);
     } catch (Exception e) {
       fail("Exception not expected for a valid image file.");
     }
@@ -486,7 +486,7 @@ public class ModelTest {
 
     try {
       model.loadImageFromFile("test/unitImages/bro.png", "SampleImage");
-      model.brighten(50, "SampleImage", "Brighten&&Image");
+      model.brighten("SampleImage", "Brighten&&Image", 50);
     } catch (Exception e) {
       fail("Exception not expected for a valid image file.");
     }

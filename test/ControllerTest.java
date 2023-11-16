@@ -1130,7 +1130,7 @@ public class ControllerTest {
     }
 
     @Override
-    public void brighten(int increment, String sourceImageName, String destImageName)
+    public void brighten(String sourceImageName, String destImageName, int increment)
         throws ImageNotFoundException, InvalidImageNameException {
       checkExceptions();
       logInputs(new String[]{String.valueOf(increment), sourceImageName, destImageName});
@@ -1215,6 +1215,24 @@ public class ControllerTest {
         throws ImageNotFoundException, InvalidImageNameException {
       checkExceptions();
       logInputs(new String[]{sourceImageName, destImageName});
+    }
+
+    @Override
+    public void adjustLevels(String sourceImageName, String destImageName, int black, int mid,
+        int white)
+        throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+      checkExceptions();
+      logInputs(
+          new String[]{sourceImageName, destImageName, String.valueOf(black), String.valueOf(mid),
+              String.valueOf(white)});
+    }
+
+    @Override
+    public void splitView(String sourceImageName, String destImageName, int splitRatio)
+        throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+      checkExceptions();
+      logInputs(
+          new String[]{sourceImageName, destImageName, String.valueOf(splitRatio)});
     }
   }
 
