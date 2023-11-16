@@ -313,9 +313,17 @@ public class Image implements IImage {
 
   @Override
   public IImage getLumaComponent() {
-    Window clipWindow = new Window(0, this.height, 0, this.width);
-    int[][][] lumaValues = _getLumaComponent(clipWindow);
+    int[][][] lumaValues = new int[height][width][numChannels];
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
 
+        int luma = (int) Math.round(0.2126 * this.rgbValues[i][j][0]
+            + 0.7152 * this.rgbValues[i][j][1] + 0.0722 * this.rgbValues[i][j][2]);
+        lumaValues[i][j][0] = luma;  // Red value
+        lumaValues[i][j][1] = luma;  // Green value
+        lumaValues[i][j][2] = luma;  // Blue value
+      }
+    }
     return new Image(lumaValues, width, height);
   }
 
@@ -399,17 +407,92 @@ public class Image implements IImage {
 
   @Override
   public IImage gaussianBlur() {
-    Window portionToOperate = new Window(0, this.height, 0, this.width);
-    int[][][] blurredImage = _gaussianBlur(portionToOperate);
+    int[][][] blurredImage = new int[height][width][numChannels];
 
+    // Define the Gaussian blur kernel
+    double[][] kernel = {{1.0 / 16, 2.0 / 16, 1.0 / 16}, {2.0 / 16, 4.0 / 16, 2.0 / 16},
+        {1.0 / 16, 2.0 / 16, 1.0 / 16}};
+
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        double r = 0;
+        double g = 0;
+        double b = 0;
+
+        // Apply the kernel to each pixel
+        for (int ki = -1; ki <= 1; ki++) {
+          for (int kj = -1; kj <= 1; kj++) {
+            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
+              r += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][2];
+            }
+          }
+        }
+        // Clamp the RGB values
+        r = Math.min(255, Math.max(0, r));
+        g = Math.min(255, Math.max(0, g));
+        b = Math.min(255, Math.max(0, b));
+        // Round off to nearest int
+        blurredImage[i][j][0] = (int) Math.round(r);
+        blurredImage[i][j][1] = (int) Math.round(g);
+        blurredImage[i][j][2] = (int) Math.round(b);
+      }
+    }
     return new Image(blurredImage, width, height);
   }
 
   @Override
   public IImage sharpen() {
-    Window portionToOperate = new Window(0, this.height, 0, this.width);
-    int[][][] sharpenedImage = _sharpen(portionToOperate);
+    int[][][] sharpenedImage = new int[height][width][numChannels];
 
+    // Define the sharpening kernel
+    double[][] kernel = {{-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}};
+
+    // Calculate the sum of the kernel values
+    double sum = 0;
+    for (double[] doubles : kernel) {
+      for (double aDouble : doubles) {
+        sum += aDouble;
+      }
+    }
+    // Normalize the kernel
+    for (int i = 0; i < kernel.length; i++) {
+      for (int j = 0; j < kernel[i].length; j++) {
+        kernel[i][j] /= sum;
+      }
+    }
+
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        double r = 0;
+        double g = 0;
+        double b = 0;
+
+        // Apply the kernel to each pixel
+        for (int ki = -2; ki <= 2; ki++) {
+          for (int kj = -2; kj <= 2; kj++) {
+            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
+              r += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][2];
+            }
+          }
+        }
+        // Clamp the RGB values
+        r = Math.min(255, Math.max(0, r));
+        g = Math.min(255, Math.max(0, g));
+        b = Math.min(255, Math.max(0, b));
+        // Round off to nearest int
+        sharpenedImage[i][j][0] = (int) Math.round(r);
+        sharpenedImage[i][j][1] = (int) Math.round(g);
+        sharpenedImage[i][j][2] = (int) Math.round(b);
+      }
+    }
     return new Image(sharpenedImage, width, height);
   }
 
@@ -593,8 +676,20 @@ public class Image implements IImage {
 
   @Override
   public IImage convertToSepia() {
-    Window clipWindow = new Window(0, this.height, 0, this.width);
-    int[][][] sepiaValues = _convertToSepia(clipWindow);
+    int[][][] sepiaValues = new int[height][width][numChannels];
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        int r = this.rgbValues[i][j][0];
+        int g = this.rgbValues[i][j][1];
+        int b = this.rgbValues[i][j][2];
+        sepiaValues[i][j][0] = Math.min(255,
+            Math.max(0, (int) Math.round(0.393 * r + 0.769 * g + 0.189 * b)));  // Red value
+        sepiaValues[i][j][1] = Math.min(255,
+            Math.max(0, (int) Math.round(0.349 * r + 0.686 * g + 0.168 * b)));  // Green value
+        sepiaValues[i][j][2] = Math.min(255,
+            Math.max(0, (int) Math.round(0.272 * r + 0.534 * g + 0.131 * b)));  // Blue value
+      }
+    }
     return new Image(sepiaValues, width, height);
   }
 
@@ -685,142 +780,6 @@ public class Image implements IImage {
     return this.height;
   }
 
-  // Blur a rectangular portion of the given image.
-  // Pixel data is used from this.
-  private int[][][] _gaussianBlur(Window clipWindow) {
-    int[][][] blurredImage = _getDeepCopy(this.rgbValues);
-
-    // Define the Gaussian blur kernel
-    double[][] kernel = {{1.0 / 16, 2.0 / 16, 1.0 / 16}, {2.0 / 16, 4.0 / 16, 2.0 / 16},
-        {1.0 / 16, 2.0 / 16, 1.0 / 16}};
-
-    for (int i = clipWindow.heightStart; i < clipWindow.heightEnd; i++) {
-      for (int j = clipWindow.widthStart; j < clipWindow.widthEnd; j++) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
-
-        // Apply the kernel to each pixel
-        for (int ki = -1; ki <= 1; ki++) {
-          for (int kj = -1; kj <= 1; kj++) {
-            // Consider pixels from entire image while applying kernel
-            // And not just pixels within our clipping window
-            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
-              r += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][0];
-              g += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][1];
-              b += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][2];
-            }
-          }
-        }
-        // Clamp the RGB values
-        r = Math.min(255, Math.max(0, r));
-        g = Math.min(255, Math.max(0, g));
-        b = Math.min(255, Math.max(0, b));
-        // Round off to nearest int
-        blurredImage[i][j][0] = (int) Math.round(r);
-        blurredImage[i][j][1] = (int) Math.round(g);
-        blurredImage[i][j][2] = (int) Math.round(b);
-      }
-    }
-    return blurredImage;
-  }
-
-  // Sharpens a rectangular portion of the given image.
-  // Pixel data is used from this.
-  private int[][][] _sharpen(Window clipWindow) {
-    int[][][] sharpenedImage = _getDeepCopy(this.rgbValues);
-
-    // Define the sharpening kernel
-    double[][] kernel = {{-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
-        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
-        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
-        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
-        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}};
-
-    // Calculate the sum of the kernel values
-    double sum = 0;
-    for (double[] doubles : kernel) {
-      for (double aDouble : doubles) {
-        sum += aDouble;
-      }
-    }
-    // Normalize the kernel
-    for (int i = 0; i < kernel.length; i++) {
-      for (int j = 0; j < kernel[i].length; j++) {
-        kernel[i][j] /= sum;
-      }
-    }
-
-    for (int i = clipWindow.heightStart; i < clipWindow.heightEnd; i++) {
-      for (int j = clipWindow.widthStart; j < clipWindow.widthEnd; j++) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
-
-        // Apply the kernel to each pixel
-        for (int ki = -2; ki <= 2; ki++) {
-          for (int kj = -2; kj <= 2; kj++) {
-            // Consider pixels from entire image while applying kernel
-            // And not just pixels within our clipping window
-            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
-              r += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][0];
-              g += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][1];
-              b += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][2];
-            }
-          }
-        }
-        // Clamp the RGB values
-        r = Math.min(255, Math.max(0, r));
-        g = Math.min(255, Math.max(0, g));
-        b = Math.min(255, Math.max(0, b));
-        // Round off to nearest int
-        sharpenedImage[i][j][0] = (int) Math.round(r);
-        sharpenedImage[i][j][1] = (int) Math.round(g);
-        sharpenedImage[i][j][2] = (int) Math.round(b);
-      }
-    }
-    return sharpenedImage;
-  }
-
-  // Sepia tones a rectangular portion of the given image.
-  // Pixel data is used from this.
-  private int[][][] _convertToSepia(Window clipWindow) {
-    int[][][] sepiaValues = _getDeepCopy(this.rgbValues);
-
-    for (int i = clipWindow.heightStart; i < clipWindow.heightEnd; i++) {
-      for (int j = clipWindow.widthStart; j < clipWindow.widthEnd; j++) {
-        int r = this.rgbValues[i][j][0];
-        int g = this.rgbValues[i][j][1];
-        int b = this.rgbValues[i][j][2];
-        sepiaValues[i][j][0] = Math.min(255,
-            Math.max(0, (int) Math.round(0.393 * r + 0.769 * g + 0.189 * b)));  // Red value
-        sepiaValues[i][j][1] = Math.min(255,
-            Math.max(0, (int) Math.round(0.349 * r + 0.686 * g + 0.168 * b)));  // Green value
-        sepiaValues[i][j][2] = Math.min(255,
-            Math.max(0, (int) Math.round(0.272 * r + 0.534 * g + 0.131 * b)));  // Blue value
-      }
-    }
-    return sepiaValues;
-  }
-
-  // Luma transforms a rectangular portion of the given image.
-  // Pixel data is used from this.
-  private int[][][] _getLumaComponent(Window clipWindow) {
-    int[][][] lumaValues = _getDeepCopy(this.rgbValues);
-
-    for (int i = clipWindow.heightStart; i < clipWindow.heightEnd; i++) {
-      for (int j = clipWindow.widthStart; j < clipWindow.widthEnd; j++) {
-        int luma = (int) Math.round(
-            0.2126 * this.rgbValues[i][j][0] + 0.7152 * this.rgbValues[i][j][1]
-                + 0.0722 * this.rgbValues[i][j][2]);
-        lumaValues[i][j][0] = luma;  // Red value
-        lumaValues[i][j][1] = luma;  // Green value
-        lumaValues[i][j][2] = luma;  // Blue value
-      }
-    }
-    return lumaValues;
-  }
-
   private int _getSplitPosition(int width, int splitPercentage) {
     return Math.round((width * splitPercentage) / 100);
   }
@@ -864,8 +823,7 @@ public class Image implements IImage {
     // Normalize the histogram values
     for (int i = 0; i < 256; i++) {
       for (int c = 0; c < this.numChannels; c++) {
-        normalizedHistogram[i][c] = (int) (histogram[i][c] * ((double) scaleFactor
-            / maxFrequency));
+        normalizedHistogram[i][c] = (int) (histogram[i][c] * ((double) scaleFactor / maxFrequency));
       }
     }
     return normalizedHistogram;
@@ -910,23 +868,5 @@ public class Image implements IImage {
       }
     }
     return copyArray;
-  }
-
-  /**
-   * Helper class used represent a rectangular window, whose height and width start from top left.
-   */
-  private class Window {
-
-    private int heightStart;
-    private int heightEnd;
-    private int widthStart;
-    private int widthEnd;
-
-    private Window(int heightStart, int heightEnd, int widthStart, int widthEnd) {
-      this.heightStart = heightStart;
-      this.heightEnd = heightEnd;
-      this.widthStart = widthStart;
-      this.widthEnd = widthEnd;
-    }
   }
 }
