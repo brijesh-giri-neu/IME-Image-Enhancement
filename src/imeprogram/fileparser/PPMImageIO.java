@@ -47,6 +47,7 @@ class PPMImageIO implements IImageFileIO {
 
     int width = sc.nextInt();
     int height = sc.nextInt();
+    int maxValue = sc.nextInt();
     int[][][] rgbValues = new int[height][width][3];
 
     for (int i = 0; i < height; i++) {

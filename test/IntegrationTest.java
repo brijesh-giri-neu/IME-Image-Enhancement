@@ -4,9 +4,9 @@ import static org.junit.Assert.fail;
 import imeprogram.controller.Controller;
 import imeprogram.controller.Controller.MessageHelper;
 import imeprogram.controller.IController;
-import imeprogram.model.IModel;
-import imeprogram.model.Image;
+import imeprogram.fileparser.IImageFileIOFactory;
 import imeprogram.fileparser.ImageFileIOFactory;
+import imeprogram.model.IModel;
 import imeprogram.model.Model;
 import imeprogram.view.IView;
 import imeprogram.view.View;
@@ -28,6 +28,7 @@ public class IntegrationTest {
   private IModel model;
   private IView view;
   private InputStream in;
+  private IImageFileIOFactory imageFileIOFactory = new ImageFileIOFactory();
   String expectedSuccess = "\n Operation successful";
 
   // Not used in 2 cases - load, rgbSplit
@@ -66,8 +67,9 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
+    String filePath = "test/integrationResults/testImage-saveTest.ppm";
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-saveTest.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -85,9 +87,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-verticalFlip.ppm", "resImage-verticalFlip", controller);
+    String filePath = "test/integrationResults/testImage-verticalFlip.ppm";
+    saveImage(filePath, "resImage-verticalFlip", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-verticalFlip.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -105,10 +108,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-horizontalFlip.ppm", "resImage-horizontalFlip",
-        controller);
+    String filePath = "test/integrationResults/testImage-horizontalFlip.ppm";
+    saveImage(filePath, "resImage-horizontalFlip", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-horizontalFlip.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -126,10 +129,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-blur.ppm", "resImage-blur",
-        controller);
+    String filePath = "test/integrationResults/testImage-blur.ppm";
+    saveImage(filePath, "resImage-blur", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-blur.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -147,10 +150,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-sharpen.ppm", "resImage-sharpen",
-        controller);
+    String filePath = "test/integrationResults/testImage-sharpen.ppm";
+    saveImage(filePath, "resImage-sharpen", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-sharpen.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -168,10 +171,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-sepia.ppm", "resImage-sepia",
-        controller);
+    String filePath = "test/integrationResults/testImage-sepia.ppm";
+    saveImage(filePath, "resImage-sepia", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-sepia.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -189,10 +192,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-brighten-50.ppm", "resImage-brighten-50",
-        controller);
+    String filePath = "test/integrationResults/testImage-brighten-50.ppm";
+    saveImage(filePath, "resImage-brighten-50", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-brighten-50.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -210,16 +213,17 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-redSplit.ppm", "resImage-red",
-        controller);
-    saveImage("test/integrationResults/testImage-greenSplit.ppm", "resImage-green",
-        controller);
-    saveImage("test/integrationResults/testImage-blueSplit.ppm", "resImage-blue",
-        controller);
+    String filePathRed = "test/integrationResults/testImage-redSplit.ppm";
+    String filePathGreen = "test/integrationResults/testImage-greenSplit.ppm";
+    String filePathBlue = "test/integrationResults/testImage-blueSplit.ppm";
+
+    saveImage(filePathRed, "resImage-red", controller);
+    saveImage(filePathGreen, "resImage-green", controller);
+    saveImage(filePathBlue, "resImage-blue", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-redSplit.ppm");
-      Image.loadImageFromFile("test/integrationResults/testImage-greenSplit.ppm");
-      Image.loadImageFromFile("test/integrationResults/testImage-blueSplit.ppm");
+      imageFileIOFactory.getImageParser(filePathRed).loadFromFile(filePathRed);
+      imageFileIOFactory.getImageParser(filePathGreen).loadFromFile(filePathGreen);
+      imageFileIOFactory.getImageParser(filePathBlue).loadFromFile(filePathBlue);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -237,10 +241,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-greyscale.ppm", "resImage-greyscale",
-        controller);
+    String filePath = "test/integrationResults/testImage-greyscale.ppm";
+    saveImage(filePath, "resImage-greyscale", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-greyscale.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -258,10 +262,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-red.ppm", "resImage-red",
-        controller);
+    String filePath = "test/integrationResults/testImage-red.ppm";
+    saveImage(filePath, "resImage-red", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-red.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -280,9 +284,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-rgbcombine.ppm", "resImage-red-tint", controller);
+    String filePath = "test/integrationResults/testImage-rgbcombine.ppm";
+    saveImage(filePath, "resImage-red-tint", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-rgbcombine.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -300,10 +305,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-green.ppm", "resImage-green",
-        controller);
+    String filePath = "test/integrationResults/testImage-green.ppm";
+    saveImage(filePath, "resImage-green", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-green.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -321,10 +326,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-blue.ppm", "resImage-blue",
-        controller);
+    String filePath = "test/integrationResults/testImage-blue.ppm";
+    saveImage(filePath, "resImage-blue", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-blue.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -342,10 +347,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-value.ppm", "resImage-value",
-        controller);
+    String filePath = "test/integrationResults/testImage-value.ppm";
+    saveImage(filePath, "resImage-value", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-value.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -363,10 +368,10 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-intensity.ppm", "resImage-intensity",
-        controller);
+    String filePath = "test/integrationResults/testImage-intensity.ppm";
+    saveImage(filePath, "resImage-intensity", controller);
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-intensity.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -384,11 +389,11 @@ public class IntegrationTest {
     controller = new Controller(model, view, in);
     controller.start();
 
-    saveImage("test/integrationResults/testImage-darken-50.ppm", "resImage-darken-50",
-        controller);
+    String filePath = "test/integrationResults/testImage-darken-50.ppm";
+    saveImage(filePath, "resImage-darken-50", controller);
 
     try {
-      Image.loadImageFromFile("test/integrationResults/testImage-darken-50.ppm");
+      imageFileIOFactory.getImageParser(filePath).loadFromFile(filePath);
     } catch (IOException e) {
       fail(e.getMessage());
     }

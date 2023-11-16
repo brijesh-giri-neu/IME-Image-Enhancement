@@ -4,6 +4,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import imeprogram.fileparser.IImageFileIOFactory;
+import imeprogram.fileparser.ImageFileIOFactory;
 import imeprogram.model.IImage;
 import imeprogram.model.Image;
 import java.io.FileNotFoundException;
@@ -14,6 +16,8 @@ import org.junit.Test;
  * A Junit test class for the Image class.
  */
 public class ImageTest {
+
+  private final IImageFileIOFactory imageFileIOFactory = new ImageFileIOFactory();
 
   /**
    * Tests the working of the public constructor of the Image class.
@@ -43,7 +47,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -62,7 +67,8 @@ public class ImageTest {
     String testImagePath = "res/KoalaTest/TestInvalidPath/Koala.ppm";
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
       fail("Test Failed: Exception not thrown for invalid file path");
     } catch (IOException e) {
       // To fix java style
@@ -79,7 +85,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -99,7 +106,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -119,7 +127,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -137,7 +146,8 @@ public class ImageTest {
     String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
 
       int height = testImgPPM.getHeight();
       int[][][] rgbValues = testImgPPM.getRgbValues();
@@ -158,7 +168,8 @@ public class ImageTest {
     String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
 
       int width = testImgPPM.getWidth();
       int[][][] rgbValues = testImgPPM.getRgbValues();
@@ -179,7 +190,8 @@ public class ImageTest {
     String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
 
       int[][][] rgbValues = testImgPPM.getRgbValues();
 
@@ -196,14 +208,12 @@ public class ImageTest {
   @Test
   public void test_getRedComponent_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{255, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-        {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {255, 0, 0}, {0, 0, 0}}
-    };
+    int[][][] expectedValues = {{{255, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+        {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {255, 0, 0}, {0, 0, 0}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.getRedComponent();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -221,14 +231,12 @@ public class ImageTest {
   @Test
   public void test_getGreenComponent_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
-        {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 0, 0}, {0, 255, 0}}
-    };
+    int[][][] expectedValues = {{{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
+        {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 255, 0}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.getGreenComponent();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -246,14 +254,12 @@ public class ImageTest {
   @Test
   public void test_getBlueComponent_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{0, 0, 0}, {0, 0, 0}, {0, 0, 255}},
-        {{0, 0, 0}, {0, 0, 255}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 0, 255}, {0, 0, 255}}
-    };
+    int[][][] expectedValues = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 255}},
+        {{0, 0, 0}, {0, 0, 255}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 255}, {0, 0, 255}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.getBlueComponent();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -271,14 +277,13 @@ public class ImageTest {
   @Test
   public void test_getValueComponent_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
+    int[][][] expectedValues = {{{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
         {{255, 255, 255}, {255, 255, 255}, {0, 0, 0}},
-        {{0, 0, 0}, {255, 255, 255}, {255, 255, 255}}
-    };
+        {{0, 0, 0}, {255, 255, 255}, {255, 255, 255}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.getValueComponent();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -296,14 +301,13 @@ public class ImageTest {
   @Test
   public void test_getIntensityComponent_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{85, 85, 85}, {85, 85, 85}, {85, 85, 85}},
+    int[][][] expectedValues = {{{85, 85, 85}, {85, 85, 85}, {85, 85, 85}},
         {{170, 170, 170}, {255, 255, 255}, {0, 0, 0}},
-        {{0, 0, 0}, {170, 170, 170}, {170, 170, 170}}
-    };
+        {{0, 0, 0}, {170, 170, 170}, {170, 170, 170}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.getIntensityComponent();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -321,14 +325,12 @@ public class ImageTest {
   @Test
   public void test_getLumaComponent_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{54, 54, 54}, {182, 182, 182}, {18, 18, 18}},
-        {{237, 237, 237}, {255, 255, 255}, {0, 0, 0}},
-        {{0, 0, 0}, {73, 73, 73}, {201, 201, 201}}
-    };
+    int[][][] expectedValues = {{{54, 54, 54}, {182, 182, 182}, {18, 18, 18}},
+        {{237, 237, 237}, {255, 255, 255}, {0, 0, 0}}, {{0, 0, 0}, {73, 73, 73}, {201, 201, 201}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.getLumaComponent();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -346,14 +348,12 @@ public class ImageTest {
   @Test
   public void test_flipHorizontal_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{0, 0, 255}, {0, 255, 0}, {255, 0, 0}},
-        {{0, 0, 0}, {255, 255, 255}, {255, 255, 0}},
-        {{0, 255, 255}, {255, 0, 255}, {0, 0, 0}}
-    };
+    int[][][] expectedValues = {{{0, 0, 255}, {0, 255, 0}, {255, 0, 0}},
+        {{0, 0, 0}, {255, 255, 255}, {255, 255, 0}}, {{0, 255, 255}, {255, 0, 255}, {0, 0, 0}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.flipHorizontal();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -371,14 +371,12 @@ public class ImageTest {
   @Test
   public void test_flipVertical_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{0, 0, 0}, {255, 0, 255}, {0, 255, 255}},
-        {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}},
-        {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}}
-    };
+    int[][][] expectedValues = {{{0, 0, 0}, {255, 0, 255}, {0, 255, 255}},
+        {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}}, {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.flipVertical();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -396,14 +394,13 @@ public class ImageTest {
   @Test
   public void test_brighten_bright_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{255, 50, 50}, {50, 255, 50}, {50, 50, 255}},
+    int[][][] expectedValues = {{{255, 50, 50}, {50, 255, 50}, {50, 50, 255}},
         {{255, 255, 50}, {255, 255, 255}, {50, 50, 50}},
-        {{50, 50, 50}, {255, 50, 255}, {50, 255, 255}}
-    };
+        {{50, 50, 50}, {255, 50, 255}, {50, 255, 255}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.brighten(50);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -421,14 +418,12 @@ public class ImageTest {
   @Test
   public void test_brighten_dark_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{205, 0, 0}, {0, 205, 0}, {0, 0, 205}},
-        {{205, 205, 0}, {205, 205, 205}, {0, 0, 0}},
-        {{0, 0, 0}, {205, 0, 205}, {0, 205, 205}}
-    };
+    int[][][] expectedValues = {{{205, 0, 0}, {0, 205, 0}, {0, 0, 205}},
+        {{205, 205, 0}, {205, 205, 205}, {0, 0, 0}}, {{0, 0, 0}, {205, 0, 205}, {0, 205, 205}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.brighten(-50);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -446,26 +441,18 @@ public class ImageTest {
   @Test
   public void test_splitRGB_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] rExpectedValues = {
-        {{255, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-        {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {255, 0, 0}, {0, 0, 0}}
-    };
+    int[][][] rExpectedValues = {{{255, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+        {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {255, 0, 0}, {0, 0, 0}}};
 
-    int[][][] gExpectedValues = {
-        {{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
-        {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 0, 0}, {0, 255, 0}}
-    };
+    int[][][] gExpectedValues = {{{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
+        {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 255, 0}}};
 
-    int[][][] bExpectedValues = {
-        {{0, 0, 0}, {0, 0, 0}, {0, 0, 255}},
-        {{0, 0, 0}, {0, 0, 255}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 0, 255}, {0, 0, 255}}
-    };
+    int[][][] bExpectedValues = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 255}},
+        {{0, 0, 0}, {0, 0, 255}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 255}, {0, 0, 255}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage[] testResultImgPPM = testImgPPM.splitRGB();
 
       int[][][] rValues = testResultImgPPM[0].getRgbValues();
@@ -488,14 +475,12 @@ public class ImageTest {
   public void test_combineRGB_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
 
-    int[][][] expectedValues = {
-        {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}},
-        {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}},
-        {{0, 0, 0}, {255, 0, 255}, {0, 255, 255}}
-    };
+    int[][][] expectedValues = {{{255, 0, 0}, {0, 255, 0}, {0, 0, 255}},
+        {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}}, {{0, 0, 0}, {255, 0, 255}, {0, 255, 255}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage[] testSplitImgPPM = testImgPPM.splitRGB();
       IImage rImage = testSplitImgPPM[0];
       IImage gImage = testSplitImgPPM[1];
@@ -518,14 +503,13 @@ public class ImageTest {
   @Test
   public void test_gaussianBlur_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{112, 80, 16}, {80, 112, 64}, {16, 48, 80}},
+    int[][][] expectedValues = {{{112, 80, 16}, {80, 112, 64}, {16, 48, 80}},
         {{143, 112, 48}, {143, 143, 128}, {48, 80, 112}},
-        {{80, 48, 48}, {112, 80, 128}, {48, 80, 112}}
-    };
+        {{80, 48, 48}, {112, 80, 128}, {48, 80, 112}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.gaussianBlur();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -543,14 +527,13 @@ public class ImageTest {
   @Test
   public void test_sharpen_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{255, 255, 0}, {255, 255, 255}, {0, 255, 255}},
+    int[][][] expectedValues = {{{255, 255, 0}, {255, 255, 255}, {0, 255, 255}},
         {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
-        {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}}
-    };
+        {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.sharpen();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -568,14 +551,12 @@ public class ImageTest {
   @Test
   public void test_convertToGrayscale_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{54, 54, 54}, {182, 182, 182}, {18, 18, 18}},
-        {{237, 237, 237}, {255, 255, 255}, {0, 0, 0}},
-        {{0, 0, 0}, {73, 73, 73}, {201, 201, 201}}
-    };
+    int[][][] expectedValues = {{{54, 54, 54}, {182, 182, 182}, {18, 18, 18}},
+        {{237, 237, 237}, {255, 255, 255}, {0, 0, 0}}, {{0, 0, 0}, {73, 73, 73}, {201, 201, 201}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.convertToGrayscale();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -593,14 +574,13 @@ public class ImageTest {
   @Test
   public void test_convertToSepia_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {
-        {{100, 89, 69}, {196, 175, 136}, {48, 43, 33}},
+    int[][][] expectedValues = {{{100, 89, 69}, {196, 175, 136}, {48, 43, 33}},
         {{255, 255, 206}, {255, 255, 239}, {0, 0, 0}},
-        {{0, 0, 0}, {148, 132, 103}, {244, 218, 170}}
-    };
+        {{0, 0, 0}, {148, 132, 103}, {244, 218, 170}}};
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       IImage testResultImgPPM = testImgPPM.convertToSepia();
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
@@ -621,7 +601,8 @@ public class ImageTest {
     int expectedValues = 255;
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       int testResultPPM = testImgPPM.getValueAtPixel(0, 0, 0);
 
       assertEquals(expectedValues, testResultPPM);
@@ -640,10 +621,12 @@ public class ImageTest {
     String outputFilename = "test/unitResults/result.ppm";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
-      testImgPPM.saveToFile(outputFilename);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPPM);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -661,10 +644,12 @@ public class ImageTest {
     String outputFilename = "test/unitResults/result.png";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
-      testImgPPM.saveToFile(outputFilename);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPPM);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -682,10 +667,12 @@ public class ImageTest {
     String outputFilename = "test/unitResults/result.jpg";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
-      testImgPPM.saveToFile(outputFilename);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPPM);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -702,7 +689,8 @@ public class ImageTest {
     String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       int testResultPPM = testImgPPM.getValueAtPixel(5, 5, 5);
 
     } catch (Exception e) {
@@ -718,7 +706,8 @@ public class ImageTest {
     String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       int testResultPPM = testImgPPM.getValueAtPixel(-3, -5, -1);
 
     } catch (Exception e) {
@@ -735,10 +724,12 @@ public class ImageTest {
     String outputFilename = "res/KoalaTest/TestInvalidPath/Koala.ppm";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
-      testImgPPM.saveToFile(outputFilename);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPPM);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -756,10 +747,12 @@ public class ImageTest {
     String outputFilename = "res/KoalaTest/Koala.TestInvalidFileExtension";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
-      testImgPPM.saveToFile(outputFilename);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPPM);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -777,10 +770,12 @@ public class ImageTest {
     String outputFilename = "res/KoalaTest/Koala";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
-      testImgPPM.saveToFile(outputFilename);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPPM);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -797,7 +792,8 @@ public class ImageTest {
     String testFilePathPPM = "test/unitImages/bro.ppm";
 
     try {
-      Image testImgPPM = Image.loadImageFromFile(testFilePathPPM);
+      Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
+          .loadFromFile(testFilePathPPM);
       Image rImage = new Image(4, 3);
       Image gImage = new Image(3, 4);
       Image bImage = new Image(5, 5);
@@ -820,7 +816,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -840,7 +837,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -860,7 +858,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -880,7 +879,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -900,7 +900,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -918,7 +919,8 @@ public class ImageTest {
     String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
 
       int height = testImgPNG.getHeight();
       int[][][] rgbValues = testImgPNG.getRgbValues();
@@ -939,7 +941,8 @@ public class ImageTest {
     String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
 
       int width = testImgPNG.getWidth();
       int[][][] rgbValues = testImgPNG.getRgbValues();
@@ -960,7 +963,8 @@ public class ImageTest {
     String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
 
       int[][][] rgbValues = testImgPNG.getRgbValues();
 
@@ -977,14 +981,12 @@ public class ImageTest {
   @Test
   public void test_getRedComponent_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {255, 0, 0}, {255, 0, 0}},
-        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
-    };
+    int[][][] expectedValues = {{{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {255, 0, 0}, {255, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.getRedComponent();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1002,14 +1004,12 @@ public class ImageTest {
   @Test
   public void test_getGreenComponent_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
-        {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 0, 0}, {0, 255, 0}}
-    };
+    int[][][] expectedValues = {{{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
+        {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 255, 0}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.getGreenComponent();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1027,14 +1027,12 @@ public class ImageTest {
   @Test
   public void test_getBlueComponent_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 0, 255}, {0, 0, 255}},
-        {{0, 0, 255}, {0, 0, 0}, {0, 0, 255}}
-    };
+    int[][][] expectedValues = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {0, 0, 255}, {0, 0, 255}}, {{0, 0, 255}, {0, 0, 0}, {0, 0, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.getBlueComponent();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1052,14 +1050,13 @@ public class ImageTest {
   @Test
   public void test_getValueComponent_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{255, 255, 255}, {255, 255, 255}, {0, 0, 0}},
+    int[][][] expectedValues = {{{255, 255, 255}, {255, 255, 255}, {0, 0, 0}},
         {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
-        {{255, 255, 255}, {0, 0, 0}, {255, 255, 255}}
-    };
+        {{255, 255, 255}, {0, 0, 0}, {255, 255, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.getValueComponent();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1077,14 +1074,13 @@ public class ImageTest {
   @Test
   public void test_getIntensityComponent_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{85, 85, 85}, {170, 170, 170}, {0, 0, 0}},
+    int[][][] expectedValues = {{{85, 85, 85}, {170, 170, 170}, {0, 0, 0}},
         {{85, 85, 85}, {255, 255, 255}, {170, 170, 170}},
-        {{85, 85, 85}, {0, 0, 0}, {170, 170, 170}}
-    };
+        {{85, 85, 85}, {0, 0, 0}, {170, 170, 170}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.getIntensityComponent();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1102,14 +1098,13 @@ public class ImageTest {
   @Test
   public void test_getLumaComponent_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{54, 54, 54}, {237, 237, 237}, {0, 0, 0}},
+    int[][][] expectedValues = {{{54, 54, 54}, {237, 237, 237}, {0, 0, 0}},
         {{182, 182, 182}, {255, 255, 255}, {73, 73, 73}},
-        {{18, 18, 18}, {0, 0, 0}, {201, 201, 201}}
-    };
+        {{18, 18, 18}, {0, 0, 0}, {201, 201, 201}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.getLumaComponent();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1127,14 +1122,12 @@ public class ImageTest {
   @Test
   public void test_flipHorizontal_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{0, 0, 0}, {255, 255, 0}, {255, 0, 0}},
-        {{255, 0, 255}, {255, 255, 255}, {0, 255, 0}},
-        {{0, 255, 255}, {0, 0, 0}, {0, 0, 255}}
-    };
+    int[][][] expectedValues = {{{0, 0, 0}, {255, 255, 0}, {255, 0, 0}},
+        {{255, 0, 255}, {255, 255, 255}, {0, 255, 0}}, {{0, 255, 255}, {0, 0, 0}, {0, 0, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.flipHorizontal();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1152,14 +1145,12 @@ public class ImageTest {
   @Test
   public void test_flipVertical_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{0, 0, 255}, {0, 0, 0}, {0, 255, 255}},
-        {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}},
-        {{255, 0, 0}, {255, 255, 0}, {0, 0, 0}}
-    };
+    int[][][] expectedValues = {{{0, 0, 255}, {0, 0, 0}, {0, 255, 255}},
+        {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}}, {{255, 0, 0}, {255, 255, 0}, {0, 0, 0}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.flipVertical();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1177,14 +1168,13 @@ public class ImageTest {
   @Test
   public void test_brighten_bright_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{255, 50, 50}, {255, 255, 50}, {50, 50, 50}},
+    int[][][] expectedValues = {{{255, 50, 50}, {255, 255, 50}, {50, 50, 50}},
         {{50, 255, 50}, {255, 255, 255}, {255, 50, 255}},
-        {{50, 50, 255}, {50, 50, 50}, {50, 255, 255}}
-    };
+        {{50, 50, 255}, {50, 50, 50}, {50, 255, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.brighten(50);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1202,15 +1192,14 @@ public class ImageTest {
   @Test
   public void test_brighten_dark_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{205, 0, 0}, {205, 205, 0}, {0, 0, 0}},
-        {{0, 205, 0}, {205, 205, 205}, {205, 0, 205}},
-        {{0, 0, 205}, {0, 0, 0}, {0, 205, 205}}
+    int[][][] expectedValues = {{{205, 0, 0}, {205, 205, 0}, {0, 0, 0}},
+        {{0, 205, 0}, {205, 205, 205}, {205, 0, 205}}, {{0, 0, 205}, {0, 0, 0}, {0, 205, 205}}
 
     };
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.brighten(-50);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1228,26 +1217,18 @@ public class ImageTest {
   @Test
   public void test_splitRGB_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] rExpectedValues = {
-        {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {255, 0, 0}, {255, 0, 0}},
-        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
-    };
+    int[][][] rExpectedValues = {{{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {255, 0, 0}, {255, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
 
-    int[][][] gExpectedValues = {
-        {{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
-        {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 0, 0}, {0, 255, 0}}
-    };
+    int[][][] gExpectedValues = {{{0, 0, 0}, {0, 255, 0}, {0, 0, 0}},
+        {{0, 255, 0}, {0, 255, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 255, 0}}};
 
-    int[][][] bExpectedValues = {
-        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {0, 0, 255}, {0, 0, 255}},
-        {{0, 0, 255}, {0, 0, 0}, {0, 0, 255}}
-    };
+    int[][][] bExpectedValues = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {0, 0, 255}, {0, 0, 255}}, {{0, 0, 255}, {0, 0, 0}, {0, 0, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage[] testResultImgPNG = testImgPNG.splitRGB();
 
       int[][][] rValues = testResultImgPNG[0].getRgbValues();
@@ -1270,14 +1251,12 @@ public class ImageTest {
   public void test_combineRGB_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
 
-    int[][][] expectedValues = {
-        {{255, 0, 0}, {255, 255, 0}, {0, 0, 0}},
-        {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}},
-        {{0, 0, 255}, {0, 0, 0}, {0, 255, 255}}
-    };
+    int[][][] expectedValues = {{{255, 0, 0}, {255, 255, 0}, {0, 0, 0}},
+        {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}}, {{0, 0, 255}, {0, 0, 0}, {0, 255, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage[] testSplitImgPNG = testImgPNG.splitRGB();
       IImage rImage = testSplitImgPNG[0];
       IImage gImage = testSplitImgPNG[1];
@@ -1300,14 +1279,13 @@ public class ImageTest {
   @Test
   public void test_gaussianBlur_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{112, 80, 16}, {143, 112, 48}, {80, 48, 48}},
+    int[][][] expectedValues = {{{112, 80, 16}, {143, 112, 48}, {80, 48, 48}},
         {{80, 112, 64}, {143, 143, 128}, {112, 80, 128}},
-        {{16, 48, 80}, {48, 80, 112}, {48, 80, 112}}
-    };
+        {{16, 48, 80}, {48, 80, 112}, {48, 80, 112}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.gaussianBlur();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1325,14 +1303,13 @@ public class ImageTest {
   @Test
   public void test_sharpen_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{255, 255, 0}, {255, 255, 255}, {255, 255, 255}},
+    int[][][] expectedValues = {{{255, 255, 0}, {255, 255, 255}, {255, 255, 255}},
         {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
-        {{0, 255, 255}, {255, 255, 255}, {255, 255, 255}}
-    };
+        {{0, 255, 255}, {255, 255, 255}, {255, 255, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.sharpen();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1350,14 +1327,13 @@ public class ImageTest {
   @Test
   public void test_convertToGrayscale_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{54, 54, 54}, {237, 237, 237}, {0, 0, 0}},
+    int[][][] expectedValues = {{{54, 54, 54}, {237, 237, 237}, {0, 0, 0}},
         {{182, 182, 182}, {255, 255, 255}, {73, 73, 73}},
-        {{18, 18, 18}, {0, 0, 0}, {201, 201, 201}}
-    };
+        {{18, 18, 18}, {0, 0, 0}, {201, 201, 201}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.convertToGrayscale();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1375,14 +1351,13 @@ public class ImageTest {
   @Test
   public void test_convertToSepia_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{100, 89, 69}, {255, 255, 206}, {0, 0, 0}},
+    int[][][] expectedValues = {{{100, 89, 69}, {255, 255, 206}, {0, 0, 0}},
         {{196, 175, 136}, {255, 255, 239}, {148, 132, 103}},
-        {{48, 43, 33}, {0, 0, 0}, {244, 218, 170}}
-    };
+        {{48, 43, 33}, {0, 0, 0}, {244, 218, 170}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.convertToSepia();
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -1403,7 +1378,8 @@ public class ImageTest {
     int expectedValues = 255;
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       int testResultPNG = testImgPNG.getValueAtPixel(0, 0, 0);
 
       assertEquals(expectedValues, testResultPNG);
@@ -1422,10 +1398,12 @@ public class ImageTest {
     String outputFilename = "test/unitResults/result.png";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      testImgPNG.saveToFile(outputFilename);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPNG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -1443,10 +1421,12 @@ public class ImageTest {
     String outputFilename = "test/unitResults/result.ppm";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      testImgPNG.saveToFile(outputFilename);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPNG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -1464,10 +1444,12 @@ public class ImageTest {
     String outputFilename = "test/unitResults/result.jpg";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      testImgPNG.saveToFile(outputFilename);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPNG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -1484,7 +1466,8 @@ public class ImageTest {
     String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       int testResultPNG = testImgPNG.getValueAtPixel(5, 5, 5);
 
     } catch (Exception e) {
@@ -1500,7 +1483,8 @@ public class ImageTest {
     String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       int testResultPNG = testImgPNG.getValueAtPixel(-3, -5, -1);
 
     } catch (Exception e) {
@@ -1518,10 +1502,12 @@ public class ImageTest {
     Image testImgPNG = new Image(10, 10);
 
     try {
-      testImgPNG.saveToFile(outputFilename);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPNG);
       fail("Test Failed: Exception not thrown for invalid file path");
     } catch (FileNotFoundException e) {
       // Fix java style error
+    } catch (IOException e) {
+      // Do nothing
     }
   }
 
@@ -1534,10 +1520,12 @@ public class ImageTest {
     String outputFilename = "res/KoalaTest/Koala.TestInvalidFileExtension";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      testImgPNG.saveToFile(outputFilename);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPNG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -1555,10 +1543,12 @@ public class ImageTest {
     String outputFilename = "res/KoalaTest/Koala";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      testImgPNG.saveToFile(outputFilename);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgPNG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -1575,7 +1565,8 @@ public class ImageTest {
     String testFilePathPNG = "test/unitImages/bro.png";
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       Image rImage = new Image(4, 3);
       Image gImage = new Image(3, 4);
       Image bImage = new Image(5, 5);
@@ -1598,7 +1589,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -1618,7 +1610,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -1638,7 +1631,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -1658,7 +1652,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -1678,7 +1673,8 @@ public class ImageTest {
 
     try {
       // Load the image from the file
-      Image image = Image.loadImageFromFile(testImagePath);
+      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+          .loadFromFile(testImagePath);
 
       // Verify that the image is not null
       assertNotNull(image);
@@ -1696,7 +1692,8 @@ public class ImageTest {
     String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
 
       int height = testImgJPG.getHeight();
       int[][][] rgbValues = testImgJPG.getRgbValues();
@@ -1717,7 +1714,8 @@ public class ImageTest {
     String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
 
       int width = testImgJPG.getWidth();
       int[][][] rgbValues = testImgJPG.getRgbValues();
@@ -1738,7 +1736,8 @@ public class ImageTest {
     String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
 
       int[][][] rgbValues = testImgJPG.getRgbValues();
 
@@ -1755,14 +1754,12 @@ public class ImageTest {
   @Test
   public void test_getRedComponent_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{113, 0, 0}, {255, 0, 0}, {18, 0, 0}},
-        {{209, 0, 0}, {255, 0, 0}, {138, 0, 0}},
-        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
-    };
+    int[][][] expectedValues = {{{113, 0, 0}, {255, 0, 0}, {18, 0, 0}},
+        {{209, 0, 0}, {255, 0, 0}, {138, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.getRedComponent();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -1780,14 +1777,12 @@ public class ImageTest {
   @Test
   public void test_getGreenComponent_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{0, 47, 0}, {0, 222, 0}, {0, 0, 0}},
-        {{0, 143, 0}, {0, 224, 0}, {0, 107, 0}},
-        {{0, 28, 0}, {0, 50, 0}, {0, 225, 0}}
-    };
+    int[][][] expectedValues = {{{0, 47, 0}, {0, 222, 0}, {0, 0, 0}},
+        {{0, 143, 0}, {0, 224, 0}, {0, 107, 0}}, {{0, 28, 0}, {0, 50, 0}, {0, 225, 0}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.getGreenComponent();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -1805,14 +1800,12 @@ public class ImageTest {
   @Test
   public void test_getBlueComponent_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{0, 0, 57}, {0, 0, 232}, {0, 0, 21}},
-        {{0, 0, 153}, {0, 0, 234}, {0, 0, 141}},
-        {{0, 0, 35}, {0, 0, 57}, {0, 0, 203}}
-    };
+    int[][][] expectedValues = {{{0, 0, 57}, {0, 0, 232}, {0, 0, 21}},
+        {{0, 0, 153}, {0, 0, 234}, {0, 0, 141}}, {{0, 0, 35}, {0, 0, 57}, {0, 0, 203}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.getBlueComponent();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -1830,14 +1823,13 @@ public class ImageTest {
   @Test
   public void test_getValueComponent_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{113, 113, 113}, {255, 255, 255}, {21, 21, 21}},
+    int[][][] expectedValues = {{{113, 113, 113}, {255, 255, 255}, {21, 21, 21}},
         {{209, 209, 209}, {255, 255, 255}, {141, 141, 141}},
-        {{35, 35, 35}, {57, 57, 57}, {225, 225, 225}}
-    };
+        {{35, 35, 35}, {57, 57, 57}, {225, 225, 225}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.getValueComponent();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -1855,14 +1847,13 @@ public class ImageTest {
   @Test
   public void test_getIntensityComponent_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{72, 72, 72}, {236, 236, 236}, {13, 13, 13}},
+    int[][][] expectedValues = {{{72, 72, 72}, {236, 236, 236}, {13, 13, 13}},
         {{168, 168, 168}, {237, 237, 237}, {128, 128, 128}},
-        {{21, 21, 21}, {35, 35, 35}, {142, 142, 142}}
-    };
+        {{21, 21, 21}, {35, 35, 35}, {142, 142, 142}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.getIntensityComponent();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -1880,14 +1871,13 @@ public class ImageTest {
   @Test
   public void test_getLumaComponent_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{62, 62, 62}, {230, 230, 230}, {5, 5, 5}},
+    int[][][] expectedValues = {{{62, 62, 62}, {230, 230, 230}, {5, 5, 5}},
         {{158, 158, 158}, {231, 231, 231}, {116, 116, 116}},
-        {{23, 23, 23}, {40, 40, 40}, {176, 176, 176}}
-    };
+        {{23, 23, 23}, {40, 40, 40}, {176, 176, 176}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.getLumaComponent();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -1906,14 +1896,13 @@ public class ImageTest {
   @Test
   public void test_flipHorizontal_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{18, 0, 21}, {255, 222, 232}, {113, 47, 57}},
+    int[][][] expectedValues = {{{18, 0, 21}, {255, 222, 232}, {113, 47, 57}},
         {{138, 107, 141}, {255, 224, 234}, {209, 143, 153}},
-        {{0, 225, 203}, {0, 50, 57}, {0, 28, 35}}
-    };
+        {{0, 225, 203}, {0, 50, 57}, {0, 28, 35}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.flipHorizontal();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -1931,14 +1920,13 @@ public class ImageTest {
   @Test
   public void test_flipVertical_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{0, 28, 35}, {0, 50, 57}, {0, 225, 203}},
+    int[][][] expectedValues = {{{0, 28, 35}, {0, 50, 57}, {0, 225, 203}},
         {{209, 143, 153}, {255, 224, 234}, {138, 107, 141}},
-        {{113, 47, 57}, {255, 222, 232}, {18, 0, 21}}
-    };
+        {{113, 47, 57}, {255, 222, 232}, {18, 0, 21}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.flipVertical();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -1956,14 +1944,13 @@ public class ImageTest {
   @Test
   public void test_brighten_bright_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{163, 97, 107}, {255, 255, 255}, {68, 50, 71}},
+    int[][][] expectedValues = {{{163, 97, 107}, {255, 255, 255}, {68, 50, 71}},
         {{255, 193, 203}, {255, 255, 255}, {188, 157, 191}},
-        {{50, 78, 85}, {50, 100, 107}, {50, 255, 253}}
-    };
+        {{50, 78, 85}, {50, 100, 107}, {50, 255, 253}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.brighten(50);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -1981,15 +1968,14 @@ public class ImageTest {
   @Test
   public void test_brighten_dark_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{63, 0, 7}, {205, 172, 182}, {0, 0, 0}},
-        {{159, 93, 103}, {205, 174, 184}, {88, 57, 91}},
-        {{0, 0, 0}, {0, 0, 7}, {0, 175, 153}}
+    int[][][] expectedValues = {{{63, 0, 7}, {205, 172, 182}, {0, 0, 0}},
+        {{159, 93, 103}, {205, 174, 184}, {88, 57, 91}}, {{0, 0, 0}, {0, 0, 7}, {0, 175, 153}}
 
     };
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.brighten(-50);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -2007,26 +1993,18 @@ public class ImageTest {
   @Test
   public void test_splitRGB_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] rExpectedValues = {
-        {{113, 0, 0}, {255, 0, 0}, {18, 0, 0}},
-        {{209, 0, 0}, {255, 0, 0}, {138, 0, 0}},
-        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
-    };
+    int[][][] rExpectedValues = {{{113, 0, 0}, {255, 0, 0}, {18, 0, 0}},
+        {{209, 0, 0}, {255, 0, 0}, {138, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
 
-    int[][][] gExpectedValues = {
-        {{0, 47, 0}, {0, 222, 0}, {0, 0, 0}},
-        {{0, 143, 0}, {0, 224, 0}, {0, 107, 0}},
-        {{0, 28, 0}, {0, 50, 0}, {0, 225, 0}}
-    };
+    int[][][] gExpectedValues = {{{0, 47, 0}, {0, 222, 0}, {0, 0, 0}},
+        {{0, 143, 0}, {0, 224, 0}, {0, 107, 0}}, {{0, 28, 0}, {0, 50, 0}, {0, 225, 0}}};
 
-    int[][][] bExpectedValues = {
-        {{0, 0, 57}, {0, 0, 232}, {0, 0, 21}},
-        {{0, 0, 153}, {0, 0, 234}, {0, 0, 141}},
-        {{0, 0, 35}, {0, 0, 57}, {0, 0, 203}}
-    };
+    int[][][] bExpectedValues = {{{0, 0, 57}, {0, 0, 232}, {0, 0, 21}},
+        {{0, 0, 153}, {0, 0, 234}, {0, 0, 141}}, {{0, 0, 35}, {0, 0, 57}, {0, 0, 203}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage[] testResultImgJPG = testImgJPG.splitRGB();
 
       int[][][] rValues = testResultImgJPG[0].getRgbValues();
@@ -2049,14 +2027,13 @@ public class ImageTest {
   public void test_combineRGB_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
 
-    int[][][] expectedValues = {
-        {{113, 47, 57}, {255, 222, 232}, {18, 0, 21}},
+    int[][][] expectedValues = {{{113, 47, 57}, {255, 222, 232}, {18, 0, 21}},
         {{209, 143, 153}, {255, 224, 234}, {138, 107, 141}},
-        {{0, 28, 35}, {0, 50, 57}, {0, 225, 203}}
-    };
+        {{0, 28, 35}, {0, 50, 57}, {0, 225, 203}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage[] testSplitImgJPG = testImgJPG.splitRGB();
       IImage rImage = testSplitImgJPG[0];
       IImage gImage = testSplitImgJPG[1];
@@ -2079,14 +2056,13 @@ public class ImageTest {
   @Test
   public void test_gaussianBlur_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{102, 71, 77}, {134, 105, 115}, {70, 55, 67}},
+    int[][][] expectedValues = {{{102, 71, 77}, {134, 105, 115}, {70, 55, 67}},
         {{114, 90, 97}, {147, 140, 151}, {85, 100, 111}},
-        {{42, 45, 50}, {54, 88, 92}, {33, 90, 90}}
-    };
+        {{42, 45, 50}, {54, 88, 92}, {33, 90, 90}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.gaussianBlur();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -2104,14 +2080,13 @@ public class ImageTest {
   @Test
   public void test_sharpen_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
+    int[][][] expectedValues = {{{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
         {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
-        {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
-        {{202, 145, 152}, {255, 255, 255}, {96, 255, 255}}
-    };
+        {{202, 145, 152}, {255, 255, 255}, {96, 255, 255}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.sharpen();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -2129,14 +2104,13 @@ public class ImageTest {
   @Test
   public void test_convertToGrayscale_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{62, 62, 62}, {230, 230, 230}, {5, 5, 5}},
+    int[][][] expectedValues = {{{62, 62, 62}, {230, 230, 230}, {5, 5, 5}},
         {{158, 158, 158}, {231, 231, 231}, {116, 116, 116}},
-        {{23, 23, 23}, {40, 40, 40}, {176, 176, 176}}
-    };
+        {{23, 23, 23}, {40, 40, 40}, {176, 176, 176}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.convertToGrayscale();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -2154,14 +2128,13 @@ public class ImageTest {
   @Test
   public void test_convertToSepia_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {
-        {{91, 81, 63}, {255, 255, 218}, {11, 10, 8}},
+    int[][][] expectedValues = {{{91, 81, 63}, {255, 255, 218}, {11, 10, 8}},
         {{221, 197, 153}, {255, 255, 220}, {163, 145, 113}},
-        {{28, 25, 20}, {49, 44, 34}, {211, 188, 147}}
-    };
+        {{28, 25, 20}, {49, 44, 34}, {211, 188, 147}}};
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       IImage testResultImgJPG = testImgJPG.convertToSepia();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
@@ -2182,7 +2155,8 @@ public class ImageTest {
     int expectedValues = 113;
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       int testResultJPG = testImgJPG.getValueAtPixel(0, 0, 0);
 
       assertEquals(expectedValues, testResultJPG);
@@ -2201,10 +2175,12 @@ public class ImageTest {
     String outputFilename = "test/unitResults/result.jpg";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
-      testImgJPG.saveToFile(outputFilename);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgJPG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -2222,10 +2198,12 @@ public class ImageTest {
     String outputFilename = "test/unitResults/result.ppm";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
-      testImgJPG.saveToFile(outputFilename);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgJPG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -2243,10 +2221,12 @@ public class ImageTest {
     String outputFilename = "test/unitResults/result.png";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
-      testImgJPG.saveToFile(outputFilename);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgJPG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -2263,7 +2243,8 @@ public class ImageTest {
     String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       int testResultJPG = testImgJPG.getValueAtPixel(5, 5, 5);
 
     } catch (Exception e) {
@@ -2279,7 +2260,8 @@ public class ImageTest {
     String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       int testResultJPG = testImgJPG.getValueAtPixel(-3, -5, -1);
 
     } catch (Exception e) {
@@ -2296,10 +2278,12 @@ public class ImageTest {
     String outputFilename = "res/KoalaTest/TestInvalidPath/Koala.jpg";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
-      testImgJPG.saveToFile(outputFilename);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgJPG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
       fail("Test Failed: Exception not thrown for invalid filePath");
     } catch (IOException e) {
       // Fix java style error
@@ -2315,10 +2299,12 @@ public class ImageTest {
     String outputFilename = "res/KoalaTest/Koala.TestInvalidFileExtension";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
-      testImgJPG.saveToFile(outputFilename);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgJPG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -2336,10 +2322,12 @@ public class ImageTest {
     String outputFilename = "res/KoalaTest/Koala";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
-      testImgJPG.saveToFile(outputFilename);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
+      imageFileIOFactory.getImageParser(outputFilename).saveToFile(outputFilename, testImgJPG);
 
-      Image image = Image.loadImageFromFile(outputFilename);
+      Image image = (Image) imageFileIOFactory.getImageParser(outputFilename)
+          .loadFromFile(outputFilename);
 
       assertNotNull(image);
 
@@ -2356,7 +2344,8 @@ public class ImageTest {
     String testFilePathJPG = "test/unitImages/bro.jpg";
 
     try {
-      Image testImgJPG = Image.loadImageFromFile(testFilePathJPG);
+      Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
+          .loadFromFile(testFilePathJPG);
       Image rImage = new Image(4, 3);
       Image gImage = new Image(3, 4);
       Image bImage = new Image(5, 5);
@@ -2372,14 +2361,12 @@ public class ImageTest {
   @Test
   public void test_gaussianBlur_Split50() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{112, 80, 16}, {255, 255, 0}, {0, 0, 0}},
-        {{80, 112, 64}, {255, 255, 255}, {255, 0, 255}},
-        {{16, 48, 80}, {0, 0, 0}, {0, 255, 255}}
-    };
+    int[][][] expectedValues = {{{112, 80, 16}, {255, 255, 0}, {0, 0, 0}},
+        {{80, 112, 64}, {255, 255, 255}, {255, 0, 255}}, {{16, 48, 80}, {0, 0, 0}, {0, 255, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.gaussianBlur().splitView(testImgPNG, 50);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -2393,14 +2380,13 @@ public class ImageTest {
   @Test
   public void test_sharpen_Split50() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{255, 255, 0}, {255, 255, 0}, {0, 0, 0}},
+    int[][][] expectedValues = {{{255, 255, 0}, {255, 255, 0}, {0, 0, 0}},
         {{255, 255, 255}, {255, 255, 255}, {255, 0, 255}},
-        {{0, 255, 255}, {0, 0, 0}, {0, 255, 255}}
-    };
+        {{0, 255, 255}, {0, 0, 0}, {0, 255, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.sharpen().splitView(testImgPNG, 50);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -2415,14 +2401,13 @@ public class ImageTest {
   @Test
   public void test_convertToSepia_Split50() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{100, 89, 69}, {255, 255, 0}, {0, 0, 0}},
+    int[][][] expectedValues = {{{100, 89, 69}, {255, 255, 0}, {0, 0, 0}},
         {{196, 175, 136}, {255, 255, 255}, {255, 0, 255}},
-        {{48, 43, 33}, {0, 0, 0}, {0, 255, 255}}
-    };
+        {{48, 43, 33}, {0, 0, 0}, {0, 255, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.convertToSepia().splitView(testImgPNG, 50);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -2437,14 +2422,13 @@ public class ImageTest {
   @Test
   public void test_getLumaComponent_Split50() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{54, 54, 54}, {255, 255, 0}, {0, 0, 0}},
+    int[][][] expectedValues = {{{54, 54, 54}, {255, 255, 0}, {0, 0, 0}},
         {{182, 182, 182}, {255, 255, 255}, {255, 0, 255}},
-        {{18, 18, 18}, {0, 0, 0}, {0, 255, 255}}
-    };
+        {{18, 18, 18}, {0, 0, 0}, {0, 255, 255}}};
 
     try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+      Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
+          .loadFromFile(testFilePathPNG);
       IImage testResultImgPNG = testImgPNG.getLumaComponent().splitView(testImgPNG, 50);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
@@ -2458,21 +2442,13 @@ public class ImageTest {
 
   @Test
   public void test_SplitView_Isolation() {
-    int[][][] otherImage = {
-        {{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
-        {{0, 0, 0}, {255, 0, 0}, {255, 0, 0}},
-        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
-    };
-    int[][][] thisImage = {
-        {{54, 54, 54}, {255, 255, 0}, {0, 0, 0}},
+    int[][][] otherImage = {{{255, 0, 0}, {255, 0, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {255, 0, 0}, {255, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
+    int[][][] thisImage = {{{54, 54, 54}, {255, 255, 0}, {0, 0, 0}},
         {{182, 182, 182}, {255, 255, 255}, {255, 0, 255}},
-        {{18, 18, 18}, {0, 0, 0}, {0, 255, 255}}
-    };
-    int[][][] expectedValues = {
-        {{54, 54, 54}, {255, 0, 0}, {0, 0, 0}},
-        {{182, 182, 182}, {255, 0, 0}, {255, 0, 0}},
-        {{18, 18, 18}, {0, 0, 0}, {0, 0, 0}}
-    };
+        {{18, 18, 18}, {0, 0, 0}, {0, 255, 255}}};
+    int[][][] expectedValues = {{{54, 54, 54}, {255, 0, 0}, {0, 0, 0}},
+        {{182, 182, 182}, {255, 0, 0}, {255, 0, 0}}, {{18, 18, 18}, {0, 0, 0}, {0, 0, 0}}};
 
     try {
       Image thisImageObj = new Image(thisImage, 3, 3);
