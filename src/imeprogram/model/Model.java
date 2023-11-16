@@ -200,38 +200,6 @@ public class Model implements IModel {
   }
 
   @Override
-  public void blur(String sourceImageName, String destImageName, int splitWidth)
-      throws ImageNotFoundException, InvalidImageNameException {
-    IImage sourceImg = getImageFromMemory(sourceImageName);
-
-    saveImageToMemory(sourceImg.gaussianBlur(splitWidth), destImageName);
-  }
-
-  @Override
-  public void sharpen(String sourceImageName, String destImageName, int splitWidth)
-      throws ImageNotFoundException, InvalidImageNameException {
-    IImage sourceImg = getImageFromMemory(sourceImageName);
-
-    saveImageToMemory(sourceImg.sharpen(splitWidth), destImageName);
-  }
-
-  @Override
-  public void sepia(String sourceImageName, String destImageName, int splitWidth)
-      throws ImageNotFoundException, InvalidImageNameException {
-    IImage sourceImg = getImageFromMemory(sourceImageName);
-
-    saveImageToMemory(sourceImg.convertToSepia(splitWidth), destImageName);
-  }
-
-  @Override
-  public void lumaComponent(String sourceImageName, String destImageName, int splitWidth)
-      throws ImageNotFoundException, InvalidImageNameException {
-    IImage sourceImg = getImageFromMemory(sourceImageName);
-
-    saveImageToMemory(sourceImg.getLumaComponent(splitWidth), destImageName);
-  }
-
-  @Override
   public void histogram(String sourceImageName, String destImageName)
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);

@@ -164,7 +164,7 @@ public class Controller implements IController {
     try {
       if (args.length == 4) {
         int splitWidth = Integer.parseInt(args[3]);
-        model.lumaComponent(sourceImage, destImage, splitWidth);
+        //model.lumaComponent(sourceImage, destImage, splitWidth);
       } else {
         model.lumaComponent(sourceImage, destImage);
       }
@@ -301,7 +301,7 @@ public class Controller implements IController {
     try {
       if (args.length == 4) {
         int splitWidth = Integer.parseInt(args[3]);
-        model.blur(sourceImage, destImage, splitWidth);
+        //model.blur(sourceImage, destImage, splitWidth);
       } else {
         model.blur(sourceImage, destImage);
       }
@@ -328,7 +328,7 @@ public class Controller implements IController {
     try {
       if (args.length == 4) {
         int splitWidth = Integer.parseInt(args[3]);
-        model.sharpen(sourceImage, destImage, splitWidth);
+        //model.sharpen(sourceImage, destImage, splitWidth);
       } else {
         model.sharpen(sourceImage, destImage);
       }
@@ -355,7 +355,7 @@ public class Controller implements IController {
     try {
       if (args.length == 4) {
         int splitWidth = Integer.parseInt(args[3]);
-        model.sepia(sourceImage, destImage, splitWidth);
+        //model.sepia(sourceImage, destImage, splitWidth);
       } else {
         model.sepia(sourceImage, destImage);
       }

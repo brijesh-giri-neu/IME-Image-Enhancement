@@ -2369,92 +2369,92 @@ public class ImageTest {
     }
   }
 
-  @Test
-  public void test_gaussianBlur_Split50() {
-    String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{112, 80, 16}, {255, 255, 0}, {0, 0, 0}},
-        {{80, 112, 64}, {255, 255, 255}, {255, 0, 255}},
-        {{16, 48, 80}, {0, 0, 0}, {0, 255, 255}}
-    };
-
-    try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.gaussianBlur(50);
-
-      int[][][] rgbValues = testResultImgPNG.getRgbValues();
-
-      assertArrayEquals(expectedValues, rgbValues);
-    } catch (Exception e) {
-      fail("Exception occurred: " + e.getMessage());
-    }
-  }
-
-  @Test
-  public void test_sharpen_Split50() {
-    String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{255, 255, 0}, {255, 255, 0}, {0, 0, 0}},
-        {{255, 255, 255}, {255, 255, 255}, {255, 0, 255}},
-        {{0, 255, 255}, {0, 0, 0}, {0, 255, 255}}
-    };
-
-    try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.sharpen(50);
-
-      int[][][] rgbValues = testResultImgPNG.getRgbValues();
-
-      assertArrayEquals(expectedValues, rgbValues);
-
-    } catch (Exception e) {
-      fail("Exception occurred: " + e.getMessage());
-    }
-  }
-
-  @Test
-  public void test_convertToSepia_Split50() {
-    String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{100, 89, 69}, {255, 255, 0}, {0, 0, 0}},
-        {{196, 175, 136}, {255, 255, 255}, {255, 0, 255}},
-        {{48, 43, 33}, {0, 0, 0}, {0, 255, 255}}
-    };
-
-    try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.convertToSepia(50);
-
-      int[][][] rgbValues = testResultImgPNG.getRgbValues();
-
-      assertArrayEquals(expectedValues, rgbValues);
-
-    } catch (Exception e) {
-      fail("Exception occurred: " + e.getMessage());
-    }
-  }
-
-  @Test
-  public void test_getLumaComponent_Split50() {
-    String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {
-        {{54, 54, 54}, {255, 255, 0}, {0, 0, 0}},
-        {{182, 182, 182}, {255, 255, 255}, {255, 0, 255}},
-        {{18, 18, 18}, {0, 0, 0}, {0, 255, 255}}
-    };
-
-    try {
-      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.getLumaComponent(50);
-
-      int[][][] rgbValues = testResultImgPNG.getRgbValues();
-
-      assertArrayEquals(expectedValues, rgbValues);
-
-    } catch (Exception e) {
-      fail("Exception occurred: " + e.getMessage());
-    }
-  }
+  //  @Test
+  //  public void test_gaussianBlur_Split50() {
+  //    String testFilePathPNG = "test/unitImages/bro.png";
+  //    int[][][] expectedValues = {
+  //        {{112, 80, 16}, {255, 255, 0}, {0, 0, 0}},
+  //        {{80, 112, 64}, {255, 255, 255}, {255, 0, 255}},
+  //        {{16, 48, 80}, {0, 0, 0}, {0, 255, 255}}
+  //    };
+  //
+  //    try {
+  //      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+  //      IImage testResultImgPNG = testImgPNG.gaussianBlur(50);
+  //
+  //      int[][][] rgbValues = testResultImgPNG.getRgbValues();
+  //
+  //      assertArrayEquals(expectedValues, rgbValues);
+  //    } catch (Exception e) {
+  //      fail("Exception occurred: " + e.getMessage());
+  //    }
+  //  }
+  //
+  //  @Test
+  //  public void test_sharpen_Split50() {
+  //    String testFilePathPNG = "test/unitImages/bro.png";
+  //    int[][][] expectedValues = {
+  //        {{255, 255, 0}, {255, 255, 0}, {0, 0, 0}},
+  //        {{255, 255, 255}, {255, 255, 255}, {255, 0, 255}},
+  //        {{0, 255, 255}, {0, 0, 0}, {0, 255, 255}}
+  //    };
+  //
+  //    try {
+  //      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+  //      IImage testResultImgPNG = testImgPNG.sharpen(50);
+  //
+  //      int[][][] rgbValues = testResultImgPNG.getRgbValues();
+  //
+  //      assertArrayEquals(expectedValues, rgbValues);
+  //
+  //    } catch (Exception e) {
+  //      fail("Exception occurred: " + e.getMessage());
+  //    }
+  //  }
+  //
+  //  @Test
+  //  public void test_convertToSepia_Split50() {
+  //    String testFilePathPNG = "test/unitImages/bro.png";
+  //    int[][][] expectedValues = {
+  //        {{100, 89, 69}, {255, 255, 0}, {0, 0, 0}},
+  //        {{196, 175, 136}, {255, 255, 255}, {255, 0, 255}},
+  //        {{48, 43, 33}, {0, 0, 0}, {0, 255, 255}}
+  //    };
+  //
+  //    try {
+  //      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+  //      IImage testResultImgPNG = testImgPNG.convertToSepia(50);
+  //
+  //      int[][][] rgbValues = testResultImgPNG.getRgbValues();
+  //
+  //      assertArrayEquals(expectedValues, rgbValues);
+  //
+  //    } catch (Exception e) {
+  //      fail("Exception occurred: " + e.getMessage());
+  //    }
+  //  }
+  //
+  //  @Test
+  //  public void test_getLumaComponent_Split50() {
+  //    String testFilePathPNG = "test/unitImages/bro.png";
+  //    int[][][] expectedValues = {
+  //        {{54, 54, 54}, {255, 255, 0}, {0, 0, 0}},
+  //        {{182, 182, 182}, {255, 255, 255}, {255, 0, 255}},
+  //        {{18, 18, 18}, {0, 0, 0}, {0, 255, 255}}
+  //    };
+  //
+  //    try {
+  //      Image testImgPNG = Image.loadImageFromFile(testFilePathPNG);
+  //      IImage testResultImgPNG = testImgPNG.getLumaComponent(50);
+  //
+  //      int[][][] rgbValues = testResultImgPNG.getRgbValues();
+  //
+  //      assertArrayEquals(expectedValues, rgbValues);
+  //
+  //    } catch (Exception e) {
+  //      fail("Exception occurred: " + e.getMessage());
+  //    }
+  //  }
 }
 
 

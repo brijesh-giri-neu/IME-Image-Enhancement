@@ -406,48 +406,11 @@ public class Image implements IImage {
   }
 
   @Override
-  public IImage gaussianBlur(int splitWidth) {
-    int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
-
-    Window portionToOperate = new Window(0, this.height, 0, splitHorizontalPosition);
-    int[][][] blurredImage = _gaussianBlur(portionToOperate);
-
-    return new Image(blurredImage, width, height);
-  }
-
-  @Override
   public IImage sharpen() {
     Window portionToOperate = new Window(0, this.height, 0, this.width);
     int[][][] sharpenedImage = _sharpen(portionToOperate);
 
     return new Image(sharpenedImage, width, height);
-  }
-
-  @Override
-  public IImage sharpen(int splitWidth) {
-    int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
-
-    Window portionToOperate = new Window(0, this.height, 0, splitHorizontalPosition);
-    int[][][] sharpenedImage = _sharpen(portionToOperate);
-    return new Image(sharpenedImage, width, height);
-  }
-
-  @Override
-  public IImage convertToSepia(int splitWidth) {
-    int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
-
-    Window clipWindow = new Window(0, this.height, 0, splitHorizontalPosition);
-    int[][][] sepiaValues = _convertToSepia(clipWindow);
-    return new Image(sepiaValues, width, height);
-  }
-
-  @Override
-  public IImage getLumaComponent(int splitWidth) {
-    int splitHorizontalPosition = _getSplitPosition(this.width, splitWidth);
-
-    Window clipWindow = new Window(0, this.height, 0, splitHorizontalPosition);
-    int[][][] lumaValues = _getLumaComponent(clipWindow);
-    return new Image(lumaValues, width, height);
   }
 
   @Override
