@@ -164,9 +164,10 @@ public interface IImage {
   /**
    * Returns a 256x256 line graph representing the normalized histogram of this IImage.
    *
+   * @param graph the graphics used to draw the histogram.
    * @return a 256x256 line graph representing the normalized histogram of this IImage.
    */
-  IImage getHistogram();
+  IImage getHistogram(ILineGraph graph);
 
   /**
    * Color corrects an Image by aligning the meaningful peaks of its histogram. The corrected peak

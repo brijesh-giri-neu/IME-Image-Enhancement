@@ -200,11 +200,11 @@ public class Model implements IModel {
   }
 
   @Override
-  public void histogram(String sourceImageName, String destImageName)
+  public void histogram(String sourceImageName, String destImageName, ILineGraph graph)
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.getHistogram(), destImageName);
+    saveImageToMemory(sourceImg.getHistogram(graph), destImageName);
   }
 
   @Override

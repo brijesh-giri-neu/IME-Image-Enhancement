@@ -235,7 +235,7 @@ public interface IModel {
    * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
    *                                   an image in the application.
    */
-  void histogram(String sourceImageName, String destImageName)
+  void histogram(String sourceImageName, String destImageName, ILineGraph graph)
       throws ImageNotFoundException, InvalidImageNameException;
 
   /**

@@ -2,7 +2,6 @@ package imeprogram.model;
 
 import imeprogram.exceptions.FileFormatException;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -486,63 +485,15 @@ public class Image implements IImage {
   }
 
   @Override
-  public IImage getHistogram() {
+  public IImage getHistogram(ILineGraph graph) {
     int histogramHeight = this.bitDepth;
     int histogramWidth = this.bitDepth;
     int[][] histogramData = _getHistogram();
-    int[][][] histImageValues = new int[histogramHeight][histogramWidth][this.numChannels];
 
-    int topMargin = 1;
     // Normalize the histogram. Scale its height to 256.
-    histogramData = _normalizeHistogram(histogramData, histogramHeight - (topMargin));
-
-    // Create a BufferedImage object to draw the line graph
-    BufferedImage histImage = new BufferedImage(histogramWidth, histogramHeight,
-        BufferedImage.TYPE_INT_RGB);
-    Graphics2D g2d = histImage.createGraphics();
-    // Fill the background with white color
-    g2d.setColor(Color.WHITE);
-    g2d.fillRect(0, 0, histogramWidth, histogramHeight);
-    // Set grid line colors. Light grey with transparency.
-    g2d.setColor(new Color(192, 192, 192, 95));
-    // Draw vertical grid lines
-    int numVerticalLines = 10;
-    for (int i = 1; i <= numVerticalLines; i++) {
-      int x = i * (histogramWidth / numVerticalLines);
-      g2d.drawLine(x, 0, x, histogramHeight);
-    }
-    // Draw horizontal grid lines
-    int numHorizontalLines = 10;
-    for (int i = 1; i < numHorizontalLines; i++) {
-      int y = i * (histogramHeight / numHorizontalLines);
-      g2d.drawLine(0, y, histogramWidth, y);
-    }
-    // Set histogram line colors
-    Color[] lineColors = {Color.RED, Color.GREEN, Color.BLUE};
-    // Draw the actual histogram
-    // Draw a line from each point from 0 to 254. Last line is from 254 to 255.
-    for (int i = 0; i < this.bitDepth - 1; i++) {
-      // Horizontal position of line
-      int x1 = i;
-      int x2 = (i + 1);
-      for (int c = 0; c < this.numChannels; c++) {
-        // Draw the line based on channel frequency
-        int y1 = histogramHeight - topMargin - histogramData[i][c];
-        int y2 = histogramHeight - topMargin - histogramData[i + 1][c];
-        g2d.setColor(lineColors[c % lineColors.length]); // Sets color based on channel loop
-        g2d.drawLine(x1, y1, x2, y2);
-      }
-    }
-    // Convert BufferedImage to IImage
-    for (int x = 0; x < histogramHeight; x++) {
-      for (int y = 0; y < histogramWidth; y++) {
-        Color pixel = new Color(histImage.getRGB(y, x));
-        histImageValues[x][y][0] = pixel.getRed();   // Red
-        histImageValues[x][y][1] = pixel.getGreen(); // Green
-        histImageValues[x][y][2] = pixel.getBlue();  // Blue
-      }
-    }
-    return new Image(histImageValues, histogramWidth, histogramHeight);
+    int topMarginNormalize = 1;
+    histogramData = _normalizeHistogram(histogramData, histogramHeight - (topMarginNormalize));
+    return graph.drawLineGraph(histogramData, histogramHeight, histogramWidth);
   }
 
   @Override

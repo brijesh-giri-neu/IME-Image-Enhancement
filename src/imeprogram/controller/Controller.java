@@ -4,6 +4,7 @@ import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
 import imeprogram.model.IModel;
+import imeprogram.model.LineGraph2D;
 import imeprogram.view.IView;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -426,7 +427,7 @@ public class Controller implements IController {
     String sourceImage = args[0];
     String destImage = args[1];
     try {
-      model.histogram(sourceImage, destImage);
+      model.histogram(sourceImage, destImage, new LineGraph2D());
       view.success();
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));

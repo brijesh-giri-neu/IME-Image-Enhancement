@@ -6,6 +6,7 @@ import imeprogram.controller.IController;
 import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
+import imeprogram.model.ILineGraph;
 import imeprogram.model.IModel;
 import imeprogram.view.IView;
 import java.io.ByteArrayInputStream;
@@ -1176,10 +1177,10 @@ public class ControllerTest {
     }
 
     @Override
-    public void histogram(String sourceImageName, String destImageName)
+    public void histogram(String sourceImageName, String destImageName, ILineGraph graph)
         throws ImageNotFoundException, InvalidImageNameException {
       checkExceptions();
-      logInputs(new String[]{sourceImageName, destImageName});
+      logInputs(new String[]{sourceImageName, destImageName, graph.toString()});
     }
 
     @Override
