@@ -381,6 +381,9 @@ public class Image implements IImage {
     if (this.width != other.getWidth() || this.height != other.getHeight()) {
       throw new IllegalArgumentException("Dimensions of given images dont match");
     }
+    if (splitRatio < 0 || splitRatio > 100) {
+      throw new IllegalArgumentException("Invalid split Ratio");
+    }
 
     int[][][] splitValues = new int[this.height][this.width][this.numChannels];
     int splitHorizontalPosition = _getSplitPosition(this.width, splitRatio);

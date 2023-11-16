@@ -515,6 +515,8 @@ public class Controller implements IController {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
     } catch (InvalidImageNameException e) {
       view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    } catch (IllegalArgumentException e) {
+      view.print("Given Split ratio argument is invalid");
     }
   }
 
@@ -543,6 +545,8 @@ public class Controller implements IController {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
     } catch (InvalidImageNameException e) {
       view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    } catch (IllegalArgumentException e) {
+      view.print("Given Split ratio argument is invalid");
     }
   }
 

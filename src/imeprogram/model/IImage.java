@@ -207,7 +207,7 @@ public interface IImage {
    * @return an IImage that contains this image in its left portion and the other image in its right
    *     portion.
    * @throws IllegalArgumentException If the dimensions of this image and the other image don't
-   *                                  match.
+   *                                  match. Or if the splitRatio is invalid (<0 or >100).
    */
   IImage splitView(IImage other, int splitRatio) throws IllegalArgumentException;
 }
