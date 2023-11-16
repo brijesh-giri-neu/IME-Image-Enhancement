@@ -2967,6 +2967,29 @@ public class ImageTest {
 
   }
 
+//  /**
+//   * Tests the getHistogram method for
+//   * Dimension validity
+//   */
+//  @Test
+//  public void test_Histogram_Dimensions() {
+//    String testFilePath = "test/unitImages/bro.png";
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage testResultImg = testImg.getHistogram();
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      assertEquals(256, testResultImg.getHeight() );
+//      assertEquals(256, testResultImg.getWidth() );
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+
 }
 
 
