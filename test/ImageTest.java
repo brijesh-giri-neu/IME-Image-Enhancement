@@ -2546,7 +2546,7 @@ public class ImageTest {
       IImage testResultImg = testImg.haarCompress(60);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
-      
+
       // Check dimensions of the arrays
       for (int i = 0; i < expectedValues.length; i++) {
         for (int j = 0; j < expectedValues[i].length; j++) {

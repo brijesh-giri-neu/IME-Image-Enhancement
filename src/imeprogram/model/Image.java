@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -763,9 +762,6 @@ public class Image implements IImage {
   }
 
   private double[][][] compress(double[][][] rgbValues, double compressionRatio) {
-    int s = rgbValues[0].length;
-    int totalSize = rgbValues.length * rgbValues[0].length * rgbValues[0][0].length;
-
     // Create a set of all absolute values in the rgbValues array
     Set<Double> allValuesSet = new HashSet<>();
     for (double[][] channel : rgbValues) {
@@ -790,21 +786,18 @@ public class Image implements IImage {
     // Get the threshold value
     double threshold = allValuesList.get(thresholdIndex);
 
-    int nonZeroCount = 0;
+
     for (double[][] channel : rgbValues) {
       for (double[] row : channel) {
         for (int i = 0; i < row.length; i++) {
           if (Math.abs(row[i]) < threshold) {
             row[i] = 0;
-          } else {
-            nonZeroCount++;
           }
         }
       }
     }
 
-    double[][][] i = invhaar3D(rgbValues);
-    return i;
+    return invhaar3D(rgbValues);
   }
 
   private double[][][] unPad(double[][][] array, int[] originalDimensions) {
@@ -816,9 +809,7 @@ public class Image implements IImage {
 
     for (int x = 0; x < originalX ; x++) {
       for (int y = 0; y < originalY ; y++) {
-        for (int z = 0; z < originalZ ; z++) {
-          newArray[x][y][z] = array[x][y][z];
-        }
+        System.arraycopy(array[x][y], 0, newArray[x][y], 0, originalZ);
       }
     }
 
