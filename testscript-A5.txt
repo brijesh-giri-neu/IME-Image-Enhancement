@@ -1,34 +1,42 @@
 #load a png image file 
-load Image.png resImage3
+load Image.png resImage
 
 # blur
-blur resImage3 blurredImage1 split 50
+blur resImage blurredImage1 split 50
 blur blurredImage1 blurredImage2 split 50
 blur blurredImage2 blurredImage3 split 50
 save res/A5/blur-3times-Split50-Image.jpg blurredImage3
 
 # sharpen
-sharpen resImage3 resImageSharpen split 50
+sharpen resImage resImageSharpen split 50
 save res/A5/sharpen-1time-Split50-Image.jpg resImageSharpen
 
 # sepia
-sepia resImage3 resImageSepia split 50
+sepia resImage resImageSepia split 50
 save res/A5/sepia-Split50-Image.jpg resImageSepia
 
 # Get luma-component - Grayscale command
-luma-component resImage3 lumaResImage split 50
+luma-component resImage lumaResImage split 50
 save res/A5/luma-Split50-Image.jpg lumaResImage
 
 # Generate histogram of original Image
-histogram resImage3 histResImage3
-save res/A5/histogram-Image.jpg histResImage3
+histogram resImage histResImage
+save res/A5/histogram-Image.png histResImage
 
 # Color correct 
-color-correct resImage3 colorCorrectResImage
+color-correct resImage colorCorrectResImage
 save res/A5/colorCorrect-Image.jpg colorCorrectResImage
 
 # Generate histogram of color corrected Image
 histogram colorCorrectResImage histcolorCorrectResImage
-save res/A5/histogram-colorCorrect-Image.jpg histcolorCorrectResImage
+save res/A5/histogram-colorCorrect-Image.png histcolorCorrectResImage
+
+# Levels adjust
+levels-adjust 20 100 255 resImage levelsAdjustedResImage
+save res/A5/levelsAdjust-Image.jpg levelsAdjustedResImage
+
+# Generate histogram of levels adjusted Image
+histogram levelsAdjustedResImage histlevelsAdjustedResImage
+save res/A5/histogram-levelsAdjust-Image.png histlevelsAdjustedResImage
 
 
