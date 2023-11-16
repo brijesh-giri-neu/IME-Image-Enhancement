@@ -158,4 +158,14 @@ public interface IImage {
    * @return the RGBvalues array of the Image.
    */
   int[][][] getRgbValues();
+
+  /**
+   * Applies the haar transform to the image
+   * and compresses it.
+   *
+   * @param ratio the compression percentage.
+   * @return a new IImage with the haar transform applied.
+   */
+  IImage compressAndSave(int ratio);
+
 }

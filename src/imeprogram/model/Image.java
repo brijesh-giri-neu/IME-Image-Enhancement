@@ -634,7 +634,7 @@ public class Image implements IImage {
 
 
 
-  public static double[] T(double[] s) {
+  private double[] haar1D(double[] s) {
     int n = s.length;
     double[] avg = new double[n/2];
     double[] diff = new double[n/2];
@@ -649,7 +649,7 @@ public class Image implements IImage {
     return s;
   }
 
-  public static double[] I(double[] s) {
+  private double[] invhaar1D(double[] s) {
     int n = s.length;
     double[] avg = new double[n/2];
     double[] diff = new double[n/2];
@@ -664,11 +664,11 @@ public class Image implements IImage {
     return s;
   }
 
-  public static double[][] haar(double[][] X, int s) {
+  private double[][] haar2D(double[][] X, int s) {
     int c = s;
     while (c > 1) {
       for (int i = 0; i < c; i++) {
-        X[i] = T(X[i]);
+        X[i] = haar1D(X[i]);
       }
 
       for (int j = 0; j < c; j++) {
@@ -676,7 +676,7 @@ public class Image implements IImage {
         for (int i = 0; i < c; i++) {
           col[i] = X[i][j];
         }
-        col = T(col);
+        col = haar1D(col);
         for (int i = 0; i < c; i++) {
           X[i][j] = col[i];
         }
@@ -686,7 +686,7 @@ public class Image implements IImage {
     return X;
   }
 
-  public static double[][] invhaar(double[][] X, int s) {
+  private double[][] invhaar2D(double[][] X, int s) {
     int c = 2;
     while (c <= s) {
       for (int j = 0; j < c; j++) {
@@ -694,20 +694,20 @@ public class Image implements IImage {
         for (int i = 0; i < c; i++) {
           col[i] = X[i][j];
         }
-        col = I(col);
+        col = invhaar1D(col);
         for (int i = 0; i < c; i++) {
           X[i][j] = col[i];
         }
       }
       for (int i = 0; i < c; i++) {
-        X[i] = I(X[i]);
+        X[i] = invhaar1D(X[i]);
       }
       c *= 2;
     }
     return X;
   }
 
-  public static double[][][] haar3DPadded(double[][][] X) {
+  private double[][][] haar3D(double[][][] X) {
     int height = X.length;
     int width = X[0].length;
     int values = X[0][0].length;
@@ -723,7 +723,7 @@ public class Image implements IImage {
         }
       }
 
-      channel = haar(channel, s);
+      channel = haar2D(channel, s);
       for (int i = 0; i < channel.length; i++) {
         for (int j = 0; j < channel[i].length; j++) {
           Y[i][j][v] = channel[i][j];
@@ -733,7 +733,7 @@ public class Image implements IImage {
     return Y;
   }
 
-  public static double[][][] invhaar3DPadded(double[][][] X) {
+  private double[][][] invhaar3D(double[][][] X) {
     int s = X.length;
     int values = X[0][0].length;
     double[][][] Y = new double[s][s][values];
@@ -744,7 +744,7 @@ public class Image implements IImage {
           channel[i][j] = X[i][j][v];
         }
       }
-      channel = invhaar(channel, s);
+      channel = invhaar2D(channel, s);
       for (int i = 0; i < s; i++) {
         for (int j = 0; j < s; j++) {
           Y[i][j][v] = channel[i][j];
@@ -754,7 +754,7 @@ public class Image implements IImage {
     return Y;
   }
 
-  private static int nextPowerOfTwo(int n) {
+  private int nextPowerOfTwo(int n) {
     int power = 1;
     while (power < n) {
       power *= 2;
@@ -762,7 +762,7 @@ public class Image implements IImage {
     return power;
   }
 
-  public static double[][][] compress(double[][][] rgbValues, double compressionRatio) {
+  private double[][][] compress(double[][][] rgbValues, double compressionRatio) {
     int s = rgbValues[0].length;
     int totalSize = rgbValues.length * rgbValues[0].length * rgbValues[0][0].length;
 
@@ -799,11 +799,11 @@ public class Image implements IImage {
       }
     }
 
-    double[][][] i = invhaar3DPadded(rgbValues);
+    double[][][] i = invhaar3D(rgbValues);
     return i;
   }
 
-  public static double[][][] unPad(double[][][] array, int[] originalDimensions) {
+  private double[][][] unPad(double[][][] array, int[] originalDimensions) {
     int originalX = originalDimensions[0];
     int originalY = originalDimensions[1];
     int originalZ = originalDimensions[2];
@@ -821,38 +821,40 @@ public class Image implements IImage {
     return newArray;
   }
 
-  public IImage compressAndSave(int[][][] rgbValues, int ratio, String filename) {
-    int height = rgbValues.length;
-    int width = rgbValues[0].length;
-    int values = rgbValues[0][0].length;
+  public IImage compressAndSave(int ratio) {
+    int height = this.rgbValues.length;
+    int width = this.rgbValues[0].length;
+    int values = this.rgbValues[0][0].length;
     int[] dimensions = new int[3];
     dimensions[0] = height;
     dimensions[1] = width;
     dimensions[2] = values;
 
     double[][][] rgbValuesDouble = new double[height][width][values];
-    
+
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         for (int v = 0; v < values; v++) {
-          rgbValuesDouble[i][j][v] = rgbValues[i][j][v];
+          rgbValuesDouble[i][j][v] = this.rgbValues[i][j][v];
         }
       }
     }
 
-    double[][][] transformed = haar3DPadded(rgbValuesDouble);
+    double[][][] transformed = haar3D(rgbValuesDouble);
     double[][][] compressed = compress(transformed, ratio);
     double[][][] unpadded = unPad(compressed, dimensions);
 
+    int[][][] rgbValuesInt = new int[height][width][values];
+
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         for (int v = 0; v < values; v++) {
-          rgbValues[i][j][v] = (int) unpadded[i][j][v];
+          rgbValuesInt[i][j][v] = (int) unpadded[i][j][v];
         }
       }
     }
 
-    return new Image(rgbValues, width, height);
+    return new Image(rgbValuesInt, width, height);
 
   }
 
