@@ -166,6 +166,6 @@ public interface IImage {
    * @param ratio the compression percentage.
    * @return a new IImage with the haar transform applied.
    */
-  IImage compressAndSave(int ratio);
+  IImage haarCompress(int ratio) throws IllegalArgumentException;
 
 }

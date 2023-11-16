@@ -783,6 +783,10 @@ public class Image implements IImage {
     // Calculate the index corresponding to the desired compression ratio
     int thresholdIndex = (int) Math.round((compressionRatio / 100) * allValuesList.size()) - 1;
 
+    if ( thresholdIndex <= 0) {
+      thresholdIndex = 0;
+    }
+
     // Get the threshold value
     double threshold = allValuesList.get(thresholdIndex);
 
@@ -821,7 +825,20 @@ public class Image implements IImage {
     return newArray;
   }
 
-  public IImage compressAndSave(int ratio) {
+
+  /**
+   * Compresses an image
+   * using Haar Wavelet Transforms.
+   *
+   * @param ratio The Compression Ratio.
+   * @return Image object.
+   */
+  public IImage haarCompress(int ratio) throws IllegalArgumentException{
+
+    if ( ratio < 0 || ratio > 100) {
+      throw new IllegalArgumentException("Ratio must be between 0 and 100.");
+    }
+
     int height = this.rgbValues.length;
     int width = this.rgbValues[0].length;
     int values = this.rgbValues[0][0].length;
@@ -849,7 +866,7 @@ public class Image implements IImage {
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         for (int v = 0; v < values; v++) {
-          rgbValuesInt[i][j][v] = (int) unpadded[i][j][v];
+          rgbValuesInt[i][j][v] = (int) Math.min(255, Math.max(0, Math.round(unpadded[i][j][v])));
         }
       }
     }

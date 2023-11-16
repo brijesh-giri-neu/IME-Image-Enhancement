@@ -8,6 +8,7 @@ import imeprogram.model.IImage;
 import imeprogram.model.Image;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
 import org.junit.Test;
 
 /**
@@ -1891,8 +1892,6 @@ public class ImageTest {
       IImage testResultImgJPG = testImgJPG.getLumaComponent();
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
-      // System.out.println(Arrays.deepToString(rgbValues));
-
       assertArrayEquals(expectedValues, rgbValues);
 
     } catch (Exception e) {
@@ -2368,6 +2367,606 @@ public class ImageTest {
       fail("Error Encountered: " + e.getMessage());
     }
   }
+
+  // Start of Compression Tests
+
+  /**
+   * Tests the haarCompress for invalid ratio - negative.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void test_invalidRatio_Negative() throws IOException {
+    String testFilePath = "test/unitImages/bro.png";
+    Image testImg = Image.loadImageFromFile(testFilePath);
+    IImage testResultImg = testImg.haarCompress(-60);
+
+  }
+
+  /**
+   * Tests the haarCompress for invalid ratio - positive.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void test_invalidRatio_Positive() throws IOException {
+    String testFilePath = "test/unitImages/bro.png";
+    Image testImg = Image.loadImageFromFile(testFilePath);
+    IImage testResultImg = testImg.haarCompress(160);
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress once where input is PNG.
+   */
+  @Test
+  public void test_Compress_Once_PNG() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+      {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+      {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+      {{0, 64, 64}, {0, 64, 64}, {0, 64, 64}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(60);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress once where input is JPG.
+   */
+  @Test
+  public void test_Compress_Once_JPG() {
+    String testFilePath = "test/unitImages/bro.jpg";
+    int[][][] expectedValues = {
+        {{165, 92, 117}, {251, 226, 221}, {82, 50, 93}},
+        {{165, 92, 117}, {251, 226, 221}, {82, 50, 93}},
+        {{0, 60, 37}, {0, 16, 37}, {0, 172, 138}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(60);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress once where input is PPM.
+   */
+  @Test
+  public void test_Compress_Once_PPM() {
+    String testFilePath = "test/unitImages/bro.PPM";
+    int[][][] expectedValues = {
+        {{159, 159, 0}, {159, 159, 127}, {0, 0, 127}},
+        {{159, 159, 0}, {159, 159, 127}, {0, 0, 127}},
+        {{64, 64, 0}, {64, 64, 127}, {64, 64, 127}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(60);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress multiple times where input is PNG.
+   */
+  @Test
+  public void test_Compress_Multiple_PNG() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+        {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+        {{0, 64, 64}, {0, 64, 64}, {0, 64, 64}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(60);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress multiple times where input is JPG.
+   */
+  @Test
+  public void test_Compress_Multiple_JPG() {
+    String testFilePath = "test/unitImages/bro.jpg";
+    int[][][] expectedValues = {
+        {{165, 92, 117}, {251, 226, 221}, {82, 50, 93}},
+        {{165, 92, 117}, {251, 226, 221}, {82, 50, 93}},
+        {{0, 60, 37}, {0, 16, 37}, {0, 172, 138}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(60);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+      
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress multiple times where input is PPM.
+   */
+  @Test
+  public void test_Compress_Multiple_PPM() {
+    String testFilePath = "test/unitImages/bro.PPM";
+    int[][][] expectedValues = {
+        {{159, 159, 0}, {159, 159, 127}, {0, 0, 127}},
+        {{159, 159, 0}, {159, 159, 127}, {0, 0, 127}},
+        {{56, 56, 0}, {56, 56, 127}, {56, 56, 127}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(60);
+      IImage testResultImg2 = testResultImg.haarCompress(30);
+
+      int[][][] rgbValues = testResultImg2.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 0%.
+   */
+  @Test
+  public void test_Compress_0() {
+    String testFilePath = "test/unitImages/bro.png";
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(0);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+      int[][][] expectedValues = testImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 10%.
+   */
+  @Test
+  public void test_Compress_10() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{255, 0, 0}, {255, 255, 0}, {0, 0, 0}},
+        {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}},
+        {{0, 0, 255}, {0, 0, 0}, {0, 255, 255}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(10);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 20%.
+   */
+  @Test
+  public void test_Compress_20() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{255, 0, 0}, {255, 255, 0}, {0, 0, 0}},
+        {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}},
+        {{0, 0, 255}, {0, 0, 0}, {0, 255, 255}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(20);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 30%.
+   */
+  @Test
+  public void test_Compress_30() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{255, 32, 0}, {255, 223, 0}, {0, 0, 0}},
+        {{0, 255, 0}, {255, 223, 255}, {255, 0, 255}},
+        {{0, 64, 255}, {0, 0, 0}, {0, 191, 255}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(30);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 40%.
+   */
+  @Test
+  public void test_Compress_40() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{255, 64, 0}, {255, 191, 0}, {0, 0, 0}},
+        {{0, 255, 0}, {255, 191, 255}, {255, 0, 255}},
+        {{0, 32, 191}, {0, 32, 64}, {0, 159, 191}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(40);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 50%.
+   */
+  @Test
+  public void test_Compress_50() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+        {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+        {{0, 64, 64}, {0, 64, 64}, {0, 64, 64}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(50);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 60%.
+   */
+  @Test
+  public void test_Compress_60() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+        {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+        {{0, 64, 64}, {0, 64, 64}, {0, 64, 64}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(60);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 70%.
+   */
+  @Test
+  public void test_Compress_70() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{191, 159, 64}, {191, 159, 64}, {64, 0, 64}},
+        {{191, 159, 64}, {191, 159, 64}, {64, 0, 64}},
+        {{0, 64, 64}, {0, 64, 64}, {0, 64, 64}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(70);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 80%.
+   */
+  @Test
+  public void test_Compress_80() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{127, 159, 64}, {127, 159, 64}, {127, 0, 64}},
+        {{127, 159, 64}, {127, 159, 64}, {127, 0, 64}},
+        {{0, 64, 64}, {0, 64, 64}, {0, 64, 64}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(80);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 90%.
+   */
+  @Test
+  public void test_Compress_90() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{0, 159, 0}, {0, 159, 0}, {0, 0, 0}},
+        {{0, 159, 0}, {0, 159, 0}, {0, 0, 0}},
+        {{0, 64, 0}, {0, 64, 0}, {0, 64, 0}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(90);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
+  /**
+   * Tests the haarCompress for
+   * Compress 100%.
+   */
+  @Test
+  public void test_Compress_100() {
+    String testFilePath = "test/unitImages/bro.png";
+    int[][][] expectedValues = {
+        {{0, 96, 0}, {0, 96, 0}, {0, 0, 0}},
+        {{0, 96, 0}, {0, 96, 0}, {0, 0, 0}},
+        {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}
+    };
+
+    try {
+      Image testImg = Image.loadImageFromFile(testFilePath);
+      IImage testResultImg = testImg.haarCompress(100);
+
+      int[][][] rgbValues = testResultImg.getRgbValues();
+
+      // Check dimensions of the arrays
+      for (int i = 0; i < expectedValues.length; i++) {
+        for (int j = 0; j < expectedValues[i].length; j++) {
+          for (int k = 0; k < expectedValues[i][j].length; k++) {
+            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Calculated output is incorrect: " + e.getMessage());
+    }
+
+  }
+
 }
 
 
