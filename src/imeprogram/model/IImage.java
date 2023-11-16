@@ -194,9 +194,9 @@ public interface IImage {
   IImage adjustLevels(int black, int mid, int white) throws IllegalArgumentException;
 
   /**
-   * Merges this image with the other image, in the given split ratio. Dimensions of both the images
-   * must match for this operation. Resulting image gets its left portion from this image and its
-   * right portion from the other image.
+   * Merges this image with the other image in that specific order, in the given split ratio.
+   * Dimensions of both the images must match for this operation. Result image gets its left portion
+   * from this image and its right portion from the other image.
    *
    * @param other      the other image to merge with.
    * @param splitRatio the ratio of this image in the result, which is a percentage of horizontal
