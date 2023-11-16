@@ -43,7 +43,7 @@ public class Controller implements IController {
 
   @Override
   public void loadImage(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     // Replace starting and ending quote character. Both single and double.
@@ -64,7 +64,7 @@ public class Controller implements IController {
 
   @Override
   public void saveImage(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     // Replace starting and ending quote character. Both single and double.
@@ -84,7 +84,7 @@ public class Controller implements IController {
 
   @Override
   public void redComponent(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     String sourceImage = args[0];
@@ -101,7 +101,7 @@ public class Controller implements IController {
 
   @Override
   public void greenComponent(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     String sourceImage = args[0];
@@ -118,7 +118,7 @@ public class Controller implements IController {
 
   @Override
   public void blueComponent(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     String sourceImage = args[0];
@@ -135,7 +135,7 @@ public class Controller implements IController {
 
   @Override
   public void valueComponent(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     String sourceImage = args[0];
@@ -157,7 +157,7 @@ public class Controller implements IController {
       return;
     }
 
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
 
@@ -175,7 +175,7 @@ public class Controller implements IController {
 
   @Override
   public void intensityComponent(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     String sourceImage = args[0];
@@ -192,7 +192,7 @@ public class Controller implements IController {
 
   @Override
   public void horizontalFlip(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     String sourceImage = args[0];
@@ -209,7 +209,7 @@ public class Controller implements IController {
 
   @Override
   public void verticalFlip(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     String sourceImage = args[0];
@@ -226,7 +226,7 @@ public class Controller implements IController {
 
   @Override
   public void brighten(String[] args) {
-    if (!isValidNumberOfArgs(args, 3)) {
+    if (!_isValidNumberOfArgs(args, 3)) {
       return;
     }
     String sourceImage = args[1];
@@ -246,7 +246,7 @@ public class Controller implements IController {
 
   @Override
   public void rgbSplit(String[] args) {
-    if (!isValidNumberOfArgs(args, 4)) {
+    if (!_isValidNumberOfArgs(args, 4)) {
       return;
     }
     String sourceImage = args[0];
@@ -265,7 +265,7 @@ public class Controller implements IController {
 
   @Override
   public void rgbCombine(String[] args) {
-    if (!isValidNumberOfArgs(args, 4)) {
+    if (!_isValidNumberOfArgs(args, 4)) {
       return;
     }
     String destImage = args[0];
@@ -291,7 +291,7 @@ public class Controller implements IController {
       return;
     }
 
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
 
@@ -314,7 +314,7 @@ public class Controller implements IController {
       return;
     }
 
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
 
@@ -337,7 +337,7 @@ public class Controller implements IController {
       return;
     }
 
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
 
@@ -382,7 +382,7 @@ public class Controller implements IController {
 
   @Override
   public void runScript(String[] args) {
-    if (!isValidNumberOfArgs(args, 1)) {
+    if (!_isValidNumberOfArgs(args, 1)) {
       return;
     }
 
@@ -420,7 +420,7 @@ public class Controller implements IController {
 
   @Override
   public void histogram(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     String sourceImage = args[0];
@@ -437,7 +437,12 @@ public class Controller implements IController {
 
   @Override
   public void colorCorrect(String[] args) {
-    if (!isValidNumberOfArgs(args, 2)) {
+    if (args.length == 4) {
+      splitView(args, model::colorCorrect);
+      return;
+    }
+
+    if (!_isValidNumberOfArgs(args, 2)) {
       return;
     }
     String sourceImage = args[0];
@@ -454,7 +459,12 @@ public class Controller implements IController {
 
   @Override
   public void adjustLevels(String[] args) {
-    if (!isValidNumberOfArgs(args, 5)) {
+    if (args.length == 7) {
+      _adjustLevelsSplitView(args);
+      return;
+    }
+
+    if (!_isValidNumberOfArgs(args, 5)) {
       return;
     }
 
@@ -477,11 +487,44 @@ public class Controller implements IController {
     }
   }
 
-  private void splitView(String[] args, BiConsumer<String, String> operation) {
-    if (!isValidNumberOfArgs(args, 4)) {
+  // If sourceImage and destImage are the same.
+  // Split has no effect since we operate on image and store it first.
+  private void _adjustLevelsSplitView(String[] args) {
+    if (!_isValidNumberOfArgs(args, 7)) {
       return;
     }
-    if (!_isValidSplitViewArgs(args)) {
+    if (args[5] == null || !args[5].equalsIgnoreCase("split")) {
+      view.print("Invalid arguments for command");
+      return;
+    }
+
+    String sourceImage = args[3];
+    String destImage = args[4];
+    try {
+      int black = Integer.parseInt(args[0]);
+      int mid = Integer.parseInt(args[1]);
+      int white = Integer.parseInt(args[2]);
+      int splitRatio = Integer.parseInt(args[6]);
+      model.adjustLevels(sourceImage, destImage, black, mid, white);
+      model.splitView(sourceImage, destImage, splitRatio);
+      view.success();
+    } catch (NumberFormatException e) {
+      view.print(MessageHelper.NUMBER_FORMAT_EXCEPTION_MSG);
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    }
+  }
+
+  // If sourceImage and destImage are the same.
+  // Split has no effect since we operate on image and store it first.
+  private void splitView(String[] args, BiConsumer<String, String> operation) {
+    if (!_isValidNumberOfArgs(args, 4)) {
+      return;
+    }
+    if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
+      view.print("Invalid arguments for command");
       return;
     }
 
@@ -500,14 +543,6 @@ public class Controller implements IController {
     } catch (InvalidImageNameException e) {
       view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
     }
-  }
-
-  private boolean _isValidSplitViewArgs(String[] args) {
-    if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
-      view.print("Invalid arguments for command");
-      return false;
-    }
-    return true;
   }
 
   private void executeCommand(String command) {
@@ -556,7 +591,7 @@ public class Controller implements IController {
    * @param requiredCount the number of args required
    * @return True if number of provided args is valid, false otherwise
    */
-  private boolean isValidNumberOfArgs(String[] args, int... requiredCount) {
+  private boolean _isValidNumberOfArgs(String[] args, int... requiredCount) {
     boolean isValid = false;
 
     for (int count : requiredCount) {
