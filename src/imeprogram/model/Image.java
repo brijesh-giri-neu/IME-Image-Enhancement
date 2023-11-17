@@ -473,6 +473,245 @@ public class Image implements IImage {
     return Math.round((width * splitPercentage) / 100);
   }
 
+  // Image Compression
+
+
+
+  private double[] haar1D(double[] s) {
+    int n = s.length;
+    double[] avg = new double[n/2];
+    double[] diff = new double[n/2];
+    for (int i = 0; i < n; i += 2) {
+      avg[i/2] = (s[i] + s[i+1]) / Math.sqrt(2);
+      diff[i/2] = (s[i] - s[i+1]) / Math.sqrt(2);
+    }
+    for (int i = 0; i < n/2; i++) {
+      s[i] = avg[i];
+      s[i + n/2] = diff[i];
+    }
+    return s;
+  }
+
+  private double[] invhaar1D(double[] s) {
+    int n = s.length;
+    double[] avg = new double[n/2];
+    double[] diff = new double[n/2];
+    for (int i = 0; i < n/2; i++) {
+      avg[i] = (s[i] + s[i+n/2]) / Math.sqrt(2);
+      diff[i] = (s[i] - s[i+n/2]) / Math.sqrt(2);
+    }
+    for (int i = 0; i < n/2; i++) {
+      s[2*i] = avg[i];
+      s[2*i+1] = diff[i];
+    }
+    return s;
+  }
+
+  private double[][] haar2D(double[][] X, int s) {
+    int c = s;
+    while (c > 1) {
+      for (int i = 0; i < c; i++) {
+        X[i] = haar1D(X[i]);
+      }
+
+      for (int j = 0; j < c; j++) {
+        double[] col = new double[c];
+        for (int i = 0; i < c; i++) {
+          col[i] = X[i][j];
+        }
+        col = haar1D(col);
+        for (int i = 0; i < c; i++) {
+          X[i][j] = col[i];
+        }
+      }
+      c /= 2;
+    }
+    return X;
+  }
+
+  private double[][] invhaar2D(double[][] X, int s) {
+    int c = 2;
+    while (c <= s) {
+      for (int j = 0; j < c; j++) {
+        double[] col = new double[c];
+        for (int i = 0; i < c; i++) {
+          col[i] = X[i][j];
+        }
+        col = invhaar1D(col);
+        for (int i = 0; i < c; i++) {
+          X[i][j] = col[i];
+        }
+      }
+      for (int i = 0; i < c; i++) {
+        X[i] = invhaar1D(X[i]);
+      }
+      c *= 2;
+    }
+    return X;
+  }
+
+  private double[][][] haar3D(double[][][] X) {
+    int height = X.length;
+    int width = X[0].length;
+    int values = X[0][0].length;
+    int s = nextPowerOfTwo(Math.max(height, width));
+
+    double[][][] Y = new double[s][s][values];
+    for (int v = 0; v < values; v++) {
+      double[][] channel = new double[s][s];
+
+      for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+          channel[i][j] = X[i][j][v];
+        }
+      }
+
+      channel = haar2D(channel, s);
+      for (int i = 0; i < channel.length; i++) {
+        for (int j = 0; j < channel[i].length; j++) {
+          Y[i][j][v] = channel[i][j];
+        }
+      }
+    }
+    return Y;
+  }
+
+  private double[][][] invhaar3D(double[][][] X) {
+    int s = X.length;
+    int values = X[0][0].length;
+    double[][][] Y = new double[s][s][values];
+    for (int v = 0; v < values; v++) {
+      double[][] channel = new double[s][s];
+      for (int i = 0; i < s; i++) {
+        for (int j = 0; j < s; j++) {
+          channel[i][j] = X[i][j][v];
+        }
+      }
+      channel = invhaar2D(channel, s);
+      for (int i = 0; i < s; i++) {
+        for (int j = 0; j < s; j++) {
+          Y[i][j][v] = channel[i][j];
+        }
+      }
+    }
+    return Y;
+  }
+
+  private int nextPowerOfTwo(int n) {
+    int power = 1;
+    while (power < n) {
+      power *= 2;
+    }
+    return power;
+  }
+
+  private double[][][] compress(double[][][] rgbValues, double compressionRatio) {
+    // Create a set of all absolute values in the rgbValues array
+    Set<Double> allValuesSet = new HashSet<>();
+    for (double[][] channel : rgbValues) {
+      for (double[] row : channel) {
+        for (double value : row) {
+          allValuesSet.add(Math.abs(value));
+        }
+      }
+    }
+
+    // Convert the set to a list and sort it
+    List<Double> allValuesList = new ArrayList<>(allValuesSet);
+    Collections.sort(allValuesList);
+
+    // Calculate the index corresponding to the desired compression ratio
+    int thresholdIndex = (int) Math.round((compressionRatio / 100) * allValuesList.size()) - 1;
+
+    if ( thresholdIndex <= 0) {
+      thresholdIndex = 0;
+    }
+
+    // Get the threshold value
+    double threshold = allValuesList.get(thresholdIndex);
+
+
+    for (double[][] channel : rgbValues) {
+      for (double[] row : channel) {
+        for (int i = 0; i < row.length; i++) {
+          if (Math.abs(row[i]) < threshold) {
+            row[i] = 0;
+          }
+        }
+      }
+    }
+
+    return invhaar3D(rgbValues);
+  }
+
+  private double[][][] unPad(double[][][] array, int[] originalDimensions) {
+    int originalX = originalDimensions[0];
+    int originalY = originalDimensions[1];
+    int originalZ = originalDimensions[2];
+
+    double[][][] newArray = new double[originalX][originalY][originalZ];
+
+    for (int x = 0; x < originalX ; x++) {
+      for (int y = 0; y < originalY ; y++) {
+        System.arraycopy(array[x][y], 0, newArray[x][y], 0, originalZ);
+      }
+    }
+
+    return newArray;
+  }
+
+
+  /**
+   * Compresses an image
+   * using Haar Wavelet Transforms.
+   *
+   * @param ratio The Compression Ratio.
+   * @return Image object.
+   */
+  public IImage haarCompress(int ratio) throws IllegalArgumentException{
+
+    if ( ratio < 0 || ratio > 100) {
+      throw new IllegalArgumentException("Ratio must be between 0 and 100.");
+    }
+
+    int height = this.rgbValues.length;
+    int width = this.rgbValues[0].length;
+    int values = this.rgbValues[0][0].length;
+    int[] dimensions = new int[3];
+    dimensions[0] = height;
+    dimensions[1] = width;
+    dimensions[2] = values;
+
+    double[][][] rgbValuesDouble = new double[height][width][values];
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        for (int v = 0; v < values; v++) {
+          rgbValuesDouble[i][j][v] = this.rgbValues[i][j][v];
+        }
+      }
+    }
+
+    double[][][] transformed = haar3D(rgbValuesDouble);
+    double[][][] compressed = compress(transformed, ratio);
+    double[][][] unpadded = unPad(compressed, dimensions);
+
+    int[][][] rgbValuesInt = new int[height][width][values];
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        for (int v = 0; v < values; v++) {
+          rgbValuesInt[i][j][v] = (int) Math.min(255, Math.max(0, Math.round(unpadded[i][j][v])));
+        }
+      }
+    }
+
+    return new Image(rgbValuesInt, width, height);
+
+  }
+
+}
+
   /**
    * Returns the frequency histogram of this IImage.
    *

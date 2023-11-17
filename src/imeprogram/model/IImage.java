@@ -210,4 +210,13 @@ public interface IImage {
    *                                  match. Or if the splitRatio is invalid (<0 or >100).
    */
   IImage splitView(IImage other, int splitRatio) throws IllegalArgumentException;
+
+  /**
+   * Applies the haar transform to the image
+   * and compresses it.
+   *
+   * @param ratio the compression percentage.
+   * @return a new IImage with the haar transform applied.
+   */
+  IImage haarCompress(int ratio) throws IllegalArgumentException;
 }
