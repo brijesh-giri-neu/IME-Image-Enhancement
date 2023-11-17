@@ -2958,6 +2958,605 @@ public class ImageTest {
   //    }
   //
   //  }
+  // Fab tests for Giri Code
+
+//  /**
+//   * Tests the getHistogram method for
+//   * Dimension validity
+//   */
+//  @Test
+//  public void test_Histogram_Dimensions() {
+//    String testFilePath = "test/unitImages/bro.png";
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage testResultImg = testImg.getHistogram();
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      assertEquals(256, testResultImg.getHeight() );
+//      assertEquals(256, testResultImg.getWidth() );
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+
+//  /**
+//   * Tests the colorCorrect method
+//   * for PNG Image.
+//   */
+//  @Test
+//  public void test_colorCorrect_PNG() {
+//    String testFilePath = "test/unitImages/bro.png";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {255, 255, 0}, {0, 0, 0}},
+//        {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}},
+//        {{0, 0, 255}, {0, 0, 0}, {0, 255, 255}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage testResultImg = testImg.colorCorrect();
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the colorCorrect method
+//   * for JPG Image.
+//   */
+//  @Test
+//  public void test_colorCorrect_JPG() {
+//    String testFilePath = "test/unitImages/bro.jpg";
+//    int[][][] expectedValues = {
+//        {{129, 53, 34}, {255, 228, 209}, {34, 6, 0}},
+//        {{225, 149, 130}, {255, 230, 211}, {154, 113, 118}},
+//        {{16, 34, 12}, {16, 56, 34}, {16, 231, 180}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage testResultImg = testImg.colorCorrect();
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the colorCorrect method
+//   * for PPM Image.
+//   */
+//  @Test
+//  public void test_colorCorrect_PPM() {
+//    String testFilePath = "test/unitImages/bro.ppm";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}},
+//        {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}},
+//        {{0, 0, 0}, {255, 0, 255}, {0, 255, 255}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage testResultImg = testImg.colorCorrect();
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the adjustLevels method
+//   * for PNG Image.
+//   */
+//  @Test
+//  public void test_adjustLevels_PNG() {
+//    String testFilePath = "test/unitImages/bro.png";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {255, 255, 0}, {0, 0, 0}},
+//        {{0, 255, 0}, {255, 255, 255}, {255, 0, 255}},
+//        {{0, 0, 255}, {0, 0, 0}, {0, 255, 255}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage testResultImg = testImg.adjustLevels(0, 128, 255);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the adjustLevels method
+//   * for JPG Image.
+//   */
+//  @Test
+//  public void test_adjustLevels_JPG() {
+//    String testFilePath = "test/unitImages/bro.jpg";
+//    int[][][] expectedValues = {
+//        {{145, 48, 64}, {255, 241, 246}, {0, 0, 2}},
+//        {{234, 179, 189}, {255, 242, 247}, {174, 137, 177}},
+//        {{0, 15, 27}, {0, 53, 64}, {0, 243, 230}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage testResultImg = testImg.adjustLevels(20, 100, 255);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the adjustLevels method
+//   * for PPM Image.
+//   */
+//  @Test
+//  public void test_adjustLevels_PPM() {
+//    String testFilePath = "test/unitImages/bro.ppm";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}},
+//        {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}},
+//        {{0, 0, 0}, {255, 0, 255}, {0, 255, 255}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage testResultImg = testImg.adjustLevels(5, 120, 230);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method
+//   * for PNG Image.
+//   */
+//  @Test
+//  public void test_splitView_PNG() {
+//    String testFilePath = "test/unitImages/bro.png";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {255, 255, 206}, {0, 0, 0}},
+//        {{0, 255, 0}, {255, 255, 239}, {148, 132, 103}},
+//        {{0, 0, 255}, {0, 0, 0}, {244, 218, 170}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage secondImg = testImg.convertToSepia();
+//      IImage testResultImg = testImg.splitView(secondImg, 50);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method
+//   * for JPG Image.
+//   */
+//  @Test
+//  public void test_splitView_JPG() {
+//    String testFilePath = "test/unitImages/bro.jpg";
+//    int[][][] expectedValues = {
+//        {{113, 47, 57}, {255, 255, 218}, {11, 10, 8}},
+//        {{209, 143, 153}, {255, 255, 220}, {163, 145, 113}},
+//        {{0, 28, 35}, {49, 44, 34}, {211, 188, 147}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage secondImg = testImg.convertToSepia();
+//      IImage testResultImg = testImg.splitView(secondImg, 50);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method
+//   * for PPM Image.
+//   */
+//  @Test
+//  public void test_splitView_PPM() {
+//    String testFilePath = "test/unitImages/bro.ppm";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {196, 175, 136}, {48, 43, 33}},
+//        {{255, 255, 0}, {255, 255, 239}, {0, 0, 0}},
+//        {{0, 0, 0}, {148, 132, 103}, {244, 218, 170}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage secondImg = testImg.convertToSepia();
+//      IImage testResultImg = testImg.splitView(secondImg, 50);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method for
+//   *  ratio being negative.
+//   */
+//  @Test (expected = IllegalArgumentException.class)
+//  public void test_splitView_NegativeRatio() throws IOException {
+//    String testFilePath = "test/unitImages/bro.png";
+//
+//    Image testImg = Image.loadImageFromFile(testFilePath);
+//    IImage secondImg = testImg.convertToSepia();
+//    IImage testResultImg = testImg.splitView(secondImg, -20);
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method for
+//   *  ratio beyond limit
+//   */
+//  @Test (expected = IllegalArgumentException.class)
+//  public void test_splitView_ExceedingRatio() throws IOException {
+//    String testFilePath = "test/unitImages/bro.png";
+//
+//    Image testImg = Image.loadImageFromFile(testFilePath);
+//    IImage secondImg = testImg.convertToSepia();
+//    IImage testResultImg = testImg.splitView(secondImg, 200);
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method
+//   * for Blur.
+//   */
+//  @Test
+//  public void test_splitView_Blur() {
+//    String testFilePath = "test/unitImages/bro.ppm";
+//    int[][][] expectedValues = {
+//        {{112, 80, 16}, {80, 112, 64}, {16, 48, 80}},
+//        {{143, 112, 48}, {143, 143, 128}, {48, 80, 112}},
+//        {{80, 48, 48}, {112, 80, 128}, {48, 80, 112}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage secondImg = testImg.gaussianBlur();
+//      IImage testResultImg = testImg.splitView(secondImg, 20);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method
+//   * for Sharpen.
+//   */
+//  @Test
+//  public void test_splitView_Sharpen() {
+//    String testFilePath = "test/unitImages/bro.ppm";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {255, 255, 255}, {0, 255, 255}},
+//        {{255, 255, 0}, {255, 255, 255}, {255, 255, 255}},
+//        {{0, 0, 0}, {255, 255, 255}, {255, 255, 255}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage secondImg = testImg.sharpen();
+//      IImage testResultImg = testImg.splitView(secondImg, 40);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method
+//   * for GrayScale.
+//   */
+//  @Test
+//  public void test_splitView_GrayScale() {
+//    String testFilePath = "test/unitImages/bro.ppm";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {182, 182, 182}, {18, 18, 18}},
+//        {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}},
+//        {{0, 0, 0}, {73, 73, 73}, {201, 201, 201}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage secondImg = testImg.getLumaComponent();
+//      IImage testResultImg = testImg.splitView(secondImg, 60);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method
+//   * for Color Correction.
+//   */
+//  @Test
+//  public void test_splitView_ColorCorrection() {
+//    String testFilePath = "test/unitImages/bro.ppm";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}},
+//        {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}},
+//        {{0, 0, 0}, {255, 0, 255}, {0, 255, 255}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage secondImg = testImg.colorCorrect();
+//      IImage testResultImg = testImg.splitView(secondImg, 80);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the splitView method
+//   * for Levels Adjustment.
+//   */
+//  @Test
+//  public void test_splitView_AdjustLevels() {
+//    String testFilePath = "test/unitImages/bro.ppm";
+//    int[][][] expectedValues = {
+//        {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}},
+//        {{255, 255, 0}, {255, 255, 255}, {0, 0, 0}},
+//        {{0, 0, 0}, {255, 0, 255}, {0, 255, 255}}
+//    };
+//
+//    try {
+//      Image testImg = Image.loadImageFromFile(testFilePath);
+//      IImage secondImg = testImg.adjustLevels(5, 120, 230);
+//      IImage testResultImg = testImg.splitView(secondImg, 50);
+//
+//      int[][][] rgbValues = testResultImg.getRgbValues();
+//
+//      // Check dimensions of the arrays
+//      for (int i = 0; i < expectedValues.length; i++) {
+//        for (int j = 0; j < expectedValues[i].length; j++) {
+//          for (int k = 0; k < expectedValues[i][j].length; k++) {
+//            assertEquals(expectedValues[i][j][k], rgbValues[i][j][k]);
+//          }
+//        }
+//      }
+//
+//    } catch (Exception e) {
+//      fail("Calculated output is incorrect: " + e.getMessage());
+//    }
+//
+//  }
+//
+//  /**
+//   * Tests the adjustLevels method
+//   * for Negative Argument.
+//   */
+//  @Test (expected = IllegalArgumentException.class)
+//  public void test_adjustLevels_NegativeArguments() throws IOException {
+//    String testFilePath = "test/unitImages/bro.png";
+//    Image testImg = Image.loadImageFromFile(testFilePath);
+//    IImage testResultImg = testImg.adjustLevels(-20, -128, -255);
+//
+//  }
+//
+//  /**
+//   * Tests the adjustLevels method
+//   * for Exceeding Argument.
+//   */
+//  @Test (expected = IllegalArgumentException.class)
+//  public void test_adjustLevels_ExceedingArguments() throws IOException {
+//    String testFilePath = "test/unitImages/bro.png";
+//    Image testImg = Image.loadImageFromFile(testFilePath);
+//    IImage testResultImg = testImg.adjustLevels(400, 728, 355);
+//
+//  }
+//
+//  /**
+//   * Tests the adjustLevels method
+//   * for Black greater than mid.
+//   */
+//  @Test (expected = IllegalArgumentException.class)
+//  public void test_adjustLevels_BlackOverMid() throws IOException {
+//    String testFilePath = "test/unitImages/bro.png";
+//    Image testImg = Image.loadImageFromFile(testFilePath);
+//    IImage testResultImg = testImg.adjustLevels(70, 60, 90);
+//
+//  }
+//
+//  /**
+//   * Tests the adjustLevels method
+//   * for Black greater than white.
+//   */
+//  @Test (expected = IllegalArgumentException.class)
+//  public void test_adjustLevels_BlackOverWhite() throws IOException {
+//    String testFilePath = "test/unitImages/bro.png";
+//    Image testImg = Image.loadImageFromFile(testFilePath);
+//    IImage testResultImg = testImg.adjustLevels(70, 90, 60);
+//
+//  }
+//
+//  /**
+//   * Tests the adjustLevels method
+//   * for mid than white.
+//   */
+//  @Test (expected = IllegalArgumentException.class)
+//  public void test_adjustLevels_MidOverWhite() throws IOException {
+//    String testFilePath = "test/unitImages/bro.png";
+//    Image testImg = Image.loadImageFromFile(testFilePath);
+//    IImage testResultImg = testImg.adjustLevels(90, 70, 60);
+//
+//  }
 
 
   @Test
