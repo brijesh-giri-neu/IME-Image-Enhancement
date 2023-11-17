@@ -128,4 +128,32 @@ public interface IController {
    * @param args The arguments for executing the script.
    */
   void runScript(String[] args);
+
+  /**
+   * Generate a line graph of the histogram of given image.
+   *
+   * @param args The arguments for generating histogram.
+   */
+  void histogram(String[] args);
+
+  /**
+   * Apply color correction to the given image.
+   *
+   * @param args The arguments for color correcting an image.
+   */
+  void colorCorrect(String[] args);
+
+  /**
+   * Apply levels adjustment to the given image.
+   *
+   * @param args The arguments for levels adjustment on an image.
+   */
+  void adjustLevels(String[] args);
+
+  /**
+   * Applies compression to the given image.
+   *
+   * @param args The arguments for compressing an image.
+   */
+  void compress(String[] args);
 }

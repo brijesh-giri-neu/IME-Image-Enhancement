@@ -1,6 +1,8 @@
-package imeprogram.model;
+package imeprogram.fileparser;
 
 import imeprogram.exceptions.FileFormatException;
+import imeprogram.model.IImage;
+import imeprogram.model.Image;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -45,6 +47,7 @@ class PPMImageIO implements IImageFileIO {
 
     int width = sc.nextInt();
     int height = sc.nextInt();
+    int maxValue = sc.nextInt();
     int[][][] rgbValues = new int[height][width][3];
 
     for (int i = 0; i < height; i++) {

@@ -4,6 +4,7 @@ import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
 import imeprogram.model.IModel;
+import imeprogram.model.LineGraph2D;
 import imeprogram.view.IView;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -11,6 +12,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * This class represents the Controller of the IMEProgram.
@@ -21,6 +26,7 @@ public class Controller implements IController {
   private final IModel model;
   private final IView view;
   private final InputStream in;
+  private Map<String, Consumer<String[]>> knownCommands;
 
   /**
    * Instantiate the controller object.
@@ -33,6 +39,7 @@ public class Controller implements IController {
     this.model = model;
     this.view = view;
     this.in = in;
+    initializeCommands();
   }
 
   @Override
@@ -146,9 +153,15 @@ public class Controller implements IController {
 
   @Override
   public void lumaComponent(String[] args) {
+    if (args.length == 4) {
+      splitView(args, model::lumaComponent);
+      return;
+    }
+
     if (!isValidNumberOfArgs(args, 2)) {
       return;
     }
+
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -221,8 +234,10 @@ public class Controller implements IController {
     String destImage = args[2];
     try {
       int increment = Integer.parseInt(args[0]);
-      model.brighten(increment, sourceImage, destImage);
+      model.brighten(sourceImage, destImage, increment);
       view.success();
+    } catch (NumberFormatException e) {
+      view.print(MessageHelper.NUMBER_FORMAT_EXCEPTION_MSG);
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
     } catch (InvalidImageNameException e) {
@@ -272,9 +287,15 @@ public class Controller implements IController {
 
   @Override
   public void blur(String[] args) {
+    if (args.length == 4) {
+      splitView(args, model::blur);
+      return;
+    }
+
     if (!isValidNumberOfArgs(args, 2)) {
       return;
     }
+
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -289,9 +310,15 @@ public class Controller implements IController {
 
   @Override
   public void sharpen(String[] args) {
+    if (args.length == 4) {
+      splitView(args, model::sharpen);
+      return;
+    }
+
     if (!isValidNumberOfArgs(args, 2)) {
       return;
     }
+
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -306,9 +333,15 @@ public class Controller implements IController {
 
   @Override
   public void sepia(String[] args) {
+    if (args.length == 4) {
+      splitView(args, model::sepia);
+      return;
+    }
+
     if (!isValidNumberOfArgs(args, 2)) {
       return;
     }
+
     String sourceImage = args[0];
     String destImage = args[1];
     try {
@@ -386,6 +419,157 @@ public class Controller implements IController {
     }
   }
 
+  @Override
+  public void compress(String[] args) {
+    if (!isValidNumberOfArgs(args, 3)) {
+      return;
+    }
+    String sourceImage = args[1];
+    String destImage = args[2];
+    try {
+      int compressRatio = Integer.parseInt(args[0]);
+      model.compress(sourceImage, destImage, compressRatio);
+      view.success();
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    } catch (IllegalArgumentException e) {
+      view.print("Error: Provided compression percentage is invalid");
+    }
+  }
+
+  @Override
+  public void histogram(String[] args) {
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
+    String sourceImage = args[0];
+    String destImage = args[1];
+    try {
+      model.histogram(sourceImage, destImage, new LineGraph2D());
+      view.success();
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    }
+  }
+
+  @Override
+  public void colorCorrect(String[] args) {
+    if (args.length == 4) {
+      splitView(args, model::colorCorrect);
+      return;
+    }
+
+    if (!isValidNumberOfArgs(args, 2)) {
+      return;
+    }
+    String sourceImage = args[0];
+    String destImage = args[1];
+    try {
+      model.colorCorrect(sourceImage, destImage);
+      view.success();
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    }
+  }
+
+  @Override
+  public void adjustLevels(String[] args) {
+    if (args.length == 7) {
+      adjustLevelsSplitView(args);
+      return;
+    }
+
+    if (!isValidNumberOfArgs(args, 5)) {
+      return;
+    }
+
+    String sourceImage = args[3];
+    String destImage = args[4];
+    try {
+      int black = Integer.parseInt(args[0]);
+      int mid = Integer.parseInt(args[1]);
+      int white = Integer.parseInt(args[2]);
+      model.adjustLevels(sourceImage, destImage, black, mid, white);
+      view.success();
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    } catch (NumberFormatException e) {
+      view.print(MessageHelper.NUMBER_FORMAT_EXCEPTION_MSG);
+    } catch (IllegalArgumentException e) {
+      view.print("Error: Provided black, mid, and white values are illegal");
+    }
+  }
+
+  // If sourceImage and destImage are the same.
+  // Split has no effect since we operate on image and store it first.
+  private void adjustLevelsSplitView(String[] args) {
+    if (!isValidNumberOfArgs(args, 7)) {
+      return;
+    }
+    if (args[5] == null || !args[5].equalsIgnoreCase("split")) {
+      view.print("Invalid arguments for command");
+      return;
+    }
+
+    String sourceImage = args[3];
+    String destImage = args[4];
+    try {
+      int black = Integer.parseInt(args[0]);
+      int mid = Integer.parseInt(args[1]);
+      int white = Integer.parseInt(args[2]);
+      int splitRatio = Integer.parseInt(args[6]);
+      model.adjustLevels(sourceImage, destImage, black, mid, white);
+      model.splitView(sourceImage, destImage, splitRatio);
+      view.success();
+    } catch (NumberFormatException e) {
+      view.print(MessageHelper.NUMBER_FORMAT_EXCEPTION_MSG);
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    } catch (IllegalArgumentException e) {
+      view.print("Given Split ratio argument is invalid");
+    }
+  }
+
+  // If sourceImage and destImage are the same.
+  // Split has no effect since we operate on image and store it first.
+  private void splitView(String[] args, BiConsumer<String, String> operation) {
+    if (!isValidNumberOfArgs(args, 4)) {
+      return;
+    }
+    if (args[2] == null || !args[2].equalsIgnoreCase("split")) {
+      view.print("Invalid arguments for command");
+      return;
+    }
+
+    String sourceImage = args[0];
+    String destImage = args[1];
+    try {
+      int splitRatio = Integer.parseInt(args[3]);
+      // Do the operation
+      operation.accept(sourceImage, destImage);
+      model.splitView(sourceImage, destImage, splitRatio);
+      view.success();
+    } catch (NumberFormatException e) {
+      view.print(MessageHelper.NUMBER_FORMAT_EXCEPTION_MSG);
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    } catch (IllegalArgumentException e) {
+      view.print("Given Split ratio argument is invalid");
+    }
+  }
+
   private void executeCommand(String command) {
     // At this point program has at least 1 token.
 
@@ -401,64 +585,16 @@ public class Controller implements IController {
       return;
     }
 
-    String operation = tokens[0].trim();
+    String operation = tokens[0].trim().toLowerCase();
     // Remove operation from tokens
     tokens = getArrayBeginningFrom(tokens, 1);
 
-    switch (operation.toLowerCase()) {
-      case "load":
-        loadImage(tokens);
-        break;
-      case "save":
-        saveImage(tokens);
-        break;
-      case "red-component":
-        redComponent(tokens);
-        break;
-      case "green-component":
-        greenComponent(tokens);
-        break;
-      case "blue-component":
-        blueComponent(tokens);
-        break;
-      case "value-component":
-        valueComponent(tokens);
-        break;
-      case "luma-component":
-        lumaComponent(tokens);
-        break;
-      case "intensity-component":
-        intensityComponent(tokens);
-        break;
-      case "vertical-flip":
-        verticalFlip(tokens);
-        break;
-      case "horizontal-flip":
-        horizontalFlip(tokens);
-        break;
-      case "brighten":
-        brighten(tokens);
-        break;
-      case "rgb-split":
-        rgbSplit(tokens);
-        break;
-      case "rgb-combine":
-        rgbCombine(tokens);
-        break;
-      case "blur":
-        blur(tokens);
-        break;
-      case "sharpen":
-        sharpen(tokens);
-        break;
-      case "sepia":
-        sepia(tokens);
-        break;
-      case "run":
-        runScript(tokens);
-        break;
-      default:
-        view.print("Error: Invalid command. Please try again.");
+    // Invoke relevant command
+    Consumer<String[]> cmd = knownCommands.getOrDefault(operation, null);
+    if (cmd == null) {
+      view.print("Error: Invalid command. Please try again.");
+    } else {
+      cmd.accept(tokens);
     }
   }
 
@@ -480,8 +616,17 @@ public class Controller implements IController {
    * @param requiredCount the number of args required
    * @return True if number of provided args is valid, false otherwise
    */
-  private boolean isValidNumberOfArgs(String[] args, int requiredCount) {
-    if (args.length != requiredCount) {
+  private boolean isValidNumberOfArgs(String[] args, int... requiredCount) {
+    boolean isValid = false;
+
+    for (int count : requiredCount) {
+      if (args.length == count) {
+        isValid = true;
+        break;
+      }
+    }
+
+    if (!isValid) {
       view.print("Invalid number of arguments");
       return false;
     }
@@ -499,6 +644,31 @@ public class Controller implements IController {
     return quoteCount % 2 == 0 ? true : false;
   }
 
+  private void initializeCommands() {
+    knownCommands = new HashMap<String, Consumer<String[]>>();
+    knownCommands.put("load", s -> loadImage(s));
+    knownCommands.put("save", s -> saveImage(s));
+    knownCommands.put("red-component", s -> redComponent(s));
+    knownCommands.put("green-component", s -> greenComponent(s));
+    knownCommands.put("blue-component", s -> blueComponent(s));
+    knownCommands.put("value-component", s -> valueComponent(s));
+    knownCommands.put("luma-component", s -> lumaComponent(s));
+    knownCommands.put("intensity-component", s -> intensityComponent(s));
+    knownCommands.put("vertical-flip", s -> verticalFlip(s));
+    knownCommands.put("horizontal-flip", s -> horizontalFlip(s));
+    knownCommands.put("brighten", s -> brighten(s));
+    knownCommands.put("rgb-split", s -> rgbSplit(s));
+    knownCommands.put("rgb-combine", s -> rgbCombine(s));
+    knownCommands.put("blur", s -> blur(s));
+    knownCommands.put("sharpen", s -> sharpen(s));
+    knownCommands.put("sepia", s -> sepia(s));
+    knownCommands.put("run", s -> runScript(s));
+    knownCommands.put("histogram", s -> histogram(s));
+    knownCommands.put("color-correct", s -> colorCorrect(s));
+    knownCommands.put("levels-adjust", s -> adjustLevels(s));
+    knownCommands.put("compress", s -> compress(s));
+  }
+
   /**
    * A helper class containing messages for the view.
    */
@@ -510,5 +680,7 @@ public class Controller implements IController {
     //Not used in 1 case - rgbCombine
     public static final String IMAGE_NOT_FOUND_EXCEPTION_MSG =
         "Error: Mentioned image alias does not exist: %s";
+    public static final String NUMBER_FORMAT_EXCEPTION_MSG =
+        "Error: Provided input value is not a valid number";
   }
 }

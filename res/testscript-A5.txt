@@ -1,0 +1,69 @@
+#load a png image file 
+load Image.png resImage
+load Galaxy.png galaxyImage
+
+# Compress the image
+compress 40 resImage resImageCompress40
+save A5/Compress40-Image.jpg resImageCompress40
+
+# Compress the image
+compress 75 resImage resImageCompress75
+save A5/Compress75-Image.jpg resImageCompress75
+
+# Generate histogram of original Image
+histogram galaxyImage histResImage
+save A5/histogram-galaxyImage.png histResImage
+
+# Color correct 
+color-correct galaxyImage colorCorrectResImage
+save A5/colorCorrect-Image.jpg colorCorrectResImage
+
+# Generate histogram of color corrected Image
+histogram colorCorrectResImage histcolorCorrectResImage
+save A5/histogram-colorCorrect-Image.png histcolorCorrectResImage
+
+# Levels adjust - Example 1
+levels-adjust 20 100 255 galaxyImage levelsAdjustedResImage
+save A5/levelsAdjust1-Image.jpg levelsAdjustedResImage
+
+# Generate histogram of levels adjusted Image
+histogram levelsAdjustedResImage histlevelsAdjustedResImage
+save A5/histogram-levelsAdjust1-Image.png histlevelsAdjustedResImage
+
+# Levels adjust - Example 2
+levels-adjust 5 115 255 galaxyImage levelsAdjustedResImage
+save A5/levelsAdjust2-Image.jpg levelsAdjustedResImage
+
+# Generate histogram of levels adjusted Image
+histogram levelsAdjustedResImage histlevelsAdjustedResImage
+save A5/histogram-levelsAdjust2-Image.png histlevelsAdjustedResImage
+
+# Split view operations
+# blur
+blur resImage blurredImage1 split 50
+blur blurredImage1 blurredImage2 split 50
+blur blurredImage2 blurredImage3 split 50
+blur blurredImage3 blurredImage4 split 50
+blur blurredImage4 blurredImage5 split 50
+save A5/SplitView/blur-5times-Split50-Image.jpg blurredImage5
+
+# sharpen
+sharpen resImage resImageSharpen split 50
+save A5/SplitView/sharpen-1time-Split50-Image.jpg resImageSharpen
+
+# sepia
+sepia resImage resImageSepia split 50
+save A5/SplitView/sepia-Split50-Image.jpg resImageSepia
+
+# Get luma-component - Grayscale command
+luma-component resImage lumaResImage split 50
+save A5/SplitView/luma-Split50-Image.jpg lumaResImage
+
+# Color correct split
+color-correct galaxyImage colorCorrectResImageSplit50 split 50
+save A5/SplitView/colorCorrect-Split50-Image.jpg colorCorrectResImageSplit50
+
+# Levels adjust split
+levels-adjust 20 100 255 galaxyImage levelsAdjustedResImageSplit50 split 50
+save A5/SplitView/levelsAdjust-Split50-Image.jpg levelsAdjustedResImageSplit50
+

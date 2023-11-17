@@ -7,6 +7,43 @@ package imeprogram.model;
 public interface IImage {
 
   /**
+   * Gets the value of a specific channel at a given pixel position.
+   *
+   * @param horizontalPos The column (horizontal position) of the pixel.
+   * @param verticalPos   The verticalPos (vertical position) of the pixel.
+   * @param channel       The color channel to retrieve (0 for Red, 1 for Green, 2 for Blue).
+   * @return The value of the specified channel at the given pixel position.
+   * @throws IndexOutOfBoundsException If the provided horizontalPos or verticalPos values are out
+   *                                   of bounds.
+   * @throws IllegalArgumentException  If an invalid channel value is provided.
+   */
+  int getValueAtPixel(int horizontalPos, int verticalPos, int channel)
+      throws IndexOutOfBoundsException, IllegalArgumentException;
+
+  /**
+   * Gets the width of the Image.
+   *
+   * @return the width of the Image.
+   */
+  int getWidth();
+
+  /**
+   * Gets the height of the Image.
+   *
+   * @return the height of the Image.
+   */
+  int getHeight();
+
+  /**
+   * Gets the RGB values of the Image.
+   *
+   * @return an int[][][] where, the first dim corresponds to the height, the second dim corresponds
+   *     to the width, and the third dim corresponds to the channel. The channels are returned in
+   *     the following order, index0 -> Red, index1 -> Green, index2 -> Blue.
+   */
+  int[][][] getRgbValues();
+
+  /**
    * Return an IImage where [G,B] channels of the Image are set to 0.
    *
    * @return an IImage where [G,B] channels of the Image are set to 0.
@@ -125,37 +162,60 @@ public interface IImage {
   IImage convertToSepia();
 
   /**
-   * Gets the value of a specific channel at a given pixel position.
+   * Returns a 256x256 line graph representing the normalized histogram of this IImage.
    *
-   * @param horizontalPos The column (horizontal position) of the pixel.
-   * @param verticalPos   The verticalPos (vertical position) of the pixel.
-   * @param channel       The color channel to retrieve (0 for Red, 1 for Green, 2 for Blue).
-   * @return The value of the specified channel at the given pixel position.
-   * @throws IndexOutOfBoundsException If the provided horizontalPos or verticalPos values are out
-   *                                   of bounds.
-   * @throws IllegalArgumentException  If an invalid channel value is provided.
+   * @param graph the graphics used to draw the histogram.
+   * @return a 256x256 line graph representing the normalized histogram of this IImage.
    */
-  int getValueAtPixel(int horizontalPos, int verticalPos, int channel)
-      throws IndexOutOfBoundsException, IllegalArgumentException;
+  IImage getHistogram(ILineGraph graph);
 
   /**
-   * Gets the width of the Image.
+   * Color corrects an Image by aligning the meaningful peaks of its histogram. The corrected peak
+   * position in its histogram is determined by the average of peak pixel values across channels
+   * i.e. AVG(PixelValue(Peak_Red), PixelValue(Peak_Green), PixelValue(Peak_Blue))
    *
-   * @return the width of the Image.
+   * @return a new IImage with aligned histogram peaks, that visually looks black and white.
    */
-  int getWidth();
+  IImage colorCorrect();
 
   /**
-   * Gets the height of the Image.
+   * Performs levels adjustment operation in the histogram of an image using the given black, mid,
+   * and white levels. Valid black, mid, and white levels are in the [0,255] range in ascending
+   * order i.e. black < mid < white, and all of them are between [0,255].
    *
-   * @return the height of the Image.
+   * @param black the horizontal position of black level i.e. shadows. Also known as, the furthest
+   *              horizontal position of frequency 0 in the histogram.
+   * @param mid   the horizontal position of mid-level. Also known as, the furthest horizontal
+   *              position of frequency 128 in the histogram.
+   * @param white the horizontal position of white level i.e. highlights. Also known as, the
+   *              furthest horizontal position of frequency 255 in the histogram.
+   * @return a new IImage with adjusted levels that has enhanced contrast.
+   * @throws IllegalArgumentException If the provided black, mid, and white levels are not valid.
    */
-  int getHeight();
+  IImage adjustLevels(int black, int mid, int white) throws IllegalArgumentException;
 
   /**
-   * Gets the RGBvalues array of the Image.
+   * Merges this image with the other image in that specific order, in the given split ratio.
+   * Dimensions of both the images must match for this operation. Result image gets its left portion
+   * from this image and its right portion from the other image.
    *
-   * @return the RGBvalues array of the Image.
+   * @param other      the other image to merge with.
+   * @param splitRatio the ratio of this image in the result, which is a percentage of horizontal
+   *                   width. This image contributes [0, splitRatio] of its width to the result
+   *                   image and the other image contributes [splitRatio, 100] of its width to the
+   *                   result image.
+   * @return an IImage that contains this image in its left portion and the other image in its right
+   *     portion.
+   * @throws IllegalArgumentException If the dimensions of this image and the other image don't
+   *                                  match. Or if the splitRatio is invalid (<0 or >100).
    */
-  int[][][] getRgbValues();
+  IImage splitView(IImage other, int splitRatio) throws IllegalArgumentException;
+
+  /**
+   * Applies the haar transform to the image and compresses it.
+   *
+   * @param ratio the compression percentage.
+   * @return a new IImage with the haar transform applied.
+   */
+  IImage haarCompress(int ratio) throws IllegalArgumentException;
 }

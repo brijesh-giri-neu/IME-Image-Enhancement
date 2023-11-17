@@ -38,6 +38,17 @@ public interface IModel {
       throws ImageNotFoundException, FileNotFoundException, FileFormatException;
 
   /**
+   * Gets the pixel values of a specific image.
+   *
+   * @param sourceImageName The name of the image whose pixel values are to be returned.
+   * @return an int[][][] where, the first dim corresponds to the height, the second dim corresponds
+   *     to the width, and the third dim corresponds to the channel. The channels are returned in
+   *     the following order, index0 -> Red, index1 -> Green, index2 -> Blue.
+   * @throws ImageNotFoundException If the specified source image does not exist.
+   */
+  int[][][] getImageData(String sourceImageName) throws ImageNotFoundException;
+
+  /**
    * Extract the red component of an image and save it with the specified image name.
    *
    * @param sourceImageName The name of the source image.
@@ -136,14 +147,14 @@ public interface IModel {
   /**
    * Brighten an image by the specified increment and save it with the specified image name.
    *
-   * @param increment       The amount to brighten the image (positive integer).
    * @param sourceImageName The name of the source image.
    * @param destImageName   The name to assign to the brightened image.
+   * @param increment       The amount to brighten the image (positive integer).
    * @throws ImageNotFoundException    If the specified source image does not exist.
    * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
    *                                   an image in the application.
    */
-  void brighten(int increment, String sourceImageName, String destImageName)
+  void brighten(String sourceImageName, String destImageName, int increment)
       throws ImageNotFoundException, InvalidImageNameException;
 
   /**
@@ -213,4 +224,79 @@ public interface IModel {
    */
   void sepia(String sourceImageName, String destImageName)
       throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Generate a line graph of histogram of the given source image and save it with the specified
+   * image name.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the histogram line graph.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   */
+  void histogram(String sourceImageName, String destImageName, ILineGraph graph)
+      throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Apply color correction to the given source image by aligning the peaks of its histogram.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the color corrected image.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   */
+  void colorCorrect(String sourceImageName, String destImageName)
+      throws ImageNotFoundException, InvalidImageNameException;
+
+  /**
+   * Applies levels adjustment to the given source image.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name to assign to the levels adjusted image.
+   * @param black           The intensity level for shadows.
+   * @param mid             The intensity level for mid.
+   * @param white           The intensity level for highlights.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   * @throws IllegalArgumentException  If the given black, mid, and white levels are invalid. Valid
+   *                                   levels are in the range of [0,255] and have the following
+   *                                   order black < mid < white.
+   */
+  void adjustLevels(String sourceImageName, String destImageName, int black, int mid, int white)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException;
+
+  /**
+   * Generates a vertical split view by merging the given destination image with the source image in
+   * that order. Saves the result in the destination image by overwriting it.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name of the source image.
+   * @param splitRatio      The ratio of the dest image in the split view, (1 - splitRatio) is the
+   *                        ratio of the source image in the split view.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   * @throws IllegalArgumentException  If the dimensions of the source image and the dest image do
+   *                                   not match.
+   */
+  void splitView(String sourceImageName, String destImageName, int splitRatio)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException;
+
+  /**
+   * Compress the given source image.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name of the source image.
+   * @param compressRatio   The ratio of the compression.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   * @throws IllegalArgumentException  If the compression ratio is invalid i.e. not between 0 and
+   *                                   100.
+   */
+  void compress(String sourceImageName, String destImageName, int compressRatio)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException;
 }

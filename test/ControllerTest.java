@@ -6,6 +6,7 @@ import imeprogram.controller.IController;
 import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
+import imeprogram.model.ILineGraph;
 import imeprogram.model.IModel;
 import imeprogram.view.IView;
 import java.io.ByteArrayInputStream;
@@ -1067,6 +1068,13 @@ public class ControllerTest {
     }
 
     @Override
+    public int[][][] getImageData(String sourceImageName) throws ImageNotFoundException {
+      checkExceptions();
+      logInputs(new String[]{sourceImageName});
+      return new int[3][3][3];
+    }
+
+    @Override
     public void redComponent(String sourceImageName, String destImageName)
         throws ImageNotFoundException, InvalidImageNameException {
       checkExceptions();
@@ -1123,7 +1131,7 @@ public class ControllerTest {
     }
 
     @Override
-    public void brighten(int increment, String sourceImageName, String destImageName)
+    public void brighten(String sourceImageName, String destImageName, int increment)
         throws ImageNotFoundException, InvalidImageNameException {
       checkExceptions();
       logInputs(new String[]{String.valueOf(increment), sourceImageName, destImageName});
@@ -1166,6 +1174,46 @@ public class ControllerTest {
         throws ImageNotFoundException, InvalidImageNameException {
       checkExceptions();
       logInputs(new String[]{sourceImageName, destImageName});
+    }
+
+    @Override
+    public void histogram(String sourceImageName, String destImageName, ILineGraph graph)
+        throws ImageNotFoundException, InvalidImageNameException {
+      checkExceptions();
+      logInputs(new String[]{sourceImageName, destImageName, graph.toString()});
+    }
+
+    @Override
+    public void colorCorrect(String sourceImageName, String destImageName)
+        throws ImageNotFoundException, InvalidImageNameException {
+      checkExceptions();
+      logInputs(new String[]{sourceImageName, destImageName});
+    }
+
+    @Override
+    public void adjustLevels(String sourceImageName, String destImageName, int black, int mid,
+        int white)
+        throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+      checkExceptions();
+      logInputs(
+          new String[]{sourceImageName, destImageName, String.valueOf(black), String.valueOf(mid),
+              String.valueOf(white)});
+    }
+
+    @Override
+    public void splitView(String sourceImageName, String destImageName, int splitRatio)
+        throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+      checkExceptions();
+      logInputs(
+          new String[]{sourceImageName, destImageName, String.valueOf(splitRatio)});
+    }
+
+    @Override
+    public void compress(String sourceImageName, String destImageName, int compressRatio)
+        throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+      checkExceptions();
+      logInputs(
+          new String[]{sourceImageName, destImageName, String.valueOf(compressRatio)});
     }
   }
 

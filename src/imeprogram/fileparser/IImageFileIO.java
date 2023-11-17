@@ -1,12 +1,13 @@
-package imeprogram.model;
+package imeprogram.fileparser;
 
 import imeprogram.exceptions.FileFormatException;
+import imeprogram.model.IImage;
 import java.io.IOException;
 
 /**
  * A helper to perform File IO operations on images.
  */
-interface IImageFileIO {
+public interface IImageFileIO {
 
   /**
    * Loads an image from a file.

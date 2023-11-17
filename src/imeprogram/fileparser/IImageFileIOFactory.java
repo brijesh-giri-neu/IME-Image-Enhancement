@@ -1,4 +1,4 @@
-package imeprogram.model;
+package imeprogram.fileparser;
 
 /**
  * A factory class that creates an IImageFileIO object.

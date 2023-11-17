@@ -1,0 +1,72 @@
+#load a png image file 
+load Image.png resImage
+
+# save in jpg format
+save res/A4/saveimage.jpg resImage
+
+# Get red-component
+red-component resImage redResImage
+save res/A4/red-Image.jpg redResImage
+
+# Get green-component
+green-component resImage greenResImage
+save res/A4/green-Image.jpg greenResImage
+
+# Get blue-component
+blue-component resImage blueResImage
+save res/A4/blue-Image.jpg blueResImage
+
+# Get value-component
+value-component resImage valueResImage
+save res/A4/value-Image.jpg valueResImage
+
+# Get intensity-component
+intensity-component resImage intensityResImage
+save res/A4/intensity-Image.jpg intensityResImage
+
+# Get luma-component
+luma-component resImage lumaResImage
+save res/A4/luma-Image.jpg lumaResImage
+
+# horizontal-flip
+horizontal-flip resImage flipHorizontalresImage
+save res/A4/horizontal-flip-Image.jpg flipHorizontalresImage
+
+# vertical-flip
+vertical-flip resImage flipVerticalresImage
+save res/A4/vertical-flip-Image.jpg flipVerticalresImage
+
+# brighten by 50
+brighten 50 resImage brighten-50-resImage
+save res/A4/brighten-50-Image.jpg brighten-50-resImage
+
+# darken by 50
+brighten -50 resImage darken-50-resImage
+save res/A4/darken-50-Image.jpg darken-50-resImage
+
+# rgb split
+rgb-split resImage destImageRed destImageGreen destImageBlue
+save res/A4/split-red-Image.jpg destImageRed
+save res/A4/split-green-Image.jpg destImageGreen
+save res/A4/split-blue-Image.jpg destImageBlue
+
+# rgb combine
+load res/A4/split-red-Image.jpg sourceImageRed
+load res/A4/split-green-Image.jpg sourceImageGreen
+load res/A4/split-blue-Image.jpg sourceImageBlue
+rgb-combine combinedImage sourceImageRed sourceImageGreen sourceImageBlue
+save res/A4/combined-Image.jpg combinedImage
+
+# blur
+blur resImage blurredImage1
+blur blurredImage1 blurredImage2
+blur blurredImage2 blurredImage3
+save res/A4/blur-3times-Image.jpg blurredImage3
+
+# sharpen
+sharpen resImage resImageSharpen
+save res/A4/sharpen-1time-Image.jpg resImageSharpen
+
+# sepia
+sepia resImage resImageSepia
+save res/A4/sepia-Image.jpg resImageSepia

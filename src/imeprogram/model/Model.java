@@ -3,6 +3,8 @@ package imeprogram.model;
 import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
+import imeprogram.fileparser.IImageFileIO;
+import imeprogram.fileparser.IImageFileIOFactory;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -60,6 +62,13 @@ public class Model implements IModel {
     } catch (IOException e) {
       throw new FileNotFoundException();
     }
+  }
+
+  @Override
+  public int[][][] getImageData(String sourceImageName) throws ImageNotFoundException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    return sourceImg.getRgbValues();
   }
 
   @Override
@@ -127,7 +136,7 @@ public class Model implements IModel {
   }
 
   @Override
-  public void brighten(int increment, String sourceImageName, String destImageName)
+  public void brighten(String sourceImageName, String destImageName, int increment)
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
@@ -188,6 +197,48 @@ public class Model implements IModel {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
     saveImageToMemory(sourceImg.convertToSepia(), destImageName);
+  }
+
+  @Override
+  public void histogram(String sourceImageName, String destImageName, ILineGraph graph)
+      throws ImageNotFoundException, InvalidImageNameException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.getHistogram(graph), destImageName);
+  }
+
+  @Override
+  public void colorCorrect(String sourceImageName, String destImageName)
+      throws ImageNotFoundException, InvalidImageNameException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.colorCorrect(), destImageName);
+  }
+
+  @Override
+  public void adjustLevels(String sourceImageName, String destImageName, int black, int mid,
+      int white)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.adjustLevels(black, mid, white), destImageName);
+  }
+
+  @Override
+  public void splitView(String sourceImageName, String destImageName, int splitRatio)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+    IImage destImg = getImageFromMemory(destImageName);
+
+    saveImageToMemory(destImg.splitView(sourceImg, splitRatio), destImageName);
+  }
+
+  @Override
+  public void compress(String sourceImageName, String destImageName, int compressRatio)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.haarCompress(compressRatio), destImageName);
   }
 
   /**

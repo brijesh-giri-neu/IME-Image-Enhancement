@@ -1,18 +1,10 @@
 package imeprogram.model;
 
-import imeprogram.exceptions.FileFormatException;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Scanner;
-import javax.imageio.ImageIO;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents a 24-bit Image with Red, Green, and Blue channels. And operations that can
@@ -23,6 +15,8 @@ public class Image implements IImage {
   private int[][][] rgbValues;
   private int height;
   private int width;
+  private final int bitDepth = 256;
+  private final int numChannels = 3;
 
   /**
    * Instantiate an Image object with all pixel values set to Zero.
@@ -43,204 +37,11 @@ public class Image implements IImage {
    * @param width     width of the image.
    * @param rgbValues array of pixel values.
    */
-  Image(int[][][] rgbValues, int width, int height) {
-    int[][][] newValues = new int[height][width][3];
-
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        // Create deep copy
-        newValues[i][j][0] = rgbValues[i][j][0];  // Red value
-        newValues[i][j][1] = rgbValues[i][j][1];  // Green value
-        newValues[i][j][2] = rgbValues[i][j][2];  // Blue value
-      }
-
-      this.rgbValues = newValues;
-      this.width = width;
-      this.height = height;
-    }
+  public Image(int[][][] rgbValues, int width, int height) {
+    this.height = height;
+    this.width = width;
+    this.rgbValues = getDeepCopy(rgbValues);
   }
-
-  /**
-   * Loads an Image from the given filepath.
-   *
-   * @param filePath the input filepath
-   * @return an Image object
-   * @throws IllegalArgumentException if the provided file has corrupt data
-   * @throws IOException              if the provided file does not exists
-   */
-  public static Image loadImageFromFile(String filePath) throws
-      IllegalArgumentException, IOException {
-    String fileExtension = getFileExtension(filePath);
-
-    if (fileExtension != null) {
-      switch (fileExtension.toLowerCase()) {
-        case "jpg":
-        case "jpeg":
-        case "png":
-          return loadJpgOrPngImage(filePath);
-        case "ppm":
-          return loadPpmImage(filePath);
-        default:
-          throw new IllegalArgumentException("Unsupported file format: " + fileExtension);
-      }
-    } else {
-      throw new IllegalArgumentException("File path has no extension");
-    }
-  }
-
-  /**
-   * Loads a JPG or PNG Image.
-   *
-   * @param filePath path of the file.
-   * @return Image object.
-   */
-  private static Image loadJpgOrPngImage(String filePath) throws IOException {
-    BufferedImage bufferedImage = ImageIO.read(new File(filePath));
-    int width = bufferedImage.getWidth();
-    int height = bufferedImage.getHeight();
-    int[][][] rgbValues = new int[height][width][3];
-
-    for (int x = 0; x < height; x++) {
-      for (int y = 0; y < width; y++) {
-        int pixel = bufferedImage.getRGB(y, x);
-        rgbValues[x][y][0] = (pixel >> 16) & 0xFF; // Red
-        rgbValues[x][y][1] = (pixel >> 8) & 0xFF;  // Green
-        rgbValues[x][y][2] = pixel & 0xFF;         // Blue
-      }
-    }
-    return new Image(rgbValues, width, height);
-  }
-
-  /**
-   * Loads a PPM Image.
-   *
-   * @param filePath path of the file.
-   * @return Image object.
-   */
-  private static Image loadPpmImage(String filePath) throws IOException {
-
-    if (!isValidPpmFileContent(filePath)) {
-      throw new IllegalArgumentException("Provided ppm file is invalid");
-    }
-
-    Scanner sc;
-    sc = new Scanner(new FileInputStream(filePath));
-
-    StringBuilder builder = new StringBuilder();
-    // Read the file line by line, ignoring comment lines
-    while (sc.hasNextLine()) {
-      String s = sc.nextLine();
-      if (s.charAt(0) != '#') {
-        builder.append(s).append(System.lineSeparator());
-      }
-    }
-    sc = new Scanner(builder.toString());
-
-    String token = sc.next();
-    if (!token.equals("P3")) {
-      throw new IllegalArgumentException("Provided image is invalid.");
-      // You might throw an IOException here if necessary
-    }
-
-    int width = sc.nextInt();
-    int height = sc.nextInt();
-    int maxValue = sc.nextInt();
-
-    int[][][] rgbValues = new int[height][width][3];
-
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        rgbValues[i][j][0] = sc.nextInt();  // Red value
-        rgbValues[i][j][1] = sc.nextInt();  // Green value
-        rgbValues[i][j][2] = sc.nextInt();  // Blue value
-      }
-    }
-
-    return new Image(rgbValues, width, height);
-  }
-
-  /**
-   * Checks if a PPM file contains valid data.
-   *
-   * @param filePath path of the file.
-   * @return True or False.
-   */
-  private static boolean isValidPpmFileContent(String filePath) {
-    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-      // Read the first two lines and check if they comply with PPM format
-      String magicNumber = reader.readLine();
-      String dimensions = reader.readLine();
-
-      if (magicNumber != null && dimensions != null) {
-        if (!magicNumber.equals("P3") && !magicNumber.equals("P6")) {
-          return false;
-        }
-
-        String[] dimensionValues = dimensions.trim().split("\\s+");
-
-        if (dimensionValues.length != 2) {
-          return false;
-        }
-
-        int width = Integer.parseInt(dimensionValues[0]);
-        int height = Integer.parseInt(dimensionValues[1]);
-
-        if (width <= 0 || height <= 0) {
-          return false;
-        }
-
-        String maxValLine = reader.readLine();
-        if (maxValLine != null) {
-          int maxVal = Integer.parseInt(maxValLine.trim());
-          if (maxVal != 255) {
-            return false;
-          }
-        } else {
-          return false;
-        }
-
-        // Check the content for RGB values
-        String line;
-        while ((line = reader.readLine()) != null) {
-          String[] values = line.trim().split("\\s+");
-          for (String val : values) {
-            try {
-              int rgb = Integer.parseInt(val);
-              if (rgb < 0 || rgb > 255) {
-                return false;
-              }
-            } catch (NumberFormatException e) {
-              return false;
-            }
-          }
-        }
-      } else {
-        return false;
-      }
-
-      return true; // All checks passed, PPM content is valid
-    } catch (IOException e) {
-      return false;
-    }
-  }
-
-  /**
-   * Gets the file extension of the file.
-   *
-   * @param filePath path of the file.
-   * @return extension or null.
-   */
-  private static String getFileExtension(String filePath) {
-    if (filePath != null && !filePath.isEmpty()) {
-      int dotIndex = filePath.lastIndexOf('.');
-      if (dotIndex > 0 && dotIndex < filePath.length() - 1) {
-        return filePath.substring(dotIndex + 1);
-      }
-    }
-    return null;
-  }
-
-  // End of Image Builder Methods
 
   @Override
   public IImage getRedComponent() {
@@ -286,8 +87,7 @@ public class Image implements IImage {
     int[][][] valueValues = new int[height][width][3];
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        int value = Math.max(rgbValues[i][j][0],
-            Math.max(rgbValues[i][j][1], rgbValues[i][j][2]));
+        int value = Math.max(rgbValues[i][j][0], Math.max(rgbValues[i][j][1], rgbValues[i][j][2]));
         valueValues[i][j][0] = value;  // Red value
         valueValues[i][j][1] = value;  // Green value
         valueValues[i][j][2] = value;  // Blue value
@@ -312,11 +112,13 @@ public class Image implements IImage {
 
   @Override
   public IImage getLumaComponent() {
-    int[][][] lumaValues = new int[height][width][3];
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        int luma = (int) Math.round(0.2126 * rgbValues[i][j][0] + 0.7152 * rgbValues[i][j][1]
-            + 0.0722 * rgbValues[i][j][2]);
+    int[][][] lumaValues = new int[height][width][numChannels];
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+
+        int luma = (int) Math.round(
+            0.2126 * this.rgbValues[i][j][0] + 0.7152 * this.rgbValues[i][j][1]
+                + 0.0722 * this.rgbValues[i][j][2]);
         lumaValues[i][j][0] = luma;  // Red value
         lumaValues[i][j][1] = luma;  // Green value
         lumaValues[i][j][2] = luma;  // Blue value
@@ -376,8 +178,7 @@ public class Image implements IImage {
         blueValues[i][j][2] = this.rgbValues[i][j][2];  // Blue value
       }
     }
-    return new IImage[]{new Image(redValues, width, height),
-        new Image(greenValues, width, height),
+    return new IImage[]{new Image(redValues, width, height), new Image(greenValues, width, height),
         new Image(blueValues, width, height)};
   }
 
@@ -406,14 +207,14 @@ public class Image implements IImage {
 
   @Override
   public IImage gaussianBlur() {
-    int[][][] blurredImage = new int[height][width][3];
+    int[][][] blurredImage = new int[height][width][numChannels];
 
     // Define the Gaussian blur kernel
     double[][] kernel = {{1.0 / 16, 2.0 / 16, 1.0 / 16}, {2.0 / 16, 4.0 / 16, 2.0 / 16},
         {1.0 / 16, 2.0 / 16, 1.0 / 16}};
 
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
         double r = 0;
         double g = 0;
         double b = 0;
@@ -421,40 +222,36 @@ public class Image implements IImage {
         // Apply the kernel to each pixel
         for (int ki = -1; ki <= 1; ki++) {
           for (int kj = -1; kj <= 1; kj++) {
-            if (i + ki >= 0 && i + ki < height && j + kj >= 0 && j + kj < width) {
-              r += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][0];
-              g += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][1];
-              b += kernel[ki + 1][kj + 1] * rgbValues[i + ki][j + kj][2];
+            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
+              r += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][2];
             }
           }
         }
-
         // Clamp the RGB values
-        int ri = Math.min(255, Math.max(0, (int) Math.round(r)));
-        int gi = Math.min(255, Math.max(0, (int) Math.round(g)));
-        int bi = Math.min(255, Math.max(0, (int) Math.round(b)));
-
-        blurredImage[i][j][0] = ri;
-        blurredImage[i][j][1] = gi;
-        blurredImage[i][j][2] = bi;
+        r = Math.min(255, Math.max(0, r));
+        g = Math.min(255, Math.max(0, g));
+        b = Math.min(255, Math.max(0, b));
+        // Round off to nearest int
+        blurredImage[i][j][0] = (int) Math.round(r);
+        blurredImage[i][j][1] = (int) Math.round(g);
+        blurredImage[i][j][2] = (int) Math.round(b);
       }
     }
-
     return new Image(blurredImage, width, height);
   }
 
   @Override
   public IImage sharpen() {
-    int[][][] sharpenedImage = new int[height][width][3];
+    int[][][] sharpenedImage = new int[height][width][numChannels];
 
     // Define the sharpening kernel
-    double[][] kernel = {
-        {-1.0/8, -1.0/8, -1.0/8, -1.0/8, -1.0/8},
-        {-1.0/8, 1.0/4, 1.0/4, 1.0/4, -1.0/8},
-        {-1.0/8, 1.0/4, 1.0/4, 1.0/4, -1.0/8},
-        {-1.0/8, 1.0/4, 1.0/4, 1.0/4, -1.0/8},
-        {-1.0/8, -1.0/8, -1.0/8, -1.0/8, -1.0/8}
-    };
+    double[][] kernel = {{-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}};
 
     // Calculate the sum of the kernel values
     double sum = 0;
@@ -463,7 +260,6 @@ public class Image implements IImage {
         sum += aDouble;
       }
     }
-
     // Normalize the kernel
     for (int i = 0; i < kernel.length; i++) {
       for (int j = 0; j < kernel[i].length; j++) {
@@ -471,8 +267,8 @@ public class Image implements IImage {
       }
     }
 
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
         double r = 0;
         double g = 0;
         double b = 0;
@@ -480,25 +276,161 @@ public class Image implements IImage {
         // Apply the kernel to each pixel
         for (int ki = -2; ki <= 2; ki++) {
           for (int kj = -2; kj <= 2; kj++) {
-            if (i + ki >= 0 && i + ki < height && j + kj >= 0 && j + kj < width) {
-              r += kernel[ki + 2][kj + 2] * rgbValues[i + ki][j + kj][0];
-              g += kernel[ki + 2][kj + 2] * rgbValues[i + ki][j + kj][1];
-              b += kernel[ki + 2][kj + 2] * rgbValues[i + ki][j + kj][2];
+            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
+              r += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][2];
             }
           }
         }
-
         // Clamp the RGB values
         r = Math.min(255, Math.max(0, r));
         g = Math.min(255, Math.max(0, g));
         b = Math.min(255, Math.max(0, b));
-
-        sharpenedImage[i][j][0] = (int) r;
-        sharpenedImage[i][j][1] = (int) g;
-        sharpenedImage[i][j][2] = (int) b;
+        // Round off to nearest int
+        sharpenedImage[i][j][0] = (int) Math.round(r);
+        sharpenedImage[i][j][1] = (int) Math.round(g);
+        sharpenedImage[i][j][2] = (int) Math.round(b);
       }
     }
     return new Image(sharpenedImage, width, height);
+  }
+
+  @Override
+  public IImage getHistogram(ILineGraph graph) {
+    int histogramHeight = this.bitDepth;
+    int histogramWidth = this.bitDepth;
+    int[][] histogramData = getHistogram();
+
+    // Normalize the histogram. Scale its height to 256.
+    int topMarginNormalize = 1;
+    histogramData = normalizeHistogram(histogramData, histogramHeight - (topMarginNormalize));
+    return graph.drawLineGraph(histogramData, histogramHeight, histogramWidth);
+  }
+
+  /**
+   * Returns the frequency histogram of this IImage.
+   *
+   * @return an int[pixelValue][channel] containing frequency values for each intensity value of the
+   *     RGB channels. The output array size is int[256][3], where index0 -> pixel values, index1 ->
+   *     channel.
+   */
+  private int[][] getHistogram() {
+    int[][] histogram = new int[this.bitDepth][this.numChannels];
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        for (int c = 0; c < this.numChannels; c++) {
+          histogram[this.rgbValues[i][j][c]][c]++;
+        }
+      }
+    }
+    return histogram;
+  }
+
+  @Override
+  public IImage colorCorrect() {
+    int[][][] correctedPixels = new int[this.height][this.width][this.numChannels];
+    int[][] histogramData = getHistogram();
+    int[][] channelPeaks = getPeaks(histogramData, 11, 244);
+
+    // Get position of individual channel peaks
+    int redPeakPosition = channelPeaks[0][0];     // Red Peak
+    int greenPeakPosition = channelPeaks[1][0];   // Green Peak
+    int bluePeakPosition = channelPeaks[2][0];    // Blue Peak
+    // Get the average position for alignment
+    int alignedPosition = Math.round(redPeakPosition + greenPeakPosition + bluePeakPosition) / 3;
+    // Calculate offset for each channel
+    int redOffset = alignedPosition - redPeakPosition;
+    int greenOffset = alignedPosition - greenPeakPosition;
+    int blueOffset = alignedPosition - bluePeakPosition;
+    // Align the peaks of each channel by applying an offset to the pixel values.
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        // Get the pixel value at (i, j) that is to be color corrected.
+        int correctedRed = this.rgbValues[i][j][0];
+        int correctedGreen = this.rgbValues[i][j][1];
+        int correctedBlue = this.rgbValues[i][j][2];
+        // Apply offsets to align histogram peaks
+        correctedRed += redOffset;
+        correctedGreen += greenOffset;
+        correctedBlue += blueOffset;
+        // Clamp the values to stay within the valid range (0-255)
+        correctedRed = Math.min(Math.max(correctedRed, 0), 255);
+        correctedGreen = Math.min(Math.max(correctedGreen, 0), 255);
+        correctedBlue = Math.min(Math.max(correctedBlue, 0), 255);
+        // Set the color corrected values in the result image
+        correctedPixels[i][j][0] = correctedRed;
+        correctedPixels[i][j][1] = correctedGreen;
+        correctedPixels[i][j][2] = correctedBlue;
+      }
+    }
+    return new Image(correctedPixels, width, height);
+  }
+
+  @Override
+  public IImage adjustLevels(int black, int mid, int white) throws IllegalArgumentException {
+    // black, mid, and white should be in ascending order. And should be in [0, 255] range.
+    if (!(black < mid && black < white && mid < white) || !(black >= 0 && black <= 255)) {
+      throw new IllegalArgumentException("Provided black, mid, and white levels are not valid");
+    }
+    if (!(mid >= 0 && mid <= 255) || !(white >= 0 && white <= 255)) {
+      throw new IllegalArgumentException("Provided black, mid, and white levels are not valid");
+    }
+
+    int[][][] adjustedPixels = new int[this.height][this.width][this.numChannels];
+
+    int b = black;
+    int m = mid;
+    int w = white;
+    // Curve fitting formulas
+    double denomA = ((b * b) * (m - w)) - (b * ((m * m) - (w * w))) + (w * m * m) - (m * w * w);
+    double numA = (127 * b) + (128 * w) - (255 * m);
+    double numB = (-127 * b * b) + (255 * m * m) - (128 * w * w);
+    double numC = ((b * b) * ((255 * m) - (128 * w))) - (b * ((255 * m * m) - (128 * w * w)));
+    // Get quadratic curve equation coefficients
+    double coeffA = numA / denomA;
+    double coeffB = numB / denomA;
+    double coeffC = numC / denomA;
+    // Apply the quadratic curve function to each pixel in each channel
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        for (int c = 0; c < this.numChannels; c++) {
+          int x = this.rgbValues[i][j][c];
+          double y = (coeffA * Math.pow(x, 2)) + (coeffB * x) + coeffC;
+          // Clamp the values, round-off to nearest, and set it in the image
+          adjustedPixels[i][j][c] = Math.min(255, Math.max(0, (int) Math.round(y))); // Clamp values
+        }
+      }
+    }
+    return new Image(adjustedPixels, width, height);
+  }
+
+  @Override
+  public IImage splitView(IImage other, int splitRatio) throws IllegalArgumentException {
+    if (this.width != other.getWidth() || this.height != other.getHeight()) {
+      throw new IllegalArgumentException("Dimensions of given images dont match");
+    }
+    if (splitRatio < 0 || splitRatio > 100) {
+      throw new IllegalArgumentException("Invalid split Ratio");
+    }
+
+    int[][][] splitValues = new int[this.height][this.width][this.numChannels];
+    int splitHorizontalPosition = getSplitPosition(this.width, splitRatio);
+    for (int i = 0; i < this.height; i++) {
+      // Fill left portion of result
+      for (int j = 0; j < splitHorizontalPosition; j++) {
+        splitValues[i][j][0] = this.rgbValues[i][j][0]; // Red
+        splitValues[i][j][1] = this.rgbValues[i][j][1]; // Green
+        splitValues[i][j][2] = this.rgbValues[i][j][2]; // Blue
+      }
+      // Fill right portion of result
+      for (int j = splitHorizontalPosition; j < this.width; j++) {
+        splitValues[i][j][0] = other.getValueAtPixel(i, j, 0); // Red
+        splitValues[i][j][1] = other.getValueAtPixel(i, j, 1); // Green
+        splitValues[i][j][2] = other.getValueAtPixel(i, j, 2); // Blue
+      }
+    }
+    return new Image(splitValues, width, height);
   }
 
   @Override
@@ -521,12 +453,12 @@ public class Image implements IImage {
 
   @Override
   public IImage convertToSepia() {
-    int[][][] sepiaValues = new int[height][width][3];
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        int r = rgbValues[i][j][0];
-        int g = rgbValues[i][j][1];
-        int b = rgbValues[i][j][2];
+    int[][][] sepiaValues = new int[height][width][numChannels];
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        int r = this.rgbValues[i][j][0];
+        int g = this.rgbValues[i][j][1];
+        int b = this.rgbValues[i][j][2];
         sepiaValues[i][j][0] = Math.min(255,
             Math.max(0, (int) Math.round(0.393 * r + 0.769 * g + 0.189 * b)));  // Red value
         sepiaValues[i][j][1] = Math.min(255,
@@ -536,56 +468,6 @@ public class Image implements IImage {
       }
     }
     return new Image(sepiaValues, width, height);
-  }
-
-  public void saveToFile(String filepath) throws FileNotFoundException, FileFormatException {
-    // Extract the file extension from the filepath
-    String extension = "";
-    int i = filepath.lastIndexOf('.');
-    if (i > 0) {
-      extension = filepath.substring(i + 1);
-    }
-
-    // Convert the 3D array of RGB values to a BufferedImage
-    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        int r = rgbValues[y][x][0];
-        int g = rgbValues[y][x][1];
-        int b = rgbValues[y][x][2];
-        Color color = new Color(r, g, b);
-        image.setRGB(x, y, color.getRGB());
-      }
-    }
-
-    // Save the BufferedImage to a file
-    try {
-      if (extension.equalsIgnoreCase("ppm")) {
-        // Save as PPM
-        FileWriter writer = new FileWriter(new File(filepath));
-        writer.write("P3\n" + width + " " + height + "\n255\n");
-        for (int y = 0; y < height; y++) {
-          for (int x = 0; x < width; x++) {
-            int r = rgbValues[y][x][0];
-            int g = rgbValues[y][x][1];
-            int b = rgbValues[y][x][2];
-            writer.write(r + " " + g + " " + b + " ");
-          }
-          writer.write("\n");
-        }
-        writer.close();
-      } else if (extension.equalsIgnoreCase("png")) {
-        // Save as PNG
-        ImageIO.write(image, "png", new File(filepath));
-      } else if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg")) {
-        // Save as JPG
-        ImageIO.write(image, "jpg", new File(filepath));
-      } else {
-        throw new FileFormatException("Unsupported file extension: " + extension);
-      }
-    } catch (IOException e) {
-      throw new FileNotFoundException("Error writing image file: " + e.getMessage());
-    }
   }
 
   @Override
@@ -603,16 +485,7 @@ public class Image implements IImage {
 
   @Override
   public int[][][] getRgbValues() {
-    int[][][] copyValues = new int[this.height][this.width][3];
-
-    for (int i = 0; i < this.height; i++) {
-      for (int j = 0; j < this.width; j++) {
-        copyValues[i][j][0] = this.rgbValues[i][j][0];  // Red value
-        copyValues[i][j][1] = this.rgbValues[i][j][1];  // Green value
-        copyValues[i][j][2] = this.rgbValues[i][j][2];  // Blue value
-      }
-    }
-    return copyValues;
+    return getDeepCopy(this.rgbValues);
   }
 
   @Override
@@ -623,5 +496,308 @@ public class Image implements IImage {
   @Override
   public int getHeight() {
     return this.height;
+  }
+
+  private int getSplitPosition(int width, int splitPercentage) {
+    return Math.round((width * splitPercentage) / 100);
+  }
+
+  private int[][] normalizeHistogram(int[][] histogram, int scaleFactor) {
+    int[][] normalizedHistogram = new int[this.bitDepth][this.numChannels];
+    int maxFreqChannel = 0;
+    int maxFreqPosition = 0;
+    // Find the maximum frequency in the histogram
+    int maxFrequency = 0;
+    // Discard boundary values (0,255) for max frequency calculation
+    // This is done as presence of clamped pixels can alter the histogram drawn
+    for (int i = 1; i < this.bitDepth - 1; i++) {
+      for (int c = 0; c < this.numChannels; c++) {
+        if (histogram[i][c] > maxFrequency) {
+          maxFrequency = histogram[i][c];
+          maxFreqPosition = i;
+          maxFreqChannel = c;
+        }
+      }
+    }
+    // Normalize the histogram values
+    for (int i = 0; i < 256; i++) {
+      for (int c = 0; c < this.numChannels; c++) {
+        normalizedHistogram[i][c] = (int) (histogram[i][c] * ((double) scaleFactor / maxFrequency));
+      }
+    }
+    return normalizedHistogram;
+  }
+
+  /**
+   * Returns the histogram peak for each channel of the given histogram.
+   *
+   * @param histogramData histogram whose peaks are required. Should be in the format
+   *                      [pixelValue][channel].
+   * @param minValue      the minimum value to be considered in the peak calculation.
+   * @param maxValue      the maximum value to be considered in the peak calculation.
+   * @return an int[][] containing the histogram peak for each channel in [channel][peak] format,
+   *     where the indices for the peak represent the following, index0 -> position on horizontal
+   *     axis, index1 -> height of the peak.
+   */
+  private int[][] getPeaks(int[][] histogramData, int minValue, int maxValue) {
+    int[][] peaks = new int[this.numChannels][2];
+
+    for (int i = minValue; i <= maxValue; i++) {
+      for (int c = 0; c < this.numChannels; c++) {
+        // If frequency at (i) is greater than current peak frequency for the channel.
+        if (histogramData[i][c] > peaks[c][1]) {
+          // Peak frequency value
+          peaks[c][1] = histogramData[i][c];
+          // Peak frequency position
+          peaks[c][0] = i;
+        }
+      }
+    }
+    return peaks;
+  }
+
+  // Image Compression Methods.
+
+  private double[] haarOneDim(double[] s) {
+    int n = s.length;
+    double[] avg = new double[n / 2];
+    double[] diff = new double[n / 2];
+    for (int i = 0; i < n; i += 2) {
+      avg[i / 2] = (s[i] + s[i + 1]) / Math.sqrt(2);
+      diff[i / 2] = (s[i] - s[i + 1]) / Math.sqrt(2);
+    }
+    for (int i = 0; i < n / 2; i++) {
+      s[i] = avg[i];
+      s[i + n / 2] = diff[i];
+    }
+    return s;
+  }
+
+  private double[] invHaarOneDim(double[] s) {
+    int n = s.length;
+    double[] avg = new double[n / 2];
+    double[] diff = new double[n / 2];
+    for (int i = 0; i < n / 2; i++) {
+      avg[i] = (s[i] + s[i + n / 2]) / Math.sqrt(2);
+      diff[i] = (s[i] - s[i + n / 2]) / Math.sqrt(2);
+    }
+    for (int i = 0; i < n / 2; i++) {
+      s[2 * i] = avg[i];
+      s[2 * i + 1] = diff[i];
+    }
+    return s;
+  }
+
+  private double[][] haarTwoDim(double[][] x, int s) {
+    int c = s;
+    while (c > 1) {
+      for (int i = 0; i < c; i++) {
+        x[i] = haarOneDim(x[i]);
+      }
+
+      for (int j = 0; j < c; j++) {
+        double[] col = new double[c];
+        for (int i = 0; i < c; i++) {
+          col[i] = x[i][j];
+        }
+        col = haarOneDim(col);
+        for (int i = 0; i < c; i++) {
+          x[i][j] = col[i];
+        }
+      }
+      c /= 2;
+    }
+    return x;
+  }
+
+  private double[][] invHaarTwoDim(double[][] x, int s) {
+    int c = 2;
+    while (c <= s) {
+      for (int j = 0; j < c; j++) {
+        double[] col = new double[c];
+        for (int i = 0; i < c; i++) {
+          col[i] = x[i][j];
+        }
+        col = invHaarOneDim(col);
+        for (int i = 0; i < c; i++) {
+          x[i][j] = col[i];
+        }
+      }
+      for (int i = 0; i < c; i++) {
+        x[i] = invHaarOneDim(x[i]);
+      }
+      c *= 2;
+    }
+    return x;
+  }
+
+  private double[][][] haarThreeDim(double[][][] x) {
+    int height = x.length;
+    int width = x[0].length;
+    int values = x[0][0].length;
+    int s = nextPowerOfTwo(Math.max(height, width));
+
+    double[][][] y = new double[s][s][values];
+    for (int v = 0; v < values; v++) {
+      double[][] channel = new double[s][s];
+
+      for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+          channel[i][j] = x[i][j][v];
+        }
+      }
+
+      channel = haarTwoDim(channel, s);
+      for (int i = 0; i < channel.length; i++) {
+        for (int j = 0; j < channel[i].length; j++) {
+          y[i][j][v] = channel[i][j];
+        }
+      }
+    }
+    return y;
+  }
+
+  private double[][][] invHaarThreeDim(double[][][] x) {
+    int s = x.length;
+    int values = x[0][0].length;
+    double[][][] y = new double[s][s][values];
+    for (int v = 0; v < values; v++) {
+      double[][] channel = new double[s][s];
+      for (int i = 0; i < s; i++) {
+        for (int j = 0; j < s; j++) {
+          channel[i][j] = x[i][j][v];
+        }
+      }
+      channel = invHaarTwoDim(channel, s);
+      for (int i = 0; i < s; i++) {
+        for (int j = 0; j < s; j++) {
+          y[i][j][v] = channel[i][j];
+        }
+      }
+    }
+    return y;
+  }
+
+  private int nextPowerOfTwo(int n) {
+    int power = 1;
+    while (power < n) {
+      power *= 2;
+    }
+    return power;
+  }
+
+  private double[][][] compress(double[][][] rgbValues, double compressionRatio) {
+    // Create a set of all absolute values in the rgbValues array
+    Set<Double> allValuesSet = new HashSet<>();
+    for (double[][] channel : rgbValues) {
+      for (double[] row : channel) {
+        for (double value : row) {
+          allValuesSet.add(Math.abs(value));
+        }
+      }
+    }
+
+    // Convert the set to a list and sort it
+    List<Double> allValuesList = new ArrayList<>(allValuesSet);
+    Collections.sort(allValuesList);
+
+    // Calculate the index corresponding to the desired compression ratio
+    int thresholdIndex = (int) Math.round((compressionRatio / 100) * allValuesList.size()) - 1;
+
+    if (thresholdIndex <= 0) {
+      thresholdIndex = 0;
+    }
+
+    // Get the threshold value
+    double threshold = allValuesList.get(thresholdIndex);
+
+    for (double[][] channel : rgbValues) {
+      for (double[] row : channel) {
+        for (int i = 0; i < row.length; i++) {
+          if (Math.abs(row[i]) < threshold) {
+            row[i] = 0;
+          }
+        }
+      }
+    }
+
+    return invHaarThreeDim(rgbValues);
+  }
+
+  private double[][][] unPad(double[][][] array, int[] originalDimensions) {
+    int originalX = originalDimensions[0];
+    int originalY = originalDimensions[1];
+    int originalZ = originalDimensions[2];
+
+    double[][][] newArray = new double[originalX][originalY][originalZ];
+
+    for (int x = 0; x < originalX; x++) {
+      for (int y = 0; y < originalY; y++) {
+        System.arraycopy(array[x][y], 0, newArray[x][y], 0, originalZ);
+      }
+    }
+
+    return newArray;
+  }
+
+  /**
+   * Compresses an image using Haar Wavelet Transforms.
+   *
+   * @param ratio The Compression Ratio.
+   * @return Image object.
+   */
+  public IImage haarCompress(int ratio) throws IllegalArgumentException {
+
+    if (ratio < 0 || ratio > 100) {
+      throw new IllegalArgumentException("Ratio must be between 0 and 100.");
+    }
+
+    int height = this.rgbValues.length;
+    int width = this.rgbValues[0].length;
+    int values = this.rgbValues[0][0].length;
+    int[] dimensions = new int[3];
+    dimensions[0] = height;
+    dimensions[1] = width;
+    dimensions[2] = values;
+
+    double[][][] rgbValuesDouble = new double[height][width][values];
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        for (int v = 0; v < values; v++) {
+          rgbValuesDouble[i][j][v] = this.rgbValues[i][j][v];
+        }
+      }
+    }
+
+    double[][][] transformed = haarThreeDim(rgbValuesDouble);
+    double[][][] compressed = compress(transformed, ratio);
+    double[][][] unpadded = unPad(compressed, dimensions);
+
+    int[][][] rgbValuesInt = new int[height][width][values];
+
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        for (int v = 0; v < values; v++) {
+          rgbValuesInt[i][j][v] = (int) Math.min(255, Math.max(0, Math.round(unpadded[i][j][v])));
+        }
+      }
+    }
+    return new Image(rgbValuesInt, width, height);
+  }
+
+  // End of Image compression methods.
+
+  private int[][][] getDeepCopy(int[][][] inputArray) {
+    int[][][] copyArray = new int[inputArray.length][inputArray[0].length][inputArray[0][0].length];
+
+    for (int dim1 = 0; dim1 < inputArray.length; dim1++) {
+      for (int dim2 = 0; dim2 < inputArray[0].length; dim2++) {
+        for (int dim3 = 0; dim3 < inputArray[0][0].length; dim3++) {
+          copyArray[dim1][dim2][dim3] = inputArray[dim1][dim2][dim3];
+        }
+      }
+    }
+    return copyArray;
   }
 }

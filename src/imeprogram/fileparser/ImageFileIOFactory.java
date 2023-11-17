@@ -1,4 +1,4 @@
-package imeprogram.model;
+package imeprogram.fileparser;
 
 /**
  * An implementation for the ImageFileIOFactory used to create an IImageFileIO object.
