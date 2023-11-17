@@ -2938,7 +2938,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the getHistogram method for Dimension validity
+   * Tests the getHistogram method for Dimension validity.
    */
   @Test
   public void test_Histogram_Dimensions() {
@@ -3284,7 +3284,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the splitView method for ratio beyond limit
+   * Tests the splitView method for ratio beyond limit.
    */
   @Test(expected = IllegalArgumentException.class)
   public void test_splitView_ExceedingRatio() throws IOException {

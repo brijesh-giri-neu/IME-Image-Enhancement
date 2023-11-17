@@ -40,7 +40,7 @@ public class Image implements IImage {
   public Image(int[][][] rgbValues, int width, int height) {
     this.height = height;
     this.width = width;
-    this.rgbValues = _getDeepCopy(rgbValues);
+    this.rgbValues = getDeepCopy(rgbValues);
   }
 
   @Override
@@ -300,19 +300,38 @@ public class Image implements IImage {
   public IImage getHistogram(ILineGraph graph) {
     int histogramHeight = this.bitDepth;
     int histogramWidth = this.bitDepth;
-    int[][] histogramData = _getHistogram();
+    int[][] histogramData = getHistogram();
 
     // Normalize the histogram. Scale its height to 256.
     int topMarginNormalize = 1;
-    histogramData = _normalizeHistogram(histogramData, histogramHeight - (topMarginNormalize));
+    histogramData = normalizeHistogram(histogramData, histogramHeight - (topMarginNormalize));
     return graph.drawLineGraph(histogramData, histogramHeight, histogramWidth);
+  }
+
+  /**
+   * Returns the frequency histogram of this IImage.
+   *
+   * @return an int[pixelValue][channel] containing frequency values for each intensity value of the
+   *     RGB channels. The output array size is int[256][3], where index0 -> pixel values, index1 ->
+   *     channel.
+   */
+  private int[][] getHistogram() {
+    int[][] histogram = new int[this.bitDepth][this.numChannels];
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        for (int c = 0; c < this.numChannels; c++) {
+          histogram[this.rgbValues[i][j][c]][c]++;
+        }
+      }
+    }
+    return histogram;
   }
 
   @Override
   public IImage colorCorrect() {
     int[][][] correctedPixels = new int[this.height][this.width][this.numChannels];
-    int[][] histogramData = _getHistogram();
-    int[][] channelPeaks = _getPeaks(histogramData, 11, 244);
+    int[][] histogramData = getHistogram();
+    int[][] channelPeaks = getPeaks(histogramData, 11, 244);
 
     // Get position of individual channel peaks
     int redPeakPosition = channelPeaks[0][0];     // Red Peak
@@ -351,12 +370,15 @@ public class Image implements IImage {
   @Override
   public IImage adjustLevels(int black, int mid, int white) throws IllegalArgumentException {
     // black, mid, and white should be in ascending order. And should be in [0, 255] range.
-    if (!(black < mid && black < white && mid < white) || !(black >= 0 && black <= 255) || !(mid >= 0
-        && mid <= 255) || !(white >= 0 && white <= 255)) {
+    if (!(black < mid && black < white && mid < white) || !(black >= 0 && black <= 255)) {
+      throw new IllegalArgumentException("Provided black, mid, and white levels are not valid");
+    }
+    if (!(mid >= 0 && mid <= 255) || !(white >= 0 && white <= 255)) {
       throw new IllegalArgumentException("Provided black, mid, and white levels are not valid");
     }
 
     int[][][] adjustedPixels = new int[this.height][this.width][this.numChannels];
+
     int b = black;
     int m = mid;
     int w = white;
@@ -393,7 +415,7 @@ public class Image implements IImage {
     }
 
     int[][][] splitValues = new int[this.height][this.width][this.numChannels];
-    int splitHorizontalPosition = _getSplitPosition(this.width, splitRatio);
+    int splitHorizontalPosition = getSplitPosition(this.width, splitRatio);
     for (int i = 0; i < this.height; i++) {
       // Fill left portion of result
       for (int j = 0; j < splitHorizontalPosition; j++) {
@@ -463,7 +485,7 @@ public class Image implements IImage {
 
   @Override
   public int[][][] getRgbValues() {
-    return _getDeepCopy(this.rgbValues);
+    return getDeepCopy(this.rgbValues);
   }
 
   @Override
@@ -476,30 +498,11 @@ public class Image implements IImage {
     return this.height;
   }
 
-  private int _getSplitPosition(int width, int splitPercentage) {
+  private int getSplitPosition(int width, int splitPercentage) {
     return Math.round((width * splitPercentage) / 100);
   }
 
-  /**
-   * Returns the frequency histogram of this IImage.
-   *
-   * @return an int[pixelValue][channel] containing frequency values for each intensity value of the
-   *     RGB channels. The output array size is int[256][3], where index0 -> pixel values, index1 ->
-   *     channel.
-   */
-  private int[][] _getHistogram() {
-    int[][] histogram = new int[this.bitDepth][this.numChannels];
-    for (int i = 0; i < this.height; i++) {
-      for (int j = 0; j < this.width; j++) {
-        for (int c = 0; c < this.numChannels; c++) {
-          histogram[this.rgbValues[i][j][c]][c]++;
-        }
-      }
-    }
-    return histogram;
-  }
-
-  private int[][] _normalizeHistogram(int[][] histogram, int scaleFactor) {
+  private int[][] normalizeHistogram(int[][] histogram, int scaleFactor) {
     int[][] normalizedHistogram = new int[this.bitDepth][this.numChannels];
     int maxFreqChannel = 0;
     int maxFreqPosition = 0;
@@ -536,7 +539,7 @@ public class Image implements IImage {
    *     where the indices for the peak represent the following, index0 -> position on horizontal
    *     axis, index1 -> height of the peak.
    */
-  private int[][] _getPeaks(int[][] histogramData, int minValue, int maxValue) {
+  private int[][] getPeaks(int[][] histogramData, int minValue, int maxValue) {
     int[][] peaks = new int[this.numChannels][2];
 
     for (int i = minValue; i <= maxValue; i++) {
@@ -555,7 +558,7 @@ public class Image implements IImage {
 
   // Image Compression Methods.
 
-  private double[] haar1D(double[] s) {
+  private double[] haarOneDim(double[] s) {
     int n = s.length;
     double[] avg = new double[n / 2];
     double[] diff = new double[n / 2];
@@ -570,7 +573,7 @@ public class Image implements IImage {
     return s;
   }
 
-  private double[] invhaar1D(double[] s) {
+  private double[] invHaarOneDim(double[] s) {
     int n = s.length;
     double[] avg = new double[n / 2];
     double[] diff = new double[n / 2];
@@ -585,94 +588,94 @@ public class Image implements IImage {
     return s;
   }
 
-  private double[][] haar2D(double[][] X, int s) {
+  private double[][] haarTwoDim(double[][] x, int s) {
     int c = s;
     while (c > 1) {
       for (int i = 0; i < c; i++) {
-        X[i] = haar1D(X[i]);
+        x[i] = haarOneDim(x[i]);
       }
 
       for (int j = 0; j < c; j++) {
         double[] col = new double[c];
         for (int i = 0; i < c; i++) {
-          col[i] = X[i][j];
+          col[i] = x[i][j];
         }
-        col = haar1D(col);
+        col = haarOneDim(col);
         for (int i = 0; i < c; i++) {
-          X[i][j] = col[i];
+          x[i][j] = col[i];
         }
       }
       c /= 2;
     }
-    return X;
+    return x;
   }
 
-  private double[][] invhaar2D(double[][] X, int s) {
+  private double[][] invHaarTwoDim(double[][] x, int s) {
     int c = 2;
     while (c <= s) {
       for (int j = 0; j < c; j++) {
         double[] col = new double[c];
         for (int i = 0; i < c; i++) {
-          col[i] = X[i][j];
+          col[i] = x[i][j];
         }
-        col = invhaar1D(col);
+        col = invHaarOneDim(col);
         for (int i = 0; i < c; i++) {
-          X[i][j] = col[i];
+          x[i][j] = col[i];
         }
       }
       for (int i = 0; i < c; i++) {
-        X[i] = invhaar1D(X[i]);
+        x[i] = invHaarOneDim(x[i]);
       }
       c *= 2;
     }
-    return X;
+    return x;
   }
 
-  private double[][][] haar3D(double[][][] X) {
-    int height = X.length;
-    int width = X[0].length;
-    int values = X[0][0].length;
+  private double[][][] haarThreeDim(double[][][] x) {
+    int height = x.length;
+    int width = x[0].length;
+    int values = x[0][0].length;
     int s = nextPowerOfTwo(Math.max(height, width));
 
-    double[][][] Y = new double[s][s][values];
+    double[][][] y = new double[s][s][values];
     for (int v = 0; v < values; v++) {
       double[][] channel = new double[s][s];
 
       for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
-          channel[i][j] = X[i][j][v];
+          channel[i][j] = x[i][j][v];
         }
       }
 
-      channel = haar2D(channel, s);
+      channel = haarTwoDim(channel, s);
       for (int i = 0; i < channel.length; i++) {
         for (int j = 0; j < channel[i].length; j++) {
-          Y[i][j][v] = channel[i][j];
+          y[i][j][v] = channel[i][j];
         }
       }
     }
-    return Y;
+    return y;
   }
 
-  private double[][][] invhaar3D(double[][][] X) {
-    int s = X.length;
-    int values = X[0][0].length;
-    double[][][] Y = new double[s][s][values];
+  private double[][][] invHaarThreeDim(double[][][] x) {
+    int s = x.length;
+    int values = x[0][0].length;
+    double[][][] y = new double[s][s][values];
     for (int v = 0; v < values; v++) {
       double[][] channel = new double[s][s];
       for (int i = 0; i < s; i++) {
         for (int j = 0; j < s; j++) {
-          channel[i][j] = X[i][j][v];
+          channel[i][j] = x[i][j][v];
         }
       }
-      channel = invhaar2D(channel, s);
+      channel = invHaarTwoDim(channel, s);
       for (int i = 0; i < s; i++) {
         for (int j = 0; j < s; j++) {
-          Y[i][j][v] = channel[i][j];
+          y[i][j][v] = channel[i][j];
         }
       }
     }
-    return Y;
+    return y;
   }
 
   private int nextPowerOfTwo(int n) {
@@ -718,7 +721,7 @@ public class Image implements IImage {
       }
     }
 
-    return invhaar3D(rgbValues);
+    return invHaarThreeDim(rgbValues);
   }
 
   private double[][][] unPad(double[][][] array, int[] originalDimensions) {
@@ -767,7 +770,7 @@ public class Image implements IImage {
       }
     }
 
-    double[][][] transformed = haar3D(rgbValuesDouble);
+    double[][][] transformed = haarThreeDim(rgbValuesDouble);
     double[][][] compressed = compress(transformed, ratio);
     double[][][] unpadded = unPad(compressed, dimensions);
 
@@ -785,7 +788,7 @@ public class Image implements IImage {
 
   // End of Image compression methods.
 
-  private int[][][] _getDeepCopy(int[][][] inputArray) {
+  private int[][][] getDeepCopy(int[][][] inputArray) {
     int[][][] copyArray = new int[inputArray.length][inputArray[0].length][inputArray[0][0].length];
 
     for (int dim1 = 0; dim1 < inputArray.length; dim1++) {

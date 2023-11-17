@@ -7,12 +7,12 @@ compress 40 resImage resImageCompress40
 save res/A5/Compress40-Image.jpg resImageCompress40
 
 # Compress the image
-compress 75 resImage resImageCompress75
+compress 95 resImage resImageCompress75
 save res/A5/Compress75-Image.jpg resImageCompress75
 
 # Generate histogram of original Image
 histogram galaxyImage histResImage
-save res/A5/histogram-Image.png histResImage
+save res/A5/histogram-GalaxyImage.png histResImage
 
 # Color correct 
 color-correct galaxyImage colorCorrectResImage

@@ -2,38 +2,6 @@
 ## Overview
 This program provides a set of operations for processing 24-bit images with Red, Green, and Blue channels through a text-based interface. It is structured around three primary components: the Model, View, and Controller to facilitate image operations, display information to the user, and handle user inputs.
 
-## Usage
-### How to run.
-- Run the Main class to start the application.
-- Use the text-based interface to load, manipulate, and save images.
-
-### List of commands.
-- `load image-path image-name` Load an image from the specified path and refer it to henceforth in the program by the given image name.
-- `save image-path image-name` Save the image with the given name to the specified path which should include the name of the file.
-- `red-component image-name dest-image-name` Create an image with the red-component of the image with the given name, and refer to it henceforth in the program by the given destination name. Similar commands for green, blue, value, luma, intensity components should be supported. Note that the images for value, luma and intensity will be greyscale images.
-- `horizontal-flip image-name dest-image-name` Flip an image horizontally to create a new image, referred to henceforth by the given destination name.
-- `vertical-flip image-name dest-image-name` Flip an image vertically to create a new image, referred to henceforth by the given destination name.
-- `brighten increment image-name dest-image-name` brighten the image by the given increment to create a new image, referred to henceforth by the given destination name. The increment may be positive (brightening) or negative (darkening).
-- `rgb-split image-name dest-image-name-red dest-image-name-green dest-image-name-blue` split the given image into three images containing its red, green and blue components respectively. These would be the same images that would be individually produced with the red-component, green-component and blue-component commands.
-- `rgb-combine image-name red-image green-image blue-image` Combine the three greyscale images into a single image that gets its red, green and blue components from the three images respectively.
-- `blur image-name dest-image-name` blur the given image and store the result in another image with the given name.
-- `sharpen image-name dest-image-name` sharpen the given image and store the result in another image with the given name
-- `sepia image-name dest-image-name` produce a sepia-toned version of the given image and store the result in another image with the given name.
- 
-### How to run the script file
-- A script file (script.txt) has been included.
-- To run it, run the Main.java file first.
-- In the Console, type `run scipt-filename`.
-- This runs all the commands in the script file.
-
-### Tips to use commands
-- Operation, filepath, image alias are case-insensitive
-- Image alias only accepts a-z, 0-1, dots, hyphen and underscores [a-zA-Z0-9._-].
-- For Filepath, has to be in double quotes if the file path has spaces. If it has no spaces, it can be in double quotes or without quotes as well.
-- Nested scripts are not allowed. (for eg. Run command inside a script file is illegal).
-
-
-
 ## Classes
 ### Main
 - Purpose: Entry point of the application.
@@ -50,6 +18,18 @@ This program provides a set of operations for processing 24-bit images with Red,
 ### Image
 - Purpose: Contains the logic for the operations to be performed on the Image.
 - Function: Creates an Image object and operates on it.
+### BinaryImageIO
+- Purpose: Implements IImageFileIO to Perform Image IO for PNG and JPG Images.
+- Function: Either reads file and returns or saves to image, a 3D RGBValues array.
+### PPMImageIO
+- Purpose: Implements IImageFileIO to Perform Image IO for PPM Images.
+- Function: Either reads file and returns or saves to image, a 3D RGBValues array.
+### ImageFileIOFactory
+- Purpose: Determine the type of Image IO Operation to be performed on the Input image.
+- Function: Routes control to PPMImageIO or BinaryImageIO based on File Extension.
+### LineGraph2D
+- Purpose: Generate a 2D Line graph.
+- Function: Draws a Line Graph using the data given.
 
 ## Interfaces
 ### IController
@@ -64,6 +44,15 @@ This program provides a set of operations for processing 24-bit images with Red,
 ### IImage
 - Purpose: Defines the methods to be implemented by the Image Class.
 - Function: Represents an image and defines the methods that perform operations on the Image.
+### IImageFileIO
+- Purpose: Template to Perform Image IO for PNG , PPM and JPG Images.
+- Function: Interface for BinaryImageIO and PPMImageIO.
+### IImageFileIOFactory
+- Purpose: Template to Determine the type of Image IO Operation to be performed on the Input image.
+- Function: Interface for Image IO type Routing Factory Class.
+### ILineGraph2D
+- Purpose: Template to Generate a 2D Line graph.
+- Function: Interface for the LineGraph2D class.
 
 ## File Structure
     src                                                 
@@ -75,11 +64,19 @@ This program provides a set of operations for processing 24-bit images with Red,
                 FileFormatException.java                (Custom Exception for Invalid File Format.)
                 ImageNotFoundException.java             (Custom Exception for Inmage not found.)
                 InvalidImageNameException.java          (Custom Exception for Invalid Image Name.)
-            model                                       (Model Folder contains Model Interface and class and Image Interface and class.)
+            fileparser                                  (Folder contains classes for Image file IO.)    
+                BinaryImageIO.java                      (Java class to perform IO operations on PPM image files.)
+                IImageFileIO.java                       (Interface for the BinaryImageIO and PPMImageIO classes.)
+                IImageFileIOFactory.java                (Interface for the IImageFileIOFactory class.)
+                ImageFileIOFactory.java                 (Java class that uses file entension that routes to corresponding IO class.)
+                PPMImageIO.java                         (Java class to perform IO operations on PNG and JPG image files.)
+            model                                       (Model Folder contains Model Interface and class and Image Interface and class along with Helper Classes.)
                 IImage.java                             (Image interface defines Image class methods.)
                 Image.java                              (Image class performs operations on Image.)
                 IModel.java                             (Model interface defines Model class methods.)
                 Model.java                              (Model class passes operations to Image class.)
+                ILineGraph.java                         (Interface for the LineGraph2D class.)
+                LineGraph2D.java                        (Java Class to Draw a 2D Line Graph.)
             view                                        (View Folder contains View Interface and class.)
                 IView.java                              (View interface defines View class methods.)
                 View.java                               (View class handles getting input and displays output.)
@@ -95,3 +92,5 @@ This program provides a set of operations for processing 24-bit images with Red,
 
 ## Citations for Resources used.
 - The File Image.png and its corresponding formats are created and owned by the authors of this program.
+- All Images used for testing and representation purposes are owned by the developers of this project by direct ownership.
+- Images given in Assignment Sample Help Pool have also been used in this project.
