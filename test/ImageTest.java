@@ -121,22 +121,14 @@ public class ImageTest {
   /**
    * Tests the LoadImageFromFile method using No File Extension for PPM Image.
    */
-  @Test(expected = AssertionError.class)
-  public void testLoadImageFromFile_NoFileExtension_PPM() {
+  @Test(expected = IllegalArgumentException.class)
+  public void testLoadImageFromFile_NoFileExtension_PPM() throws IOException {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/Koala";
 
-    try {
-      // Load the image from the file
-      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
-          .loadFromFile(testImagePath);
-
-      // Verify that the image is not null
-      assertNotNull(image);
-
-    } catch (Exception e) {
-      fail("Exception thrown while loading the image: " + e.getMessage());
-    }
+    // Load the image from the file
+    Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+        .loadFromFile(testImagePath);
   }
 
   /**
