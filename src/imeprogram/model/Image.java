@@ -1,5 +1,11 @@
 package imeprogram.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * This class represents a 24-bit Image with Red, Green, and Blue channels. And operations that can
  * be performed on it.
@@ -709,8 +715,6 @@ public class Image implements IImage {
     return new Image(rgbValuesInt, width, height);
 
   }
-
-}
 
   /**
    * Returns the frequency histogram of this IImage.

@@ -2364,9 +2364,9 @@ public class ImageTest {
   @Test(expected = IllegalArgumentException.class)
   public void test_invalidRatio_Negative() throws IOException {
     String testFilePath = "test/unitImages/bro.png";
-    Image testImg = Image.loadImageFromFile(testFilePath);
+    Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+        .loadFromFile(testFilePath);
     IImage testResultImg = testImg.haarCompress(-60);
-
   }
 
   /**
@@ -2375,26 +2375,26 @@ public class ImageTest {
   @Test(expected = IllegalArgumentException.class)
   public void test_invalidRatio_Positive() throws IOException {
     String testFilePath = "test/unitImages/bro.png";
-    Image testImg = Image.loadImageFromFile(testFilePath);
+    Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+        .loadFromFile(testFilePath);
     IImage testResultImg = testImg.haarCompress(160);
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress once where input is PNG.
+   * Tests the haarCompress for Compress once where input is PNG.
    */
   @Test
   public void test_Compress_Once_PNG() {
     String testFilePath = "test/unitImages/bro.png";
     int[][][] expectedValues = {
-      {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
-      {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
-      {{0, 64, 64}, {0, 64, 64}, {0, 64, 64}}
+        {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+        {{127, 159, 0}, {255, 159, 127}, {127, 0, 127}},
+        {{0, 64, 64}, {0, 64, 64}, {0, 64, 64}}
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(60);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2411,12 +2411,10 @@ public class ImageTest {
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress once where input is JPG.
+   * Tests the haarCompress for Compress once where input is JPG.
    */
   @Test
   public void test_Compress_Once_JPG() {
@@ -2428,7 +2426,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(60);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2445,12 +2444,10 @@ public class ImageTest {
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress once where input is PPM.
+   * Tests the haarCompress for Compress once where input is PPM.
    */
   @Test
   public void test_Compress_Once_PPM() {
@@ -2462,7 +2459,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(60);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2475,16 +2473,13 @@ public class ImageTest {
           }
         }
       }
-
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress multiple times where input is PNG.
+   * Tests the haarCompress for Compress multiple times where input is PNG.
    */
   @Test
   public void test_Compress_Multiple_PNG() {
@@ -2496,7 +2491,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(60);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2509,16 +2505,13 @@ public class ImageTest {
           }
         }
       }
-
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress multiple times where input is JPG.
+   * Tests the haarCompress for Compress multiple times where input is JPG.
    */
   @Test
   public void test_Compress_Multiple_JPG() {
@@ -2530,7 +2523,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(60);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2547,12 +2541,10 @@ public class ImageTest {
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress multiple times where input is PPM.
+   * Tests the haarCompress for Compress multiple times where input is PPM.
    */
   @Test
   public void test_Compress_Multiple_PPM() {
@@ -2564,7 +2556,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(60);
       IImage testResultImg2 = testResultImg.haarCompress(30);
 
@@ -2578,23 +2571,21 @@ public class ImageTest {
           }
         }
       }
-
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 0%.
+   * Tests the haarCompress for Compress 0%.
    */
   @Test
   public void test_Compress_0() {
     String testFilePath = "test/unitImages/bro.png";
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(0);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2608,16 +2599,13 @@ public class ImageTest {
           }
         }
       }
-
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 10%.
+   * Tests the haarCompress for Compress 10%.
    */
   @Test
   public void test_Compress_10() {
@@ -2629,7 +2617,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(10);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2642,16 +2631,13 @@ public class ImageTest {
           }
         }
       }
-
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 20%.
+   * Tests the haarCompress for Compress 20%.
    */
   @Test
   public void test_Compress_20() {
@@ -2663,7 +2649,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(20);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2676,16 +2663,13 @@ public class ImageTest {
           }
         }
       }
-
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 30%.
+   * Tests the haarCompress for Compress 30%.
    */
   @Test
   public void test_Compress_30() {
@@ -2697,7 +2681,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(30);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2710,16 +2695,13 @@ public class ImageTest {
           }
         }
       }
-
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 40%.
+   * Tests the haarCompress for Compress 40%.
    */
   @Test
   public void test_Compress_40() {
@@ -2731,7 +2713,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(40);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2744,16 +2727,13 @@ public class ImageTest {
           }
         }
       }
-
     } catch (Exception e) {
       fail("Calculated output is incorrect: " + e.getMessage());
     }
-
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 50%.
+   * Tests the haarCompress for Compress 50%.
    */
   @Test
   public void test_Compress_50() {
@@ -2765,7 +2745,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(50);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2786,8 +2767,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 60%.
+   * Tests the haarCompress for Compress 60%.
    */
   @Test
   public void test_Compress_60() {
@@ -2799,7 +2779,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(60);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2820,8 +2801,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 70%.
+   * Tests the haarCompress for Compress 70%.
    */
   @Test
   public void test_Compress_70() {
@@ -2833,7 +2813,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(70);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2854,8 +2835,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 80%.
+   * Tests the haarCompress for Compress 80%.
    */
   @Test
   public void test_Compress_80() {
@@ -2867,7 +2847,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(80);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2888,8 +2869,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 90%.
+   * Tests the haarCompress for Compress 90%.
    */
   @Test
   public void test_Compress_90() {
@@ -2901,7 +2881,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(90);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2922,8 +2903,7 @@ public class ImageTest {
   }
 
   /**
-   * Tests the haarCompress for
-   * Compress 100%.
+   * Tests the haarCompress for Compress 100%.
    */
   @Test
   public void test_Compress_100() {
@@ -2935,7 +2915,8 @@ public class ImageTest {
     };
 
     try {
-      Image testImg = Image.loadImageFromFile(testFilePath);
+      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
+          .loadFromFile(testFilePath);
       IImage testResultImg = testImg.haarCompress(100);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -2955,28 +2936,28 @@ public class ImageTest {
 
   }
 
-//  /**
-//   * Tests the getHistogram method for
-//   * Dimension validity
-//   */
-//  @Test
-//  public void test_Histogram_Dimensions() {
-//    String testFilePath = "test/unitImages/bro.png";
-//
-//    try {
-//      Image testImg = Image.loadImageFromFile(testFilePath);
-//      IImage testResultImg = testImg.getHistogram();
-//
-//      int[][][] rgbValues = testResultImg.getRgbValues();
-//
-//      assertEquals(256, testResultImg.getHeight() );
-//      assertEquals(256, testResultImg.getWidth() );
-//
-//    } catch (Exception e) {
-//      fail("Calculated output is incorrect: " + e.getMessage());
-//    }
-//
-//  }
+  //  /**
+  //   * Tests the getHistogram method for
+  //   * Dimension validity
+  //   */
+  //  @Test
+  //  public void test_Histogram_Dimensions() {
+  //    String testFilePath = "test/unitImages/bro.png";
+  //
+  //    try {
+  //      Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath).loadFromFile(testFilePath);
+  //      IImage testResultImg = testImg.getHistogram();
+  //
+  //      int[][][] rgbValues = testResultImg.getRgbValues();
+  //
+  //      assertEquals(256, testResultImg.getHeight() );
+  //      assertEquals(256, testResultImg.getWidth() );
+  //
+  //    } catch (Exception e) {
+  //      fail("Calculated output is incorrect: " + e.getMessage());
+  //    }
+  //
+  //  }
 
 
   @Test
