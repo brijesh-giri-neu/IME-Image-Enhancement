@@ -35,3 +35,6 @@ bin/
 test/unitResults
 test/integrationResults
 /testscriptLocal.txt
+/res/Assignment4.jar
+/.idea/artifacts/Assignment4_jar.xml
+/Assignment5.zip
