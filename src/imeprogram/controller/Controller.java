@@ -420,6 +420,26 @@ public class Controller implements IController {
   }
 
   @Override
+  public void compress(String[] args) {
+    if (!_isValidNumberOfArgs(args, 3)) {
+      return;
+    }
+    String sourceImage = args[1];
+    String destImage = args[2];
+    try {
+      int compressRatio = Integer.parseInt(args[0]);
+      model.compress(sourceImage, destImage, compressRatio);
+      view.success();
+    } catch (ImageNotFoundException e) {
+      view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.print(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+    } catch (IllegalArgumentException e) {
+      view.print("Error: Provided compression percentage is invalid");
+    }
+  }
+
+  @Override
   public void histogram(String[] args) {
     if (!_isValidNumberOfArgs(args, 2)) {
       return;
@@ -646,6 +666,7 @@ public class Controller implements IController {
     knownCommands.put("histogram", s -> histogram(s));
     knownCommands.put("color-correct", s -> colorCorrect(s));
     knownCommands.put("levels-adjust", s -> adjustLevels(s));
+    knownCommands.put("compress", s -> compress(s));
   }
 
   /**

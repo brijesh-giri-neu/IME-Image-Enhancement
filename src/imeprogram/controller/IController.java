@@ -149,4 +149,11 @@ public interface IController {
    * @param args The arguments for levels adjustment on an image.
    */
   void adjustLevels(String[] args);
+
+  /**
+   * Applies compression to the given image.
+   *
+   * @param args The arguments for compressing an image.
+   */
+  void compress(String[] args);
 }

@@ -2,6 +2,14 @@
 load Image.png resImage
 load Galaxy.png galaxyImage
 
+# Compress the image
+compress 40 resImage resImageCompress40
+save A5/Compress40-Image.jpg resImageCompress40
+
+# Compress the image
+compress 75 resImage resImageCompress75
+save A5/Compress75-Image.jpg resImageCompress75
+
 # Generate histogram of original Image
 histogram galaxyImage histResImage
 save A5/histogram-Image.png histResImage

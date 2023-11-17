@@ -273,7 +273,7 @@ public interface IModel {
    * that order. Saves the result in the destination image by overwriting it.
    *
    * @param sourceImageName The name of the source image.
-   * @param destImageName   The name to dest image.
+   * @param destImageName   The name of the source image.
    * @param splitRatio      The ratio of the dest image in the split view, (1 - splitRatio) is the
    *                        ratio of the source image in the split view.
    * @throws ImageNotFoundException    If the specified source image does not exist.
@@ -283,5 +283,20 @@ public interface IModel {
    *                                   not match.
    */
   void splitView(String sourceImageName, String destImageName, int splitRatio)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException;
+
+  /**
+   * Compress the given source image.
+   *
+   * @param sourceImageName The name of the source image.
+   * @param destImageName   The name of the source image.
+   * @param compressRatio   The ratio of the compression.
+   * @throws ImageNotFoundException    If the specified source image does not exist.
+   * @throws InvalidImageNameException If the specified destination image name cannot be assigned to
+   *                                   an image in the application.
+   * @throws IllegalArgumentException  If the compression ratio is invalid i.e. not between 0 and
+   *                                   100.
+   */
+  void compress(String sourceImageName, String destImageName, int compressRatio)
       throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException;
 }

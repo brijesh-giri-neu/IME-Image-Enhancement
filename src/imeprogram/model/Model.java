@@ -233,6 +233,14 @@ public class Model implements IModel {
     saveImageToMemory(destImg.splitView(sourceImg, splitRatio), destImageName);
   }
 
+  @Override
+  public void compress(String sourceImageName, String destImageName, int compressRatio)
+      throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+    IImage sourceImg = getImageFromMemory(sourceImageName);
+
+    saveImageToMemory(sourceImg.haarCompress(compressRatio), destImageName);
+  }
+
   /**
    * Gets an image from the application memory with the provided image name.
    *

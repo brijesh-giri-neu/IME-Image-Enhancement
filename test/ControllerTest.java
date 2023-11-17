@@ -1207,6 +1207,14 @@ public class ControllerTest {
       logInputs(
           new String[]{sourceImageName, destImageName, String.valueOf(splitRatio)});
     }
+
+    @Override
+    public void compress(String sourceImageName, String destImageName, int compressRatio)
+        throws ImageNotFoundException, InvalidImageNameException, IllegalArgumentException {
+      checkExceptions();
+      logInputs(
+          new String[]{sourceImageName, destImageName, String.valueOf(compressRatio)});
+    }
   }
 
   class MockView implements IView {
