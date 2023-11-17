@@ -116,8 +116,9 @@ public class Image implements IImage {
     for (int i = 0; i < this.height; i++) {
       for (int j = 0; j < this.width; j++) {
 
-        int luma = (int) Math.round(0.2126 * this.rgbValues[i][j][0]
-            + 0.7152 * this.rgbValues[i][j][1] + 0.0722 * this.rgbValues[i][j][2]);
+        int luma = (int) Math.round(
+            0.2126 * this.rgbValues[i][j][0] + 0.7152 * this.rgbValues[i][j][1]
+                + 0.0722 * this.rgbValues[i][j][2]);
         lumaValues[i][j][0] = luma;  // Red value
         lumaValues[i][j][1] = luma;  // Green value
         lumaValues[i][j][2] = luma;  // Blue value
@@ -479,36 +480,107 @@ public class Image implements IImage {
     return Math.round((width * splitPercentage) / 100);
   }
 
-  // Image Compression
+  /**
+   * Returns the frequency histogram of this IImage.
+   *
+   * @return an int[pixelValue][channel] containing frequency values for each intensity value of the
+   *     RGB channels. The output array size is int[256][3], where index0 -> pixel values, index1 ->
+   *     channel.
+   */
+  private int[][] _getHistogram() {
+    int[][] histogram = new int[this.bitDepth][this.numChannels];
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        for (int c = 0; c < this.numChannels; c++) {
+          histogram[this.rgbValues[i][j][c]][c]++;
+        }
+      }
+    }
+    return histogram;
+  }
 
+  private int[][] _normalizeHistogram(int[][] histogram, int scaleFactor) {
+    int[][] normalizedHistogram = new int[this.bitDepth][this.numChannels];
+    int maxFreqChannel = 0;
+    int maxFreqPosition = 0;
+    // Find the maximum frequency in the histogram
+    int maxFrequency = 0;
+    // Discard boundary values (0,255) for max frequency calculation
+    // This is done as presence of clamped pixels can alter the histogram drawn
+    for (int i = 1; i < this.bitDepth - 1; i++) {
+      for (int c = 0; c < this.numChannels; c++) {
+        if (histogram[i][c] > maxFrequency) {
+          maxFrequency = histogram[i][c];
+          maxFreqPosition = i;
+          maxFreqChannel = c;
+        }
+      }
+    }
+    // Normalize the histogram values
+    for (int i = 0; i < 256; i++) {
+      for (int c = 0; c < this.numChannels; c++) {
+        normalizedHistogram[i][c] = (int) (histogram[i][c] * ((double) scaleFactor / maxFrequency));
+      }
+    }
+    return normalizedHistogram;
+  }
 
+  /**
+   * Returns the histogram peak for each channel of the given histogram.
+   *
+   * @param histogramData histogram whose peaks are required. Should be in the format
+   *                      [pixelValue][channel].
+   * @param minValue      the minimum value to be considered in the peak calculation.
+   * @param maxValue      the maximum value to be considered in the peak calculation.
+   * @return an int[][] containing the histogram peak for each channel in [channel][peak] format,
+   *     where the indices for the peak represent the following, index0 -> position on horizontal
+   *     axis, index1 -> height of the peak.
+   */
+  private int[][] _getPeaks(int[][] histogramData, int minValue, int maxValue) {
+    int[][] peaks = new int[this.numChannels][2];
+
+    for (int i = minValue; i <= maxValue; i++) {
+      for (int c = 0; c < this.numChannels; c++) {
+        // If frequency at (i) is greater than current peak frequency for the channel.
+        if (histogramData[i][c] > peaks[c][1]) {
+          // Peak frequency value
+          peaks[c][1] = histogramData[i][c];
+          // Peak frequency position
+          peaks[c][0] = i;
+        }
+      }
+    }
+    return peaks;
+  }
+
+  // Image Compression Methods.
 
   private double[] haar1D(double[] s) {
     int n = s.length;
-    double[] avg = new double[n/2];
-    double[] diff = new double[n/2];
+    double[] avg = new double[n / 2];
+    double[] diff = new double[n / 2];
     for (int i = 0; i < n; i += 2) {
-      avg[i/2] = (s[i] + s[i+1]) / Math.sqrt(2);
-      diff[i/2] = (s[i] - s[i+1]) / Math.sqrt(2);
+      avg[i / 2] = (s[i] + s[i + 1]) / Math.sqrt(2);
+      diff[i / 2] = (s[i] - s[i + 1]) / Math.sqrt(2);
     }
-    for (int i = 0; i < n/2; i++) {
+    for (int i = 0; i < n / 2; i++) {
       s[i] = avg[i];
-      s[i + n/2] = diff[i];
+      s[i + n / 2] = diff[i];
     }
     return s;
   }
 
   private double[] invhaar1D(double[] s) {
     int n = s.length;
-    double[] avg = new double[n/2];
-    double[] diff = new double[n/2];
-    for (int i = 0; i < n/2; i++) {
-      avg[i] = (s[i] + s[i+n/2]) / Math.sqrt(2);
-      diff[i] = (s[i] - s[i+n/2]) / Math.sqrt(2);
+    double[] avg = new double[n / 2];
+    double[] diff = new double[n / 2];
+    for (int i = 0; i < n / 2; i++) {
+      avg[i] = (s[i] + s[i + n / 2]) / Math.sqrt(2);
+      diff[i] = (s[i] - s[i + n / 2]) / Math.sqrt(2);
     }
-    for (int i = 0; i < n/2; i++) {
-      s[2*i] = avg[i];
-      s[2*i+1] = diff[i];
+    for (int i = 0; i < n / 2; i++) {
+      s[2 * i] = avg[i];
+      s[2 * i + 1] = diff[i];
     }
     return s;
   }
@@ -629,13 +701,12 @@ public class Image implements IImage {
     // Calculate the index corresponding to the desired compression ratio
     int thresholdIndex = (int) Math.round((compressionRatio / 100) * allValuesList.size()) - 1;
 
-    if ( thresholdIndex <= 0) {
+    if (thresholdIndex <= 0) {
       thresholdIndex = 0;
     }
 
     // Get the threshold value
     double threshold = allValuesList.get(thresholdIndex);
-
 
     for (double[][] channel : rgbValues) {
       for (double[] row : channel) {
@@ -657,8 +728,8 @@ public class Image implements IImage {
 
     double[][][] newArray = new double[originalX][originalY][originalZ];
 
-    for (int x = 0; x < originalX ; x++) {
-      for (int y = 0; y < originalY ; y++) {
+    for (int x = 0; x < originalX; x++) {
+      for (int y = 0; y < originalY; y++) {
         System.arraycopy(array[x][y], 0, newArray[x][y], 0, originalZ);
       }
     }
@@ -666,17 +737,15 @@ public class Image implements IImage {
     return newArray;
   }
 
-
   /**
-   * Compresses an image
-   * using Haar Wavelet Transforms.
+   * Compresses an image using Haar Wavelet Transforms.
    *
    * @param ratio The Compression Ratio.
    * @return Image object.
    */
-  public IImage haarCompress(int ratio) throws IllegalArgumentException{
+  public IImage haarCompress(int ratio) throws IllegalArgumentException {
 
-    if ( ratio < 0 || ratio > 100) {
+    if (ratio < 0 || ratio > 100) {
       throw new IllegalArgumentException("Ratio must be between 0 and 100.");
     }
 
@@ -711,83 +780,10 @@ public class Image implements IImage {
         }
       }
     }
-
     return new Image(rgbValuesInt, width, height);
-
   }
 
-  /**
-   * Returns the frequency histogram of this IImage.
-   *
-   * @return an int[pixelValue][channel] containing frequency values for each intensity value of the
-   *     RGB channels. The output array size is int[256][3], where index0 -> pixel values, index1 ->
-   *     channel.
-   */
-  private int[][] _getHistogram() {
-    int[][] histogram = new int[this.bitDepth][this.numChannels];
-    for (int i = 0; i < this.height; i++) {
-      for (int j = 0; j < this.width; j++) {
-        for (int c = 0; c < this.numChannels; c++) {
-          histogram[this.rgbValues[i][j][c]][c]++;
-        }
-      }
-    }
-    return histogram;
-  }
-
-  private int[][] _normalizeHistogram(int[][] histogram, int scaleFactor) {
-    int[][] normalizedHistogram = new int[this.bitDepth][this.numChannels];
-    int maxFreqChannel = 0;
-    int maxFreqPosition = 0;
-    // Find the maximum frequency in the histogram
-    int maxFrequency = 0;
-    // Discard boundary values (0,255) for max frequency calculation
-    // This is done as presence of clamped pixels can alter the histogram drawn
-    for (int i = 1; i < this.bitDepth - 1; i++) {
-      for (int c = 0; c < this.numChannels; c++) {
-        if (histogram[i][c] > maxFrequency) {
-          maxFrequency = histogram[i][c];
-          maxFreqPosition = i;
-          maxFreqChannel = c;
-        }
-      }
-    }
-    // Normalize the histogram values
-    for (int i = 0; i < 256; i++) {
-      for (int c = 0; c < this.numChannels; c++) {
-        normalizedHistogram[i][c] = (int) (histogram[i][c] * ((double) scaleFactor / maxFrequency));
-      }
-    }
-    return normalizedHistogram;
-  }
-
-  /**
-   * Returns the histogram peak for each channel of the given histogram.
-   *
-   * @param histogramData histogram whose peaks are required. Should be in the format
-   *                      [pixelValue][channel].
-   * @param minValue      the minimum value to be considered in the peak calculation.
-   * @param maxValue      the maximum value to be considered in the peak calculation.
-   * @return an int[][] containing the histogram peak for each channel in [channel][peak] format,
-   *     where the indices for the peak represent the following, index0 -> position on horizontal
-   *     axis, index1 -> height of the peak.
-   */
-  private int[][] _getPeaks(int[][] histogramData, int minValue, int maxValue) {
-    int[][] peaks = new int[this.numChannels][2];
-
-    for (int i = minValue; i <= maxValue; i++) {
-      for (int c = 0; c < this.numChannels; c++) {
-        // If frequency at (i) is greater than current peak frequency for the channel.
-        if (histogramData[i][c] > peaks[c][1]) {
-          // Peak frequency value
-          peaks[c][1] = histogramData[i][c];
-          // Peak frequency position
-          peaks[c][0] = i;
-        }
-      }
-    }
-    return peaks;
-  }
+  // End of Image compression methods.
 
   private int[][][] _getDeepCopy(int[][][] inputArray) {
     int[][][] copyArray = new int[inputArray.length][inputArray[0].length][inputArray[0][0].length];

@@ -212,8 +212,7 @@ public interface IImage {
   IImage splitView(IImage other, int splitRatio) throws IllegalArgumentException;
 
   /**
-   * Applies the haar transform to the image
-   * and compresses it.
+   * Applies the haar transform to the image and compresses it.
    *
    * @param ratio the compression percentage.
    * @return a new IImage with the haar transform applied.
