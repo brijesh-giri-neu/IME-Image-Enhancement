@@ -4,6 +4,7 @@ import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
 import imeprogram.model.IModel;
+import imeprogram.model.IReadOnlyImage;
 import imeprogram.model.LineGraph2D;
 import imeprogram.view.IGUIView;
 import java.io.FileNotFoundException;
@@ -207,14 +208,15 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void splitView(String sourceImage, String destImage, int splitRatio) {
+  public void splitView(String sourceImage, String operatedImage, String splitImage,
+      int splitRatio) {
     try {
-      model.splitView(sourceImage, destImage, splitRatio);
-      sendImageToView(destImage);
+      model.splitView(sourceImage, operatedImage, splitRatio);
+      sendImageToView(splitImage);
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, operatedImage));
     } catch (IllegalArgumentException e) {
       view.displayError("Given Split ratio argument is invalid");
     }
@@ -233,7 +235,7 @@ public class GUIController implements IFeatures {
   }
 
   private void sendImageToView(String imageName) {
-    int[][][] result = model.getImageData(imageName);
+    IReadOnlyImage result = model.getImageData(imageName);
     view.displayImage(result);
   }
 }

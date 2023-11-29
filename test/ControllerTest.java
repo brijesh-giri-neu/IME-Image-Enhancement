@@ -1,13 +1,16 @@
 import static org.junit.Assert.assertEquals;
 
 import imeprogram.controller.Controller;
-import imeprogram.controller.MessageHelper;
 import imeprogram.controller.IController;
+import imeprogram.controller.MessageHelper;
 import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
 import imeprogram.model.ILineGraph;
 import imeprogram.model.IModel;
+import imeprogram.model.IReadOnlyImage;
+import imeprogram.model.Image;
+import imeprogram.model.ImageViewer;
 import imeprogram.view.IView;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -1068,10 +1071,17 @@ public class ControllerTest {
     }
 
     @Override
-    public int[][][] getImageData(String sourceImageName) throws ImageNotFoundException {
+    public IReadOnlyImage getImageData(String sourceImageName) throws ImageNotFoundException {
       checkExceptions();
       logInputs(new String[]{sourceImageName});
-      return new int[3][3][3];
+      // Return dummy values. Since our only goal here is to log inputs received.
+      return new ImageViewer(new Image(3, 3));
+    }
+
+    @Override
+    public void saveImageToMemory(IReadOnlyImage imageData, String imageName)
+        throws InvalidImageNameException {
+      logInputs(new String[]{imageData.toString(), imageName});
     }
 
     @Override

@@ -41,12 +41,20 @@ public interface IModel {
    * Gets the pixel values of a specific image.
    *
    * @param sourceImageName The name of the image whose pixel values are to be returned.
-   * @return an int[][][] where, the first dim corresponds to the height, the second dim corresponds
-   *     to the width, and the third dim corresponds to the channel. The channels are returned in
-   *     the following order, index0 -> Red, index1 -> Green, index2 -> Blue.
+   * @return a read-only version of the provided source image.
    * @throws ImageNotFoundException If the specified source image does not exist.
    */
-  int[][][] getImageData(String sourceImageName) throws ImageNotFoundException;
+  IReadOnlyImage getImageData(String sourceImageName) throws ImageNotFoundException;
+
+  /**
+   * Saves the given image to the model's memory and refers to it with the given image name.
+   *
+   * @param imageData the image to be saved to the model's memory.
+   * @param imageName the name to refer to it by.
+   * @throws InvalidImageNameException If the specified image name is invalid.
+   */
+  void saveImageToMemory(IReadOnlyImage imageData, String imageName)
+      throws InvalidImageNameException;
 
   /**
    * Extract the red component of an image and save it with the specified image name.

@@ -65,10 +65,16 @@ public class Model implements IModel {
   }
 
   @Override
-  public int[][][] getImageData(String sourceImageName) throws ImageNotFoundException {
+  public IReadOnlyImage getImageData(String sourceImageName) throws ImageNotFoundException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    return sourceImg.getRgbValues();
+    return new ImageViewer(sourceImg);
+  }
+
+  @Override
+  public void saveImageToMemory(IReadOnlyImage imageData, String imageName)
+      throws InvalidImageNameException {
+    saveImageToMemory(imageData, imageName);
   }
 
   @Override

@@ -1,6 +1,7 @@
 package imeprogram.view;
 
 import imeprogram.controller.IFeatures;
+import imeprogram.model.IReadOnlyImage;
 
 /**
  * This class represents a GUI based view for the IME program.
@@ -8,7 +9,7 @@ import imeprogram.controller.IFeatures;
 public class GUIView implements IGUIView {
 
   @Override
-  public void displayImage(int[][][] image) {
+  public void displayImage(IReadOnlyImage image) {
 
   }
 

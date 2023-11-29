@@ -1,6 +1,7 @@
 package imeprogram.view;
 
 import imeprogram.controller.IFeatures;
+import imeprogram.model.IReadOnlyImage;
 
 /**
  * This interface represents a GUI based view for the IME program.
@@ -12,7 +13,7 @@ public interface IGUIView {
    *
    * @param image the image data to be displayed.
    */
-  void displayImage(int[][][] image);
+  void displayImage(IReadOnlyImage image);
 
   /**
    * Display an error message in the view.

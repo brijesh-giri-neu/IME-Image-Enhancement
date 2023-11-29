@@ -127,11 +127,12 @@ public interface IFeatures {
    * that order. Saves the result in the destination image by overwriting it.
    *
    * @param sourceImage The name of the source image.
-   * @param destImage   The name of the dest image.
+   * @param operatedImage   The name of the operated dest image.
+   * @param splitImage  The name of the splitview image.
    * @param splitRatio  The ratio of the dest image in the split view, (1 - splitRatio) is the ratio
    *                    of the source image in the split view.
    */
-  void splitView(String sourceImage, String destImage, int splitRatio);
+  void splitView(String sourceImage, String operatedImage, String splitImage, int splitRatio);
 
   /**
    * Generate a line graph of histogram of the given source image and save it with the specified
