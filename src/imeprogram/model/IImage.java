@@ -4,7 +4,7 @@ package imeprogram.model;
  * This interface represents a 24-bit Image with Red, Green, and Blue channels. And operations that
  * can be performed on it.
  */
-public interface IImage {
+public interface IImage extends IReadOnlyImage {
 
   /**
    * Gets the value of a specific channel at a given pixel position.
@@ -33,15 +33,6 @@ public interface IImage {
    * @return the height of the Image.
    */
   int getHeight();
-
-  /**
-   * Gets the RGB values of the Image.
-   *
-   * @return an int[][][] where, the first dim corresponds to the height, the second dim corresponds
-   *     to the width, and the third dim corresponds to the channel. The channels are returned in
-   *     the following order, index0 -> Red, index1 -> Green, index2 -> Blue.
-   */
-  int[][][] getRgbValues();
 
   /**
    * Return an IImage where [G,B] channels of the Image are set to 0.
