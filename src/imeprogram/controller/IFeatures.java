@@ -132,4 +132,13 @@ public interface IFeatures {
    *                    of the source image in the split view.
    */
   void splitView(String sourceImage, String destImage, int splitRatio);
+
+  /**
+   * Generate a line graph of histogram of the given source image and save it with the specified
+   * image name.
+   *
+   * @param sourceImage The name of the source image.
+   * @param destImage   The name to assign to the histogram line graph.
+   */
+  void histogram(String sourceImage, String destImage);
 }

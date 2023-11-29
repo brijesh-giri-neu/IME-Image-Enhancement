@@ -4,6 +4,7 @@ import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
 import imeprogram.model.IModel;
+import imeprogram.model.LineGraph2D;
 import imeprogram.view.IGUIView;
 import java.io.FileNotFoundException;
 
@@ -216,6 +217,18 @@ public class GUIController implements IFeatures {
       view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
     } catch (IllegalArgumentException e) {
       view.displayError("Given Split ratio argument is invalid");
+    }
+  }
+
+  @Override
+  public void histogram(String sourceImage, String destImage) {
+    try {
+      model.histogram(sourceImage, destImage, new LineGraph2D());
+      sendImageToView(destImage);
+    } catch (ImageNotFoundException e) {
+      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+    } catch (InvalidImageNameException e) {
+      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
     }
   }
 
