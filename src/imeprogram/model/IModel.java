@@ -273,7 +273,7 @@ public interface IModel {
    * that order. Saves the result in the destination image by overwriting it.
    *
    * @param sourceImageName The name of the source image.
-   * @param destImageName   The name of the source image.
+   * @param destImageName   The name of the dest image.
    * @param splitRatio      The ratio of the dest image in the split view, (1 - splitRatio) is the
    *                        ratio of the source image in the split view.
    * @throws ImageNotFoundException    If the specified source image does not exist.

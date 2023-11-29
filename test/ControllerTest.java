@@ -1,7 +1,7 @@
 import static org.junit.Assert.assertEquals;
 
 import imeprogram.controller.Controller;
-import imeprogram.controller.Controller.MessageHelper;
+import imeprogram.controller.MessageHelper;
 import imeprogram.controller.IController;
 import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
