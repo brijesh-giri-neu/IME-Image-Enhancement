@@ -217,7 +217,8 @@ public class GUIController implements IFeatures {
       model.splitView(sourceImage, splitImage, splitRatio);
       sendImageToView(splitImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG,
+          sourceImage.concat(", " + operatedImage)));
     } catch (InvalidImageNameException e) {
       view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, operatedImage));
     } catch (IllegalArgumentException e) {
@@ -237,8 +238,32 @@ public class GUIController implements IFeatures {
     }
   }
 
+  @Override
+  public void applyChanges(String sourceImage, String destImage) {
+    overWriteImage(destImage, sourceImage);
+  }
+
+  @Override
+  public void cancelChanges(String sourceImage, String destImage) {
+    overWriteImage(sourceImage, destImage);
+  }
+
+  // Overwrite data retrieved from "fromImage" to the given "toImage"
+  private void overWriteImage(String fromImage, String toImage) {
+    try {
+      IReadOnlyImage fromImageData = model.getImageData(fromImage);
+      // Replace the dest image with the source image
+      model.saveImageToMemory(fromImageData, toImage);
+    } catch (ImageNotFoundException e) {
+      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG,
+          toImage));
+    } catch (InvalidImageNameException e) {
+      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, fromImage));
+    }
+  }
+
   private void sendImageToView(String imageName) {
     IReadOnlyImage result = model.getImageData(imageName);
-    view.displayImage(result);
+    view.displayOperatedImage(result);
   }
 }

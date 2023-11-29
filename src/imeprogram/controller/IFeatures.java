@@ -1,7 +1,7 @@
 package imeprogram.controller;
 
 /**
- * This interface represents the features exposed by our IME program.
+ * This interface represents the features exposed by our IME program to a view.
  */
 public interface IFeatures {
 
@@ -126,11 +126,11 @@ public interface IFeatures {
    * Generates a vertical split view by merging the given destination image with the source image in
    * that order. Saves the result in the destination image by overwriting it.
    *
-   * @param sourceImage The name of the source image.
-   * @param operatedImage   The name of the operated dest image.
-   * @param splitImage  The name of the splitview image.
-   * @param splitRatio  The ratio of the dest image in the split view, (1 - splitRatio) is the ratio
-   *                    of the source image in the split view.
+   * @param sourceImage   The name of the source image.
+   * @param operatedImage The name of the operated dest image.
+   * @param splitImage    The name of the splitview image.
+   * @param splitRatio    The ratio of the dest image in the split view, (1 - splitRatio) is the
+   *                      ratio of the source image in the split view.
    */
   void splitView(String sourceImage, String operatedImage, String splitImage, int splitRatio);
 
@@ -142,4 +142,20 @@ public interface IFeatures {
    * @param destImage   The name to assign to the histogram line graph.
    */
   void histogram(String sourceImage, String destImage);
+
+  /**
+   * Apply the changes that are present in the given destImage to the sourceImage.
+   *
+   * @param sourceImage The name of the source image.
+   * @param destImage   The name of the dest image.
+   */
+  void applyChanges(String sourceImage, String destImage);
+
+  /**
+   * Remove modifications made to the given destImage to sync it with the sourceImage.
+   *
+   * @param sourceImage The name of the source image.
+   * @param destImage   The name of the dest image.
+   */
+  void cancelChanges(String sourceImage, String destImage);
 }

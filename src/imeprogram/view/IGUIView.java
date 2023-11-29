@@ -9,11 +9,12 @@ import imeprogram.model.IReadOnlyImage;
 public interface IGUIView {
 
   /**
-   * Display the given image in the view.
+   * Display the operated image in the view.
    *
    * @param image the image data to be displayed.
    */
-  void displayImage(IReadOnlyImage image);
+  void displayOperatedImage(IReadOnlyImage image);
+
 
   /**
    * Display an error message in the view.
