@@ -24,6 +24,7 @@ public class GUIController implements IFeatures {
   public GUIController(IModel model, IGUIView view) {
     this.model = model;
     this.view = view;
+    this.view.addFeatures(this);
   }
 
   @Override
