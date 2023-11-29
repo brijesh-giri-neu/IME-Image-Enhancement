@@ -211,7 +211,10 @@ public class GUIController implements IFeatures {
   public void splitView(String sourceImage, String operatedImage, String splitImage,
       int splitRatio) {
     try {
-      model.splitView(sourceImage, operatedImage, splitRatio);
+      IReadOnlyImage operatedImageCopy = model.getImageData(operatedImage);
+      // Create a copy of operated image. Split view will be shown in the copy.
+      model.saveImageToMemory(operatedImageCopy, splitImage);
+      model.splitView(sourceImage, splitImage, splitRatio);
       sendImageToView(splitImage);
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
