@@ -56,13 +56,15 @@ public class Model implements IModel {
       throws ImageNotFoundException, FileNotFoundException, FileFormatException {
     IImage image = getImageFromMemory(imageName);
 
-    // Delegate InvalidFilePathException to the Image class.
-    // image.saveToFile(filePath);
-    IImageFileIO imageIO = imageIOFactory.getImageParser(filePath);
     try {
+      // Delegate InvalidFilePathException to the Image class.
+      // image.saveToFile(filePath);
+      IImageFileIO imageIO = imageIOFactory.getImageParser(filePath);
       imageIO.saveToFile(filePath, image);
     } catch (IOException e) {
       throw new FileNotFoundException();
+    } catch (IllegalArgumentException e){
+      throw new FileFormatException("Invalid image file format");
     }
   }
 

@@ -959,12 +959,12 @@ public class GUIControllerTest {
 
     @Override
     public void showPreviewPopup() {
-
+      // Nothing to log here.
     }
 
     @Override
     public void showSplitViewPopup() {
-
+      // Nothing to log here.
     }
   }
 }

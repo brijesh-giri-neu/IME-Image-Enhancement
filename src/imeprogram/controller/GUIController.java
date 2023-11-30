@@ -323,7 +323,7 @@ public class GUIController implements IFeatures {
   }
 
   /**
-   * Overwrite data retrieved from "fromImage" to the given "toImage"
+   * Overwrite data retrieved from "fromImage" to the given "toImage".
    *
    * @param fromImage get data from this image.
    * @param toImage   write to this image.

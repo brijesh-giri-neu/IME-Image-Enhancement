@@ -43,9 +43,7 @@ public class GUIView extends JFrame implements IGUIView {
 
   private int height;
   private int width;
-  private int[][][] rgbValues;
   private final String tabReference = "tab1";
-  private final String copyReference = "copy1";
   private BufferedImage bImage;
   private IFeatures features;
   private double zoomLevel = 1.0;
@@ -82,8 +80,10 @@ public class GUIView extends JFrame implements IGUIView {
   private JLabel histogramLabel;
   private JLabel thumbnailLabel;
 
+  /**
+   * Initializes the GUIView.
+   */
   public GUIView() {
-
     super();
     renderUI();
     setTitle("GRIME");
@@ -189,7 +189,6 @@ public class GUIView extends JFrame implements IGUIView {
           (int) (bImage.getHeight() * zoomLevel),
           Image.SCALE_SMOOTH)));
       updateThumbnail();
-      //updateHistogram();
       scrollPane.revalidate();
       scrollPane.repaint();
     }
@@ -205,7 +204,6 @@ public class GUIView extends JFrame implements IGUIView {
           (int) (bImage.getHeight() * zoomLevel),
           Image.SCALE_SMOOTH)));
       updateThumbnail();
-      //updateHistogram();
     }
   }
 
@@ -406,7 +404,7 @@ public class GUIView extends JFrame implements IGUIView {
   }
 
   private BufferedImage iReadToBuffered(IReadOnlyImage image) {
-    rgbValues = image.getRgbValues();
+    int[][][] rgbValues = image.getRgbValues();
     width = image.getWidth();
     height = image.getHeight();
 
@@ -486,11 +484,6 @@ public class GUIView extends JFrame implements IGUIView {
       dialog.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
-          // Restore the original image when the dialog box is closed
-//          imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
-//              (int) (bImage.getWidth() * zoomLevel),
-//              (int) (bImage.getHeight() * zoomLevel),
-//              Image.SCALE_SMOOTH)));
           features.getImageData(tabReference);
           updateHistogram();
         }
@@ -508,11 +501,6 @@ public class GUIView extends JFrame implements IGUIView {
       dialog.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
-          // Restore the original image when the dialog box is closed
-//          imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
-//              (int) (bImage.getWidth() * zoomLevel),
-//              (int) (bImage.getHeight() * zoomLevel),
-//              Image.SCALE_SMOOTH)));
           features.getImageData(tabReference);
           updateHistogram();
         }
@@ -637,7 +625,6 @@ public class GUIView extends JFrame implements IGUIView {
       File f = fchooser.getSelectedFile();
       fileOpenDisplay.setText(f.getAbsolutePath());
       features.loadImage(f.getAbsolutePath(), tabReference);
-//      features.saveImage(tabReference, "sample.jpg");
     } else if (retvalue == JFileChooser.CANCEL_OPTION) {
       // User canceled the file selection, do nothing or provide feedback
     }
@@ -654,11 +641,9 @@ public class GUIView extends JFrame implements IGUIView {
       features.saveImage(tabReference, f.getAbsolutePath());
     }
   }
-
   // End of Listener Methods
 
-  public void renderUI() {
-
+  private void renderUI() {
     try {
       for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
         if ("Nimbus".equals(info.getName())) {
@@ -690,8 +675,6 @@ public class GUIView extends JFrame implements IGUIView {
     UIManager.put("nimbusSelectedText", new Color(255, 255, 255));
     UIManager.put("nimbusSelectionBackground", new Color(104, 93, 156));
     UIManager.put("text", new Color(230, 230, 230));
-
-//    wind.setExtendedState(JFrame.MAXIMIZED_BOTH);
   }
 
 }
