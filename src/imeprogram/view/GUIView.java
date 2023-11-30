@@ -60,7 +60,6 @@ public class GUIView extends JFrame implements IGUIView {
   private JButton sepiaButton;
   private JButton compressButton;
   private JButton colorCorrectButton;
-  private JButton splitViewButton;
   private JButton adjustLevelsButton;
   private JButton redButton;
   private JButton greenButton;
@@ -150,10 +149,6 @@ public class GUIView extends JFrame implements IGUIView {
     colorCorrectButton = new JButton("Color Correct Image");
     toolsPanel.add(colorCorrectButton);
 
-    // splitview
-    splitViewButton = new JButton("Split View");
-    toolsPanel.add(splitViewButton);
-
     // adjustLevels
     adjustLevelsButton = new JButton("Adjust Levels");
     toolsPanel.add(adjustLevelsButton);
@@ -195,7 +190,7 @@ public class GUIView extends JFrame implements IGUIView {
           (int) (bImage.getHeight() * zoomLevel),
           Image.SCALE_SMOOTH)));
       updateThumbnail();
-      updateHistogram();
+      //updateHistogram();
       scrollPane.revalidate();
       scrollPane.repaint();
     }
@@ -211,11 +206,10 @@ public class GUIView extends JFrame implements IGUIView {
           (int)(bImage.getHeight() * zoomLevel),
           Image.SCALE_SMOOTH)));
       updateThumbnail();
-      updateHistogram();
+      //updateHistogram();
     }
   }
 
-  ////////////////// CONSTRUCTOR METHODS /////////////////////////
   private void displayPane() {
     middleImage();
     middleScroll();
@@ -372,7 +366,7 @@ public class GUIView extends JFrame implements IGUIView {
   @Override
   public void displayHistogram(IReadOnlyImage histogram) {
     BufferedImage bHistogram = iReadToBuffered(histogram);
-    histogramLabel.setIcon(new ImageIcon(bHistogram.getScaledInstance(bHistogram.getWidth()/5, bHistogram.getHeight()/5, Image.SCALE_SMOOTH)));
+    histogramLabel.setIcon(new ImageIcon(bHistogram.getScaledInstance(bHistogram.getWidth(), bHistogram.getHeight(), Image.SCALE_SMOOTH)));
     histogramPanel.revalidate();
     histogramPanel.repaint();
   }
@@ -392,7 +386,6 @@ public class GUIView extends JFrame implements IGUIView {
     sepiaButton.addActionListener(e -> sepia());
     compressButton.addActionListener(e -> compressImage());
     colorCorrectButton.addActionListener(e -> colorCorrect());
-    splitViewButton.addActionListener(e -> showSplitViewDialog());
     adjustLevelsButton.addActionListener(e -> adjustLevels());
     redButton.addActionListener(e -> redButton());
     greenButton.addActionListener(e -> greenButton());
@@ -453,19 +446,21 @@ public class GUIView extends JFrame implements IGUIView {
   }
 
   private void showPreviewDialog() {
-    JDialog dialog = new JDialog(this, "Preview", true);
-    dialog.setLayout(new BorderLayout());
-    dialog.addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosing(WindowEvent e) {
-        // Restore the original image when the dialog box is closed
-        imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
-            (int)(bImage.getWidth() * zoomLevel),
-            (int)(bImage.getHeight() * zoomLevel),
-            Image.SCALE_SMOOTH)));
-      }
-    });
-    buttonCouple(dialog);
+    if (bImage != null) {
+      JDialog dialog = new JDialog(this, "Preview", true);
+      dialog.setLayout(new BorderLayout());
+      dialog.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+          // Restore the original image when the dialog box is closed
+          imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
+              (int) (bImage.getWidth() * zoomLevel),
+              (int) (bImage.getHeight() * zoomLevel),
+              Image.SCALE_SMOOTH)));
+        }
+      });
+      buttonCouple(dialog);
+    }
   }
 
   private void showSplitViewDialog() {
