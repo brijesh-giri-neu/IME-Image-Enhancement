@@ -14,6 +14,11 @@ public class GUIView implements IGUIView {
   }
 
   @Override
+  public void displayHistogram(IReadOnlyImage histogram) {
+
+  }
+
+  @Override
   public void displayError(String errorMessage) {
 
   }

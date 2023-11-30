@@ -246,14 +246,14 @@ public class GUIController implements IFeatures {
 
   @Override
   public void histogram(String sourceImage) {
-    String destImage = getPreviewReference(sourceImage);
+    String histImage = getHistogramReference(sourceImage);
     try {
-      model.histogram(sourceImage, destImage, new LineGraph2D());
-      sendImageToView(destImage);
+      model.histogram(sourceImage, histImage, new LineGraph2D());
+      sendHistogramToView(histImage);
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, histImage));
     }
   }
 
@@ -299,11 +299,20 @@ public class GUIController implements IFeatures {
     view.displayImage(result);
   }
 
+  private void sendHistogramToView(String histogramImageName){
+    IReadOnlyImage result = model.getImageData(histogramImageName);
+    view.displayHistogram(result);
+  }
+
   private String getPreviewReference(String imageName) {
     return imageName + "previewImage";
   }
 
   private String getSplitViewReference(String imageName) {
     return imageName + "splitViewImage";
+  }
+
+  private String getHistogramReference(String imageName) {
+    return imageName + "histogramImage";
   }
 }

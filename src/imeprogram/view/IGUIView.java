@@ -15,6 +15,12 @@ public interface IGUIView {
    */
   void displayImage(IReadOnlyImage image);
 
+  /**
+   * Display the histogram in the view.
+   *
+   * @param histogram the histogram image to be displayed.
+   */
+  void displayHistogram(IReadOnlyImage histogram);
 
   /**
    * Display an error message in the view.
