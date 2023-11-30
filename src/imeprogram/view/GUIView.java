@@ -9,7 +9,7 @@ import imeprogram.model.IReadOnlyImage;
 public class GUIView implements IGUIView {
 
   @Override
-  public void displayOperatedImage(IReadOnlyImage image) {
+  public void displayImage(IReadOnlyImage image) {
 
   }
 

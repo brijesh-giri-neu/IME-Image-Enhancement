@@ -13,7 +13,7 @@ public interface IGUIView {
    *
    * @param image the image data to be displayed.
    */
-  void displayOperatedImage(IReadOnlyImage image);
+  void displayImage(IReadOnlyImage image);
 
 
   /**

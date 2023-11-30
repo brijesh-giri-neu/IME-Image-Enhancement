@@ -10,10 +10,17 @@ import imeprogram.view.IGUIView;
 import java.io.FileNotFoundException;
 
 /**
- * This class represents a GUI Controller for the IMEProgram.
+ * This class represents a GUI Controller for the IMEProgram. It maintains a reference for the image
+ * being shown on the UI.
  */
 public class GUIController implements IFeatures {
 
+  // How to implement multiple tabs?
+  // When user switches image tabs, view hits the controller with a tab reference it has.
+  // E.g. view maintains a list of tabs, user clicks tab3. View hits controller with input tab3.
+  // Controller would get image associated with tab3 from the model, and tell view to display it.
+  // So, view would always be the one passing the image reference on which operation is to be done.
+  // In conclusion, my controller should always require a view to pass a string image reference.
   private final IModel model;
   private final IGUIView view;
 
@@ -58,7 +65,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void redComponent(String sourceImage, String destImage) {
+  public void redComponent(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.redComponent(sourceImage, destImage);
       sendImageToView(destImage);
@@ -70,7 +78,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void greenComponent(String sourceImage, String destImage) {
+  public void greenComponent(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.greenComponent(sourceImage, destImage);
       sendImageToView(destImage);
@@ -82,7 +91,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void blueComponent(String sourceImage, String destImage) {
+  public void blueComponent(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.blueComponent(sourceImage, destImage);
       sendImageToView(destImage);
@@ -94,7 +104,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void lumaComponent(String sourceImage, String destImage) {
+  public void lumaComponent(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.lumaComponent(sourceImage, destImage);
       sendImageToView(destImage);
@@ -106,7 +117,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void horizontalFlip(String sourceImage, String destImage) {
+  public void horizontalFlip(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.horizontalFlip(sourceImage, destImage);
       sendImageToView(destImage);
@@ -118,7 +130,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void verticalFlip(String sourceImage, String destImage) {
+  public void verticalFlip(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.verticalFlip(sourceImage, destImage);
       sendImageToView(destImage);
@@ -130,7 +143,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void blur(String sourceImage, String destImage) {
+  public void blur(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.blur(sourceImage, destImage);
       sendImageToView(destImage);
@@ -142,7 +156,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void sharpen(String sourceImage, String destImage) {
+  public void sharpen(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.sharpen(sourceImage, destImage);
       sendImageToView(destImage);
@@ -154,7 +169,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void sepia(String sourceImage, String destImage) {
+  public void sepia(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.sepia(sourceImage, destImage);
       sendImageToView(destImage);
@@ -166,7 +182,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void compress(String sourceImage, String destImage, int compressRatio) {
+  public void compress(String sourceImage, int compressRatio) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.compress(sourceImage, destImage, compressRatio);
       sendImageToView(destImage);
@@ -180,7 +197,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void colorCorrect(String sourceImage, String destImage) {
+  public void colorCorrect(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.colorCorrect(sourceImage, destImage);
       sendImageToView(destImage);
@@ -192,7 +210,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void adjustLevels(String sourceImage, String destImage, int black, int mid, int white) {
+  public void adjustLevels(String sourceImage, int black, int mid, int white) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.adjustLevels(sourceImage, destImage, black, mid, white);
       sendImageToView(destImage);
@@ -208,8 +227,9 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void splitView(String sourceImage, String operatedImage, String splitImage,
-      int splitRatio) {
+  public void splitView(String sourceImage, int splitRatio) {
+    String operatedImage = getPreviewReference(sourceImage);
+    String splitImage = getSplitViewReference(sourceImage);
     try {
       IReadOnlyImage operatedImageCopy = model.getImageData(operatedImage);
       // Create a copy of operated image. Split view will be shown in the copy.
@@ -227,7 +247,8 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void histogram(String sourceImage, String destImage) {
+  public void histogram(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     try {
       model.histogram(sourceImage, destImage, new LineGraph2D());
       sendImageToView(destImage);
@@ -239,16 +260,29 @@ public class GUIController implements IFeatures {
   }
 
   @Override
-  public void applyChanges(String sourceImage, String destImage) {
+  public void applyChanges(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
     overWriteImage(destImage, sourceImage);
+    model.removeImageFromMemory(destImage);
+    model.removeImageFromMemory(getSplitViewReference(sourceImage));
+    sendImageToView(sourceImage);
   }
 
   @Override
-  public void cancelChanges(String sourceImage, String destImage) {
-    overWriteImage(sourceImage, destImage);
+  public void cancelChanges(String sourceImage) {
+    String destImage = getPreviewReference(sourceImage);
+    //overWriteImage(sourceImage, destImage);
+    model.removeImageFromMemory(destImage);
+    model.removeImageFromMemory(getSplitViewReference(sourceImage));
+    sendImageToView(sourceImage);
   }
 
-  // Overwrite data retrieved from "fromImage" to the given "toImage"
+  /**
+   * Overwrite data retrieved from "fromImage" to the given "toImage"
+   *
+   * @param fromImage get data from this image.
+   * @param toImage   write to this image.
+   */
   private void overWriteImage(String fromImage, String toImage) {
     try {
       IReadOnlyImage fromImageData = model.getImageData(fromImage);
@@ -264,6 +298,14 @@ public class GUIController implements IFeatures {
 
   private void sendImageToView(String imageName) {
     IReadOnlyImage result = model.getImageData(imageName);
-    view.displayOperatedImage(result);
+    view.displayImage(result);
+  }
+
+  private String getPreviewReference(String imageName) {
+    return imageName + "previewImage";
+  }
+
+  private String getSplitViewReference(String imageName) {
+    return imageName + "splitViewImage";
   }
 }
