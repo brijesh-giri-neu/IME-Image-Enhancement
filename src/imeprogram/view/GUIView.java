@@ -547,6 +547,16 @@ public class GUIView extends JFrame implements IGUIView {
     showPreviewDialog();
   }
 
+  @Override
+  public void showPreviewPopup() {
+
+  }
+
+  @Override
+  public void showSplitViewPopup() {
+
+  }
+
   private void gaussianBlur() {
     this.features.blur(tabReference);
     showSplitViewDialog();

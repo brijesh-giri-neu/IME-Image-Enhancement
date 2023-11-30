@@ -30,7 +30,16 @@ This program provides a set of operations for processing 24-bit images with Red,
 ### LineGraph2D
 - Purpose: Generate a 2D Line graph.
 - Function: Draws a Line Graph using the data given.
-
+### ImageView
+- Purpose: A read only version of an image.
+- Function: An object adaptor around the Image class.
+- ### GUIController
+- Purpose: A controller for the GUI version of the application.
+- Function: A controller for GUI based interfaces.
+- ### GUIView
+- Purpose: A GUI based view.
+- Function: A graphical user interface for the application.
+- 
 ## Interfaces
 ### IController
 - Purpose: Defines the methods to be implemented by the Controller.
@@ -53,6 +62,18 @@ This program provides a set of operations for processing 24-bit images with Red,
 ### ILineGraph2D
 - Purpose: Template to Generate a 2D Line graph.
 - Function: Interface for the LineGraph2D class.
+### IReadOnlyImage 
+- Purpose: A readonly version of the Image.
+- Function: Interface for ImageView class, which is an object adaptor for the Image class.
+### IFeatures
+- Purpose: Template for the features exposed to the graphical interface.
+- Function: Features exposed to the view of the progarm.
+### IGUIView
+- Purpose: Template for GUI based view.
+- Function: A graphical user interface for the application.
+
+## Changelog
+
 
 ## File Structure
     src                                                 

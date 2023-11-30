@@ -35,4 +35,14 @@ public interface IGUIView {
    * @param features the features exposed to the view through the IFeatures interface.
    */
   void addFeatures(IFeatures features);
+
+  /**
+   * Displays the preview popup.
+   */
+  void showPreviewPopup();
+
+  /**
+   * Displays the splitview popup.
+   */
+  void showSplitViewPopup();
 }

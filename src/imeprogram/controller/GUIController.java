@@ -69,10 +69,12 @@ public class GUIController implements IFeatures {
 
   @Override
   public void redComponent(String sourceImage) {
-    String destImage = getPreviewReference(sourceImage);
+    String previewImage = getPreviewReference(sourceImage);
     try {
-      model.redComponent(sourceImage, destImage);
-      sendImageToView(destImage);
+      model.redComponent(sourceImage, previewImage);
+      sendImageToView(previewImage);
+      triggerUpdateHistogram(previewImage);
+      view.showPreviewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -82,10 +84,12 @@ public class GUIController implements IFeatures {
 
   @Override
   public void greenComponent(String sourceImage) {
-    String destImage = getPreviewReference(sourceImage);
+    String previewImage = getPreviewReference(sourceImage);
     try {
-      model.greenComponent(sourceImage, destImage);
-      sendImageToView(destImage);
+      model.greenComponent(sourceImage, previewImage);
+      sendImageToView(previewImage);
+      triggerUpdateHistogram(previewImage);
+      view.showPreviewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -95,10 +99,12 @@ public class GUIController implements IFeatures {
 
   @Override
   public void blueComponent(String sourceImage) {
-    String destImage = getPreviewReference(sourceImage);
+    String previewImage = getPreviewReference(sourceImage);
     try {
-      model.blueComponent(sourceImage, destImage);
-      sendImageToView(destImage);
+      model.blueComponent(sourceImage, previewImage);
+      sendImageToView(previewImage);
+      triggerUpdateHistogram(previewImage);
+      view.showPreviewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -108,10 +114,12 @@ public class GUIController implements IFeatures {
 
   @Override
   public void lumaComponent(String sourceImage) {
-    String destImage = getPreviewReference(sourceImage);
+    String previewImage = getPreviewReference(sourceImage);
     try {
-      model.lumaComponent(sourceImage, destImage);
-      sendImageToView(destImage);
+      model.lumaComponent(sourceImage, previewImage);
+      sendImageToView(previewImage);
+      triggerUpdateHistogram(previewImage);
+      view.showSplitViewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -125,6 +133,8 @@ public class GUIController implements IFeatures {
     try {
       model.horizontalFlip(sourceImage, destImage);
       sendImageToView(destImage);
+      triggerUpdateHistogram(destImage);
+      view.showPreviewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -138,6 +148,8 @@ public class GUIController implements IFeatures {
     try {
       model.verticalFlip(sourceImage, destImage);
       sendImageToView(destImage);
+      triggerUpdateHistogram(destImage);
+      view.showPreviewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -151,6 +163,8 @@ public class GUIController implements IFeatures {
     try {
       model.blur(sourceImage, destImage);
       sendImageToView(destImage);
+      triggerUpdateHistogram(destImage);
+      view.showSplitViewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -164,6 +178,8 @@ public class GUIController implements IFeatures {
     try {
       model.sharpen(sourceImage, destImage);
       sendImageToView(destImage);
+      triggerUpdateHistogram(destImage);
+      view.showSplitViewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -177,6 +193,8 @@ public class GUIController implements IFeatures {
     try {
       model.sepia(sourceImage, destImage);
       sendImageToView(destImage);
+      triggerUpdateHistogram(destImage);
+      view.showSplitViewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -190,6 +208,8 @@ public class GUIController implements IFeatures {
     try {
       model.compress(sourceImage, destImage, compressRatio);
       sendImageToView(destImage);
+      triggerUpdateHistogram(destImage);
+      view.showPreviewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -205,6 +225,8 @@ public class GUIController implements IFeatures {
     try {
       model.colorCorrect(sourceImage, destImage);
       sendImageToView(destImage);
+      triggerUpdateHistogram(destImage);
+      view.showSplitViewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -218,6 +240,8 @@ public class GUIController implements IFeatures {
     try {
       model.adjustLevels(sourceImage, destImage, black, mid, white);
       sendImageToView(destImage);
+      triggerUpdateHistogram(destImage);
+      view.showSplitViewPopup();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -278,6 +302,21 @@ public class GUIController implements IFeatures {
     model.removeImageFromMemory(destImage);
     model.removeImageFromMemory(getSplitViewReference(sourceImage));
     sendImageToView(sourceImage);
+  }
+
+  @Override
+  public void getImageData(String imageName) {
+    try {
+      sendImageToView(imageName);
+    } catch (ImageNotFoundException e) {
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
+    }
+  }
+
+  private void triggerUpdateHistogram(String previewImage) {
+    String previewImageHistogram = getHistogramReference(previewImage);
+    model.histogram(previewImage, previewImageHistogram, new LineGraph2D());
+    sendHistogramToView(previewImageHistogram);
   }
 
   /**
