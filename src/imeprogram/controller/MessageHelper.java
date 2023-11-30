@@ -13,4 +13,12 @@ public class MessageHelper {
       "Error: Mentioned image alias does not exist: %s";
   public static final String NUMBER_FORMAT_EXCEPTION_MSG =
       "Error: Provided input value is not a valid number";
+  public static final String LOAD_FILE_NOT_FOUND_EXCEPTION_MSG =
+      "Error: Cannot load file. Please check path";
+  public static final String LOAD_FILE_FORMAT_EXCEPTION_MSG =
+      "Error: Cannot load file. Invalid file";
+  public static final String SAVE_FILE_NOT_FOUND_EXCEPTION_MSG =
+      "Error: Cannot save file. Please check provided path: %s";
+  public static final String SAVE_FILE_FORMAT_EXCEPTION_MSG =
+      "Error: Cannot save file. Unsupported file extension";
 }

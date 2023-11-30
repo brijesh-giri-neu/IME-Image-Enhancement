@@ -54,9 +54,9 @@ public class Controller implements IController {
       model.loadImageFromFile(filePath, imageName);
       view.success();
     } catch (FileNotFoundException e) {
-      view.print("Error: Cannot load file. Please check path");
+      view.print(MessageHelper.LOAD_FILE_NOT_FOUND_EXCEPTION_MSG);
     } catch (FileFormatException e) {
-      view.print("Error: Cannot load file. Invalid file");
+      view.print(MessageHelper.LOAD_FILE_FORMAT_EXCEPTION_MSG);
     } catch (InvalidImageNameException e) {
       view.print(
           String.format("Error: %s cannot be used as an alias to refer to an image", imageName));
@@ -75,11 +75,11 @@ public class Controller implements IController {
       model.saveImageToFile(imageName, filePath);
       view.success();
     } catch (FileNotFoundException e) {
-      view.print("Error: Cannot save file. Please check provided path: " + filePath);
+      view.print(String.format(MessageHelper.SAVE_FILE_NOT_FOUND_EXCEPTION_MSG, filePath));
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, imageName));
     } catch (FileFormatException e) {
-      view.print("Error: Cannot save file. Unsupported file extension");
+      view.print(MessageHelper.SAVE_FILE_FORMAT_EXCEPTION_MSG);
     }
   }
 

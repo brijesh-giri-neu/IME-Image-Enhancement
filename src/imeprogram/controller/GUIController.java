@@ -42,9 +42,9 @@ public class GUIController implements IFeatures {
       model.loadImageFromFile(filePath, imageName);
       sendImageToView(imageName);
     } catch (FileNotFoundException e) {
-      view.displayError("Error: Cannot load file. Please check path");
+      view.displayError(MessageHelper.LOAD_FILE_NOT_FOUND_EXCEPTION_MSG);
     } catch (FileFormatException e) {
-      view.displayError("Error: Cannot load file. Invalid file");
+      view.displayError(MessageHelper.LOAD_FILE_FORMAT_EXCEPTION_MSG);
     } catch (InvalidImageNameException e) {
       view.displayError(
           String.format("Error: %s cannot be used as an alias to refer to an image", imageName));
@@ -56,7 +56,7 @@ public class GUIController implements IFeatures {
     try {
       model.saveImageToFile(imageName, filePath);
     } catch (FileNotFoundException e) {
-      view.displayError("Error: Cannot save file. Please check provided path: " + filePath);
+      view.displayError(String.format(MessageHelper.SAVE_FILE_NOT_FOUND_EXCEPTION_MSG, filePath));
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, imageName));
     } catch (FileFormatException e) {
@@ -219,9 +219,7 @@ public class GUIController implements IFeatures {
       view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
     } catch (InvalidImageNameException e) {
       view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
-    } catch (NumberFormatException e) {
-      view.displayError(MessageHelper.NUMBER_FORMAT_EXCEPTION_MSG);
-    } catch (IllegalArgumentException e) {
+    }catch (IllegalArgumentException e) {
       view.displayError("Error: Provided black, mid, and white values are illegal");
     }
   }
