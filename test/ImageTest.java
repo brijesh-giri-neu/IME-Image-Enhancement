@@ -3535,7 +3535,8 @@ public class ImageTest {
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.applyFilter(Filter.GAUSSIAN_BLUR).splitView(testImgPNG, 50);
+      IImage testResultImgPNG = testImgPNG.applyFilter(Filter.GAUSSIAN_BLUR)
+          .splitView(testImgPNG, 50);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
