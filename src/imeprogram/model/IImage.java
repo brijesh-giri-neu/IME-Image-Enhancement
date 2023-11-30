@@ -124,18 +124,12 @@ public interface IImage extends IReadOnlyImage {
   void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
 
   /**
-   * Applies a Gaussian blur effect to the image.
+   * Applies the given filter to the image.
    *
-   * @return a new IImage with a Gaussian blur filter applied.
+   * @param imageFilter the filter to apply to the image.
+   * @return a new IImage with the given filter applied.
    */
-  IImage gaussianBlur();
-
-  /**
-   * Applies a sharpening effect to the image using the standard sharpen filter.
-   *
-   * @return a new IImage with the sharpening effect applied.
-   */
-  IImage sharpen();
+  IImage applyFilter(Filter imageFilter);
 
   /**
    * Applies a Grayscale filter to the image using the conversion formula: R'=G'=B'=0.2126R +
@@ -209,4 +203,35 @@ public interface IImage extends IReadOnlyImage {
    * @return a new IImage with the haar transform applied.
    */
   IImage haarCompress(int ratio) throws IllegalArgumentException;
+
+  /**
+   * Represents different filter kernels supported by our IImage.
+   */
+  enum Filter {
+    GAUSSIAN_BLUR(new double[][]{
+        {1.0 / 16, 2.0 / 16, 1.0 / 16},
+        {2.0 / 16, 4.0 / 16, 2.0 / 16},
+        {1.0 / 16, 2.0 / 16, 1.0 / 16}}),
+    SHARPEN(new double[][]{
+        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}});
+
+    private final double[][] kernel;
+
+    /**
+     * Initializes the given kernel.
+     *
+     * @param kernel the given kernel.
+     */
+    Filter(double[][] kernel) {
+      this.kernel = kernel;
+    }
+
+    double[][] getKernel() {
+      return kernel;
+    }
+  }
 }

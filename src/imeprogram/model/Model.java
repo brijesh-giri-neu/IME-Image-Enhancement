@@ -5,6 +5,7 @@ import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
 import imeprogram.fileparser.IImageFileIO;
 import imeprogram.fileparser.IImageFileIOFactory;
+import imeprogram.model.IImage.Filter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -186,7 +187,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.gaussianBlur(), destImageName);
+    saveImageToMemory(sourceImg.applyFilter(Filter.GAUSSIAN_BLUR), destImageName);
   }
 
   @Override
@@ -194,7 +195,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.sharpen(), destImageName);
+    saveImageToMemory(sourceImg.applyFilter(Filter.SHARPEN), destImageName);
   }
 
   @Override

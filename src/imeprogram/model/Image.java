@@ -205,67 +205,13 @@ public class Image implements IImage {
     }
   }
 
-  @Override
-  public IImage gaussianBlur() {
-    int[][][] blurredImage = new int[height][width][numChannels];
+  public IImage applyFilter(Filter imageFilter) {
+    int[][][] resultImage = new int[height][width][numChannels];
 
-    // Define the Gaussian blur kernel
-    double[][] kernel = {{1.0 / 16, 2.0 / 16, 1.0 / 16}, {2.0 / 16, 4.0 / 16, 2.0 / 16},
-        {1.0 / 16, 2.0 / 16, 1.0 / 16}};
-
-    for (int i = 0; i < this.height; i++) {
-      for (int j = 0; j < this.width; j++) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
-
-        // Apply the kernel to each pixel
-        for (int ki = -1; ki <= 1; ki++) {
-          for (int kj = -1; kj <= 1; kj++) {
-            if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
-              r += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][0];
-              g += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][1];
-              b += kernel[ki + 1][kj + 1] * this.rgbValues[i + ki][j + kj][2];
-            }
-          }
-        }
-        // Clamp the RGB values
-        r = Math.min(255, Math.max(0, r));
-        g = Math.min(255, Math.max(0, g));
-        b = Math.min(255, Math.max(0, b));
-        // Round off to nearest int
-        blurredImage[i][j][0] = (int) Math.round(r);
-        blurredImage[i][j][1] = (int) Math.round(g);
-        blurredImage[i][j][2] = (int) Math.round(b);
-      }
-    }
-    return new Image(blurredImage, width, height);
-  }
-
-  @Override
-  public IImage sharpen() {
-    int[][][] sharpenedImage = new int[height][width][numChannels];
-
-    // Define the sharpening kernel
-    double[][] kernel = {{-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
-        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
-        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
-        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
-        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}};
-
-    // Calculate the sum of the kernel values
-    double sum = 0;
-    for (double[] doubles : kernel) {
-      for (double aDouble : doubles) {
-        sum += aDouble;
-      }
-    }
-    // Normalize the kernel
-    for (int i = 0; i < kernel.length; i++) {
-      for (int j = 0; j < kernel[i].length; j++) {
-        kernel[i][j] /= sum;
-      }
-    }
+    // Setup kernel
+    double[][] kernel = imageFilter.getKernel();
+    int kernelSize = kernel.length;
+    int kernelRadius = kernelSize / 2;
 
     for (int i = 0; i < this.height; i++) {
       for (int j = 0; j < this.width; j++) {
@@ -274,12 +220,12 @@ public class Image implements IImage {
         double b = 0;
 
         // Apply the kernel to each pixel
-        for (int ki = -2; ki <= 2; ki++) {
-          for (int kj = -2; kj <= 2; kj++) {
+        for (int ki = -kernelRadius; ki <= kernelRadius; ki++) {
+          for (int kj = -kernelRadius; kj <= kernelRadius; kj++) {
             if (i + ki >= 0 && i + ki < this.height && j + kj >= 0 && j + kj < this.width) {
-              r += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][0];
-              g += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][1];
-              b += kernel[ki + 2][kj + 2] * this.rgbValues[i + ki][j + kj][2];
+              r += kernel[ki + kernelRadius][kj + kernelRadius] * this.rgbValues[i + ki][j + kj][0];
+              g += kernel[ki + kernelRadius][kj + kernelRadius] * this.rgbValues[i + ki][j + kj][1];
+              b += kernel[ki + kernelRadius][kj + kernelRadius] * this.rgbValues[i + ki][j + kj][2];
             }
           }
         }
@@ -288,12 +234,12 @@ public class Image implements IImage {
         g = Math.min(255, Math.max(0, g));
         b = Math.min(255, Math.max(0, b));
         // Round off to nearest int
-        sharpenedImage[i][j][0] = (int) Math.round(r);
-        sharpenedImage[i][j][1] = (int) Math.round(g);
-        sharpenedImage[i][j][2] = (int) Math.round(b);
+        resultImage[i][j][0] = (int) Math.round(r);
+        resultImage[i][j][1] = (int) Math.round(g);
+        resultImage[i][j][2] = (int) Math.round(b);
       }
     }
-    return new Image(sharpenedImage, width, height);
+    return new Image(resultImage, width, height);
   }
 
   @Override
