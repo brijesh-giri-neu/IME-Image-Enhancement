@@ -63,7 +63,7 @@ public class Model implements IModel {
       imageIO.saveToFile(filePath, image);
     } catch (IOException e) {
       throw new FileNotFoundException();
-    } catch (IllegalArgumentException e){
+    } catch (IllegalArgumentException e) {
       throw new FileFormatException("Invalid image file format");
     }
   }
