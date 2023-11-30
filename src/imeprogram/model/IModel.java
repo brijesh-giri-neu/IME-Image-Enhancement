@@ -57,6 +57,13 @@ public interface IModel {
       throws InvalidImageNameException;
 
   /**
+   * Remove the given image from the application's memory.
+   *
+   * @param imageName the image name of the image to be removed.
+   */
+  void removeImageFromMemory(String imageName);
+
+  /**
    * Extract the red component of an image and save it with the specified image name.
    *
    * @param sourceImageName The name of the source image.

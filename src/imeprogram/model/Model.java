@@ -80,6 +80,13 @@ public class Model implements IModel {
   }
 
   @Override
+  public void removeImageFromMemory(String imageName) {
+    if (doesImageExist(imageName)) {
+      loadedImages.remove(imageName);
+    }
+  }
+
+  @Override
   public void redComponent(String sourceImageName, String destImageName)
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);

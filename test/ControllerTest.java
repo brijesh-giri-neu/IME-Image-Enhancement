@@ -1085,6 +1085,11 @@ public class ControllerTest {
     }
 
     @Override
+    public void removeImageFromMemory(String imageName) {
+      logInputs(new String[]{imageName});
+    }
+
+    @Override
     public void redComponent(String sourceImageName, String destImageName)
         throws ImageNotFoundException, InvalidImageNameException {
       checkExceptions();
