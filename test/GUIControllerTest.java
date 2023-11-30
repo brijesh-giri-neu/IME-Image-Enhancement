@@ -956,5 +956,15 @@ public class GUIControllerTest {
     public void addFeatures(IFeatures features) {
       viewLog.append(features.toString());
     }
+
+    @Override
+    public void showPreviewPopup() {
+
+    }
+
+    @Override
+    public void showSplitViewPopup() {
+
+    }
   }
 }
