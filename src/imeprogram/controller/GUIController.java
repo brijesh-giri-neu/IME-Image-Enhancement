@@ -43,6 +43,7 @@ public class GUIController implements IFeatures {
     try {
       model.loadImageFromFile(filePath, imageName);
       sendImageToView(imageName);
+      triggerUpdateHistogram(imageName);
     } catch (FileNotFoundException e) {
       view.displayError(GUIMessageHelper.LOAD_FILE_NOT_FOUND_EXCEPTION_MSG);
     } catch (FileFormatException e) {
@@ -293,6 +294,7 @@ public class GUIController implements IFeatures {
     model.removeImageFromMemory(destImage);
     model.removeImageFromMemory(getSplitViewReference(sourceImage));
     sendImageToView(sourceImage);
+    triggerUpdateHistogram(sourceImage);
   }
 
   @Override
@@ -302,6 +304,7 @@ public class GUIController implements IFeatures {
     model.removeImageFromMemory(destImage);
     model.removeImageFromMemory(getSplitViewReference(sourceImage));
     sendImageToView(sourceImage);
+    triggerUpdateHistogram(sourceImage);
   }
 
   @Override

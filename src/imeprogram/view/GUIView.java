@@ -19,8 +19,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -42,6 +40,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * This class represents a GUI based view for the IME program.
  */
 public class GUIView extends JFrame implements IGUIView {
+
   private int height;
   private int width;
   private int[][][] rgbValues;
@@ -202,8 +201,8 @@ public class GUIView extends JFrame implements IGUIView {
     zoomLevel = zoomSlider.getValue() / 100.0;
     if (zoomLevel != oldZoomLevel) {
       imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
-          (int)(bImage.getWidth() * zoomLevel),
-          (int)(bImage.getHeight() * zoomLevel),
+          (int) (bImage.getWidth() * zoomLevel),
+          (int) (bImage.getHeight() * zoomLevel),
           Image.SCALE_SMOOTH)));
       updateThumbnail();
       //updateHistogram();
@@ -255,12 +254,14 @@ public class GUIView extends JFrame implements IGUIView {
     });
     mainPanel.add(scrollPane, BorderLayout.CENTER);
   }
+
   private void middleImage() {
     imageLabel = new JLabel() {
       @Override
       public Dimension getPreferredSize() {
         if (bImage != null) {
-          return new Dimension((int) (bImage.getWidth() * zoomLevel), (int) (bImage.getHeight() * zoomLevel) + 20); // +20 for file name label
+          return new Dimension((int) (bImage.getWidth() * zoomLevel),
+              (int) (bImage.getHeight() * zoomLevel) + 20); // +20 for file name label
         } else {
           return super.getPreferredSize();
         }
@@ -269,6 +270,7 @@ public class GUIView extends JFrame implements IGUIView {
     imageLabel.setHorizontalAlignment(JLabel.CENTER); // Center the image and file name label
     imageLabel.setVerticalAlignment(JLabel.CENTER);
   }
+
   private void leftPaneSectionButtons() {
     // Create a titled border for tools
     TitledBorder toolsBorder = BorderFactory.createTitledBorder("Tools");
@@ -276,6 +278,7 @@ public class GUIView extends JFrame implements IGUIView {
     toolsBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
     toolsPanel.setBorder(toolsBorder);
   }
+
   private void leftPaneSectionFilePath() {
     // Create a JPanel for the file path with a FlowLayout
     filePathPanel = new JPanel(new FlowLayout());
@@ -288,6 +291,7 @@ public class GUIView extends JFrame implements IGUIView {
     filePathBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
     filePathPanel.setBorder(filePathBorder);
   }
+
   private void leftPaneSectionAddItems() {
     // Add components to the mainPanel
     fileOpenPanel.add(toolsPanel, BorderLayout.NORTH);
@@ -324,8 +328,10 @@ public class GUIView extends JFrame implements IGUIView {
     // Create a JPanel for the slider with a GridLayout
     zoomSliderPanel = new JPanel(new GridLayout(2, 0));
     zoomSlider = new JSlider(JSlider.HORIZONTAL, 50, 150, 100);
-    zoomSlider.addChangeListener(e -> sliderValueLabel.setText(String.valueOf(zoomSlider.getValue()) + "%"));
-    zoomSlider.addChangeListener(e -> sliderValueLabel.setText(String.valueOf(zoomSlider.getValue()) + "%"));
+    zoomSlider.addChangeListener(
+        e -> sliderValueLabel.setText(String.valueOf(zoomSlider.getValue()) + "%"));
+    zoomSlider.addChangeListener(
+        e -> sliderValueLabel.setText(String.valueOf(zoomSlider.getValue()) + "%"));
     zoomSlider.addChangeListener(e -> handleZoom());
     zoomSliderPanel.add(zoomPanel);
     zoomSliderPanel.add(zoomSlider);
@@ -356,24 +362,27 @@ public class GUIView extends JFrame implements IGUIView {
   public void displayImage(IReadOnlyImage image) {
     bImage = iReadToBuffered(image);
     updateThumbnail();
-    updateHistogram();
+    //updateHistogram();
     imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
-        (int)(bImage.getWidth() * zoomLevel),
-        (int)(bImage.getHeight() * zoomLevel),
+        (int) (bImage.getWidth() * zoomLevel),
+        (int) (bImage.getHeight() * zoomLevel),
         Image.SCALE_SMOOTH)));
   }
 
   @Override
   public void displayHistogram(IReadOnlyImage histogram) {
     BufferedImage bHistogram = iReadToBuffered(histogram);
-    histogramLabel.setIcon(new ImageIcon(bHistogram.getScaledInstance(bHistogram.getWidth(), bHistogram.getHeight(), Image.SCALE_SMOOTH)));
+    histogramLabel.setIcon(new ImageIcon(
+        bHistogram.getScaledInstance(bHistogram.getWidth(), bHistogram.getHeight(),
+            Image.SCALE_SMOOTH)));
     histogramPanel.revalidate();
     histogramPanel.repaint();
   }
 
   @Override
   public void displayError(String errorMessage) {
-    JOptionPane.showMessageDialog(null, errorMessage, "Error" , JOptionPane.ERROR_MESSAGE);  }
+    JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+  }
 
   @Override
   public void addFeatures(IFeatures features) {
@@ -403,13 +412,13 @@ public class GUIView extends JFrame implements IGUIView {
 
     BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-    for (int i=0;i<height;i++) {
-      for (int j=0;j<width;j++) {
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
         // Flip the image horizontally
         int r = rgbValues[i][j][0];
         int g = rgbValues[i][j][1];
         int b = rgbValues[i][j][2];
-        result.setRGB(j, i, new Color(r,g,b).getRGB());
+        result.setRGB(j, i, new Color(r, g, b).getRGB());
       }
     }
     return result;
@@ -445,82 +454,6 @@ public class GUIView extends JFrame implements IGUIView {
     this.features.histogram(tabReference);
   }
 
-  private void showPreviewDialog() {
-    if (bImage != null) {
-      JDialog dialog = new JDialog(this, "Preview", true);
-      dialog.setLayout(new BorderLayout());
-      dialog.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent e) {
-          // Restore the original image when the dialog box is closed
-          imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
-              (int) (bImage.getWidth() * zoomLevel),
-              (int) (bImage.getHeight() * zoomLevel),
-              Image.SCALE_SMOOTH)));
-        }
-      });
-      buttonCouple(dialog);
-    }
-  }
-
-  private void showSplitViewDialog() {
-
-    if (bImage != null) {
-      JDialog dialog = new JDialog(this, "Split View", true);
-      dialog.setLayout(new BorderLayout());
-
-      dialog.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent e) {
-          // Restore the original image when the dialog box is closed
-          imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
-              (int)(bImage.getWidth() * zoomLevel),
-              (int)(bImage.getHeight() * zoomLevel),
-              Image.SCALE_SMOOTH)));
-        }
-      });
-
-      imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
-          (int)(bImage.getWidth() * zoomLevel),
-          (int)(bImage.getHeight() * zoomLevel),
-          Image.SCALE_SMOOTH)
-      ));
-
-      JSlider slider = new JSlider(0, 100, 50);
-      slider.setEnabled(false); // Disable the slider initially
-      JLabel sliderValueLabel = new JLabel("50"); // Initial value of the slider
-      slider.addChangeListener(e -> {
-        JSlider source = (JSlider)e.getSource();
-        if (!source.getValueIsAdjusting()) {
-          int ratio = source.getValue();
-          sliderValueLabel.setText(String.valueOf(ratio)); // Update the label with the current slider value
-          features.splitView(tabReference, ratio);
-        }
-      });
-      JCheckBox splitViewToggle = new JCheckBox("Split View");
-      splitViewToggle.addItemListener(e -> {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-          slider.setEnabled(true);
-          int ratio = slider.getValue();
-          features.splitView(tabReference, ratio);
-        } else {
-          slider.setEnabled(false);
-        }
-        imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
-            (int)(bImage.getWidth() * zoomLevel),
-            (int)(bImage.getHeight() * zoomLevel),
-            Image.SCALE_SMOOTH)));
-      });
-
-      JPanel sliderPanel = new JPanel();
-      sliderPanel.add(splitViewToggle);
-      sliderPanel.add(slider);
-      sliderPanel.add(sliderValueLabel); // Add the label to the panel
-      dialog.add(sliderPanel, BorderLayout.NORTH);
-      buttonCouple(dialog);
-    }
-  }
-
   private void buttonCouple(JDialog dialog) {
     JPanel buttonPanel = new JPanel();
     applyChangesButton.addActionListener(e -> dialog.dispose());
@@ -539,63 +472,124 @@ public class GUIView extends JFrame implements IGUIView {
   // Listener Call Methods
   private void flipHorizontally() {
     this.features.horizontalFlip(tabReference);
-    showPreviewDialog();
   }
 
   private void flipVertically() {
     this.features.verticalFlip(tabReference);
-    showPreviewDialog();
   }
 
   @Override
   public void showPreviewPopup() {
-
+    if (bImage != null) {
+      JDialog dialog = new JDialog(this, "Preview", true);
+      dialog.setLayout(new BorderLayout());
+      dialog.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+          // Restore the original image when the dialog box is closed
+//          imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
+//              (int) (bImage.getWidth() * zoomLevel),
+//              (int) (bImage.getHeight() * zoomLevel),
+//              Image.SCALE_SMOOTH)));
+          features.getImageData(tabReference);
+          updateHistogram();
+        }
+      });
+      buttonCouple(dialog);
+    }
   }
 
   @Override
   public void showSplitViewPopup() {
+    if (bImage != null) {
+      JDialog dialog = new JDialog(this, "Split View", true);
+      dialog.setLayout(new BorderLayout());
 
+      dialog.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+          // Restore the original image when the dialog box is closed
+//          imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
+//              (int) (bImage.getWidth() * zoomLevel),
+//              (int) (bImage.getHeight() * zoomLevel),
+//              Image.SCALE_SMOOTH)));
+          features.getImageData(tabReference);
+          updateHistogram();
+        }
+      });
+
+      imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
+          (int) (bImage.getWidth() * zoomLevel),
+          (int) (bImage.getHeight() * zoomLevel),
+          Image.SCALE_SMOOTH)
+      ));
+
+      JSlider slider = new JSlider(0, 100, 50);
+      slider.setEnabled(false); // Disable the slider initially
+      JLabel sliderValueLabel = new JLabel("50"); // Initial value of the slider
+      slider.addChangeListener(e -> {
+        JSlider source = (JSlider) e.getSource();
+        if (!source.getValueIsAdjusting()) {
+          int ratio = source.getValue();
+          sliderValueLabel.setText(
+              String.valueOf(ratio)); // Update the label with the current slider value
+          features.splitView(tabReference, ratio);
+        }
+      });
+      JCheckBox splitViewToggle = new JCheckBox("Split View");
+      splitViewToggle.addItemListener(e -> {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          slider.setEnabled(true);
+          int ratio = slider.getValue();
+          features.splitView(tabReference, ratio);
+        } else {
+          slider.setEnabled(false);
+        }
+        imageLabel.setIcon(new ImageIcon(bImage.getScaledInstance(
+            (int) (bImage.getWidth() * zoomLevel),
+            (int) (bImage.getHeight() * zoomLevel),
+            Image.SCALE_SMOOTH)));
+      });
+
+      JPanel sliderPanel = new JPanel();
+      sliderPanel.add(splitViewToggle);
+      sliderPanel.add(slider);
+      sliderPanel.add(sliderValueLabel); // Add the label to the panel
+      dialog.add(sliderPanel, BorderLayout.NORTH);
+      buttonCouple(dialog);
+    }
   }
 
   private void gaussianBlur() {
     this.features.blur(tabReference);
-    showSplitViewDialog();
   }
 
   private void sharpen() {
     this.features.sharpen(tabReference);
-    showSplitViewDialog();
   }
 
   private void luma() {
-      this.features.lumaComponent(tabReference);
-      showSplitViewDialog();
-
+    this.features.lumaComponent(tabReference);
   }
 
   private void colorCorrect() {
     this.features.colorCorrect(tabReference);
-    showSplitViewDialog();
   }
 
   private void redButton() {
     this.features.redComponent(tabReference);
-    showPreviewDialog();
   }
 
   private void greenButton() {
     this.features.greenComponent(tabReference);
-    showPreviewDialog();
   }
 
   private void blueButton() {
-      this.features.blueComponent(tabReference);
-      showPreviewDialog();
+    this.features.blueComponent(tabReference);
   }
 
   private void sepia() {
     this.features.sepia(tabReference);
-    showSplitViewDialog();
   }
 
   private void applyChanges() {
@@ -624,7 +618,6 @@ public class GUIView extends JFrame implements IGUIView {
       int b = Integer.parseInt(fieldB.getText());
       int c = Integer.parseInt(fieldC.getText());
       this.features.adjustLevels(tabReference, a, b, c);
-      showPreviewDialog();
     }
   }
 
@@ -632,7 +625,6 @@ public class GUIView extends JFrame implements IGUIView {
     String input = JOptionPane.showInputDialog(this, "Enter compression ratio (0-100):");
     int ratio = Integer.parseInt(input);
     this.features.compress(tabReference, ratio);
-    showPreviewDialog();
   }
 
   private void openFile() {
