@@ -88,7 +88,7 @@ public interface IFeatures {
    * Compresses the source image with a specified compression ratio and saves it to the destination
    * image.
    *
-   * @param imageName   The name of the source image.
+   * @param imageName     The name of the source image.
    * @param compressRatio The compression ratio.
    */
   void compress(String imageName, int compressRatio);
@@ -104,9 +104,9 @@ public interface IFeatures {
    * Adjusts the levels of the source image and saves it to the destination image.
    *
    * @param imageName The name of the source image.
-   * @param black       The intensity level for shadows.
-   * @param mid         The intensity level for mid.
-   * @param white       The intensity level for highlights.
+   * @param black     The intensity level for shadows.
+   * @param mid       The intensity level for mid.
+   * @param white     The intensity level for highlights.
    */
   void adjustLevels(String imageName, int black, int mid, int white);
 
@@ -114,9 +114,9 @@ public interface IFeatures {
    * Generates a vertical split view by merging the given destination image with the source image in
    * that order. Saves the result in the destination image by overwriting it.
    *
-   * @param imageName The name of the source image.
-   * @param splitRatio  The ratio of the dest image in the split view, (1 - splitRatio) is the ratio
-   *                    of the source image in the split view.
+   * @param imageName  The name of the source image.
+   * @param splitRatio The ratio of the dest image in the split view, (1 - splitRatio) is the ratio
+   *                   of the source image in the split view.
    */
   void splitView(String imageName, int splitRatio);
 
@@ -141,4 +141,18 @@ public interface IFeatures {
    * @param imageName The name of the source image.
    */
   void cancelChanges(String imageName);
+
+  /**
+   * Return the data of the loaded image.
+   *
+   * @param imageName the data of the loaded image.
+   */
+  void getImageData(String imageName);
+
+  /**
+   * Return the data of the histogram of the loaded image.
+   *
+   * @param imageName the data of the histogram of the loaded image.
+   */
+  void getImageHistogramData(String imageName);
 }

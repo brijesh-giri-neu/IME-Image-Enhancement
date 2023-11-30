@@ -280,6 +280,25 @@ public class GUIController implements IFeatures {
     sendImageToView(sourceImage);
   }
 
+  @Override
+  public void getImageData(String imageName) {
+    try {
+      sendImageToView(imageName);
+    } catch (ImageNotFoundException e) {
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
+    }
+  }
+
+  @Override
+  public void getImageHistogramData(String imageName) {
+    String histImage = getHistogramReference(imageName);
+    try {
+      sendHistogramToView(histImage);
+    } catch (ImageNotFoundException e) {
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
+    }
+  }
+
   /**
    * Overwrite data retrieved from "fromImage" to the given "toImage"
    *

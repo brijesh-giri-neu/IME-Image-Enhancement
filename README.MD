@@ -53,6 +53,10 @@ This program provides a set of operations for processing 24-bit images with Red,
 ### ILineGraph2D
 - Purpose: Template to Generate a 2D Line graph.
 - Function: Interface for the LineGraph2D class.
+### IReadOnlyImage 
+- Purpose: A readonly version 
+
+
 
 ## File Structure
     src                                                 
