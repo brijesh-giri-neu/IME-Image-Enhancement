@@ -133,7 +133,7 @@ public class GUIView extends JFrame implements IGUIView {
     toolsPanel.add(sharpButton);
 
     // luma
-    lumaButton = new JButton("Luma Image");
+    lumaButton = new JButton("Grayscale Image");
     toolsPanel.add(lumaButton);
 
     // sepia

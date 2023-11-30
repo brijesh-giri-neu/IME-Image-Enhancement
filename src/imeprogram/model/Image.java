@@ -183,6 +183,7 @@ public class Image implements IImage {
     }
   }
 
+  @Override
   public IImage applyFilter(Filter imageFilter) {
     int[][][] resultImage = new int[height][width][numChannels];
 
