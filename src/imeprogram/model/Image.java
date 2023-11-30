@@ -44,42 +44,19 @@ public class Image implements IImage {
   }
 
   @Override
-  public IImage getRedComponent() {
-    int[][][] redValues = new int[height][width][3];
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        redValues[i][j][0] = this.rgbValues[i][j][0];  // Red value
-        redValues[i][j][1] = 0;  // Green value set to 0
-        redValues[i][j][2] = 0;  // Blue value set to 0
-      }
-    }
-    return new Image(redValues, width, height);
-  }
+  public IImage getComponent(ImageComponent component) {
+    int[][][] componentValues = new int[height][width][numChannels];
+    int componentChannel = component.getChannel();
 
-  @Override
-  public IImage getGreenComponent() {
-    int[][][] greenValues = new int[height][width][3];
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        greenValues[i][j][0] = 0;  // Red value set to 0
-        greenValues[i][j][1] = this.rgbValues[i][j][1];  // Green value
-        greenValues[i][j][2] = 0;  // Blue value set to 0
+    for (int i = 0; i < this.height; i++) {
+      for (int j = 0; j < this.width; j++) {
+        for (int k = 0; k < this.numChannels; k++) {
+          // Only set pixels for given component
+          componentValues[i][j][k] = (k == componentChannel) ? this.rgbValues[i][j][k] : 0;
+        }
       }
     }
-    return new Image(greenValues, width, height);
-  }
-
-  @Override
-  public IImage getBlueComponent() {
-    int[][][] blueValues = new int[height][width][3];
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        blueValues[i][j][0] = 0;  // Red value set to 0
-        blueValues[i][j][1] = 0;  // Green value set to 0
-        blueValues[i][j][2] = this.rgbValues[i][j][2];  // Blue value
-      }
-    }
-    return new Image(blueValues, width, height);
+    return new Image(componentValues, width, height);
   }
 
   @Override
@@ -101,7 +78,8 @@ public class Image implements IImage {
     int[][][] intensityValues = new int[height][width][3];
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-        int intensity = (rgbValues[i][j][0] + rgbValues[i][j][1] + rgbValues[i][j][2]) / 3;
+        int intensity = Math.round(
+            (rgbValues[i][j][0] + rgbValues[i][j][1] + rgbValues[i][j][2]) / 3);
         intensityValues[i][j][0] = intensity;  // Red value
         intensityValues[i][j][1] = intensity;  // Green value
         intensityValues[i][j][2] = intensity;  // Blue value

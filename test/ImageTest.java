@@ -8,6 +8,7 @@ import imeprogram.fileparser.IImageFileIOFactory;
 import imeprogram.fileparser.ImageFileIOFactory;
 import imeprogram.model.IImage;
 import imeprogram.model.IImage.Filter;
+import imeprogram.model.IImage.ImageComponent;
 import imeprogram.model.Image;
 import imeprogram.model.LineGraph2D;
 import java.io.FileNotFoundException;
@@ -208,7 +209,7 @@ public class ImageTest {
     try {
       Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
           .loadFromFile(testFilePathPPM);
-      IImage testResultImgPPM = testImgPPM.getRedComponent();
+      IImage testResultImgPPM = testImgPPM.getComponent(ImageComponent.RED);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
 
@@ -231,7 +232,7 @@ public class ImageTest {
     try {
       Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
           .loadFromFile(testFilePathPPM);
-      IImage testResultImgPPM = testImgPPM.getGreenComponent();
+      IImage testResultImgPPM = testImgPPM.getComponent(ImageComponent.GREEN);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
 
@@ -254,7 +255,7 @@ public class ImageTest {
     try {
       Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
           .loadFromFile(testFilePathPPM);
-      IImage testResultImgPPM = testImgPPM.getBlueComponent();
+      IImage testResultImgPPM = testImgPPM.getComponent(ImageComponent.BLUE);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
 
@@ -981,7 +982,7 @@ public class ImageTest {
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.getRedComponent();
+      IImage testResultImgPNG = testImgPNG.getComponent(ImageComponent.RED);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
@@ -1004,7 +1005,7 @@ public class ImageTest {
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.getGreenComponent();
+      IImage testResultImgPNG = testImgPNG.getComponent(ImageComponent.GREEN);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
@@ -1027,7 +1028,7 @@ public class ImageTest {
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.getBlueComponent();
+      IImage testResultImgPNG = testImgPNG.getComponent(ImageComponent.BLUE);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
@@ -1754,7 +1755,7 @@ public class ImageTest {
     try {
       Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
           .loadFromFile(testFilePathJPG);
-      IImage testResultImgJPG = testImgJPG.getRedComponent();
+      IImage testResultImgJPG = testImgJPG.getComponent(ImageComponent.RED);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
 
@@ -1777,7 +1778,7 @@ public class ImageTest {
     try {
       Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
           .loadFromFile(testFilePathJPG);
-      IImage testResultImgJPG = testImgJPG.getGreenComponent();
+      IImage testResultImgJPG = testImgJPG.getComponent(ImageComponent.GREEN);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
 
@@ -1800,7 +1801,7 @@ public class ImageTest {
     try {
       Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
           .loadFromFile(testFilePathJPG);
-      IImage testResultImgJPG = testImgJPG.getBlueComponent();
+      IImage testResultImgJPG = testImgJPG.getComponent(ImageComponent.BLUE);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
 

@@ -35,25 +35,12 @@ public interface IImage extends IReadOnlyImage {
   int getHeight();
 
   /**
-   * Return an IImage where [G,B] channels of the Image are set to 0.
+   * Return an IImage that represents a component of this image.
    *
-   * @return an IImage where [G,B] channels of the Image are set to 0.
+   * @param component the component to represent.
+   * @return an IImage that represents a component of this image.
    */
-  IImage getRedComponent();
-
-  /**
-   * Return an IImage where [R,B] channels of the Image are set to 0.
-   *
-   * @return an IImage where [R,B] channels of the Image are set to 0.
-   */
-  IImage getGreenComponent();
-
-  /**
-   * Return an IImage where [R,G] channels of the Image are set to 0.
-   *
-   * @return an IImage where [R,G] channels of the Image are set to 0.
-   */
-  IImage getBlueComponent();
+  IImage getComponent(ImageComponent component);
 
   /**
    * Return an IImage where values for all 3 channels are calculated by using the Value function:
@@ -205,6 +192,33 @@ public interface IImage extends IReadOnlyImage {
   IImage haarCompress(int ratio) throws IllegalArgumentException;
 
   /**
+   * Represents different components of the IImage.
+   */
+  enum ImageComponent {
+    // 0 represents RED
+    RED(0),
+    // 1 represents GREEN
+    GREEN(1),
+    // 2 represents BLUE
+    BLUE(2);
+
+    private final int index;
+
+    /**
+     * Initializes the index for this ImageComponent.
+     *
+     * @param index the index for this ImageComponent.
+     */
+    ImageComponent(int index) {
+      this.index = index;
+    }
+
+    int getChannel() {
+      return index;
+    }
+  }
+
+  /**
    * Represents different filter kernels supported by our IImage.
    */
   enum Filter {
@@ -222,7 +236,7 @@ public interface IImage extends IReadOnlyImage {
     private final double[][] kernel;
 
     /**
-     * Initializes the given kernel.
+     * Initializes the kernel for this Filter.
      *
      * @param kernel the given kernel.
      */

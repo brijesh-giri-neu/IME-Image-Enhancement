@@ -6,6 +6,7 @@ import imeprogram.exceptions.InvalidImageNameException;
 import imeprogram.fileparser.IImageFileIO;
 import imeprogram.fileparser.IImageFileIOFactory;
 import imeprogram.model.IImage.Filter;
+import imeprogram.model.IImage.ImageComponent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -83,7 +84,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.getRedComponent(), destImageName);
+    saveImageToMemory(sourceImg.getComponent(ImageComponent.RED), destImageName);
   }
 
   @Override
@@ -91,7 +92,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.getGreenComponent(), destImageName);
+    saveImageToMemory(sourceImg.getComponent(ImageComponent.GREEN), destImageName);
   }
 
   @Override
@@ -99,7 +100,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.getBlueComponent(), destImageName);
+    saveImageToMemory(sourceImg.getComponent(ImageComponent.BLUE), destImageName);
   }
 
   @Override
