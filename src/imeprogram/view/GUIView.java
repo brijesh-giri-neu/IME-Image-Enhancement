@@ -27,4 +27,14 @@ public class GUIView implements IGUIView {
   public void addFeatures(IFeatures features) {
 
   }
+
+  @Override
+  public void showPreviewPopup() {
+
+  }
+
+  @Override
+  public void showSplitViewPopup() {
+
+  }
 }

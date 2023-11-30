@@ -148,11 +148,4 @@ public interface IFeatures {
    * @param imageName the data of the loaded image.
    */
   void getImageData(String imageName);
-
-  /**
-   * Return the data of the histogram of the loaded image.
-   *
-   * @param imageName the data of the histogram of the loaded image.
-   */
-  void getImageHistogramData(String imageName);
 }
