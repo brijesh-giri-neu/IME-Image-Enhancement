@@ -74,7 +74,7 @@ public class Model implements IModel {
   }
 
   @Override
-  public void saveImageToMemory(IReadOnlyImage imageData, String imageName)
+  public void saveImageDataToMemory(IImage imageData, String imageName)
       throws InvalidImageNameException {
     saveImageToMemory(imageData, imageName);
   }

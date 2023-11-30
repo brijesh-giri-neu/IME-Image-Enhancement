@@ -1,8 +1,8 @@
 import static org.junit.Assert.assertEquals;
 
 import imeprogram.controller.GUIController;
+import imeprogram.controller.GUIController.GUIMessageHelper;
 import imeprogram.controller.IFeatures;
-import imeprogram.controller.MessageHelper;
 import imeprogram.model.IModel;
 import imeprogram.model.IReadOnlyImage;
 import imeprogram.model.Image;
@@ -28,6 +28,7 @@ public class GUIControllerTest {
   private final String imageName = "tab1";
   private final String previewImage = "tab1previewImage";
   private final String splitViewImage = "tab1splitViewImage";
+  private final String histImage = "tab1histogramImage";
 
   @Before
   public void setUp() {
@@ -78,7 +79,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        MessageHelper.LOAD_FILE_NOT_FOUND_EXCEPTION_MSG);
+        GUIMessageHelper.LOAD_FILE_NOT_FOUND_EXCEPTION_MSG);
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -95,7 +96,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        MessageHelper.LOAD_FILE_FORMAT_EXCEPTION_MSG);
+        GUIMessageHelper.LOAD_FILE_FORMAT_EXCEPTION_MSG);
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -112,7 +113,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format("Error: %s cannot be used as an alias to refer to an image", this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -152,7 +153,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.SAVE_FILE_NOT_FOUND_EXCEPTION_MSG, filePath));
+        String.format(GUIMessageHelper.SAVE_FILE_NOT_FOUND_EXCEPTION_MSG, filePath));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -169,7 +170,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -185,7 +186,8 @@ public class GUIControllerTest {
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    String expectedView = getExpectedFailureViewLog(MessageHelper.SAVE_FILE_FORMAT_EXCEPTION_MSG);
+    String expectedView = getExpectedFailureViewLog(
+        GUIMessageHelper.SAVE_FILE_FORMAT_EXCEPTION_MSG);
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -213,7 +215,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -229,7 +231,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -257,7 +259,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -273,7 +275,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -301,7 +303,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -317,7 +319,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -345,7 +347,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -361,7 +363,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -389,7 +391,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -405,7 +407,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -433,7 +435,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -449,7 +451,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -477,7 +479,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -493,7 +495,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -521,7 +523,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -537,7 +539,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -565,7 +567,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -581,7 +583,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -613,7 +615,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -631,7 +633,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -677,7 +679,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -693,7 +695,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -729,7 +731,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -749,7 +751,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -776,8 +778,7 @@ public class GUIControllerTest {
   @Test
   public void splitView() {
     int splitRatio = -100;
-    String expected = getExpectedModelLog(this.previewImage,
-        this.expectedImageSentToView.toString(), this.splitViewImage, this.imageName,
+    String expected = getExpectedModelLog(this.previewImage, this.splitViewImage, this.imageName,
         this.splitViewImage, String.valueOf(splitRatio), this.splitViewImage);
     controller = new GUIController(model, view);
     controller.splitView(this.imageName, splitRatio);
@@ -801,7 +802,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG,
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG,
             this.imageName.concat(", " + this.previewImage)));
     assertEquals(expectedView, viewLog.toString());
   }
@@ -818,7 +819,7 @@ public class GUIControllerTest {
 
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -839,7 +840,7 @@ public class GUIControllerTest {
 
   @Test
   public void histogram() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.histImage, this.histImage);
     controller = new GUIController(model, view);
     controller.histogram(this.imageName);
 
@@ -853,7 +854,7 @@ public class GUIControllerTest {
   public void histogram_ImageNotFoundException() {
     ((MockModel) model).setThrowImageNotFoundException(true);
 
-    String expected = getExpectedModelLog(this.imageName, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.histImage);
     controller = new GUIController(model, view);
     controller.histogram(this.imageName);
 
@@ -861,7 +862,7 @@ public class GUIControllerTest {
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
+        String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, this.imageName));
     assertEquals(expectedView, viewLog.toString());
   }
 
@@ -869,20 +870,19 @@ public class GUIControllerTest {
   public void histogram_InvalidImageNameException() {
     ((MockModel) model).setThrowInvalidImageNameException(true);
 
-    String expected = getExpectedModelLog(this.imageName, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.histImage);
     controller = new GUIController(model, view);
     controller.histogram(this.imageName);
 
     // Verify view received correct inputs.
     String expectedView = getExpectedFailureViewLog(
-        String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.previewImage));
+        String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, this.histImage));
     assertEquals(expectedView, viewLog.toString());
   }
 
   @Test
   public void applyChanges() {
-    String expected = getExpectedModelLog(this.previewImage,
-        this.expectedImageSentToView.toString(), this.imageName, this.previewImage,
+    String expected = getExpectedModelLog(this.previewImage, this.imageName, this.previewImage,
         this.splitViewImage, this.imageName);
     controller = new GUIController(model, view);
     controller.applyChanges(this.imageName);
@@ -940,6 +940,11 @@ public class GUIControllerTest {
     @Override
     public void displayImage(IReadOnlyImage image) {
       viewLog.append(image.toString());
+    }
+
+    @Override
+    public void displayHistogram(IReadOnlyImage histogram) {
+      viewLog.append(histogram.toString());
     }
 
     @Override

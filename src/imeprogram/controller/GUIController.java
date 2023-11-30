@@ -3,8 +3,10 @@ package imeprogram.controller;
 import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
+import imeprogram.model.IImage;
 import imeprogram.model.IModel;
 import imeprogram.model.IReadOnlyImage;
+import imeprogram.model.Image;
 import imeprogram.model.LineGraph2D;
 import imeprogram.view.IGUIView;
 import java.io.FileNotFoundException;
@@ -42,12 +44,12 @@ public class GUIController implements IFeatures {
       model.loadImageFromFile(filePath, imageName);
       sendImageToView(imageName);
     } catch (FileNotFoundException e) {
-      view.displayError(MessageHelper.LOAD_FILE_NOT_FOUND_EXCEPTION_MSG);
+      view.displayError(GUIMessageHelper.LOAD_FILE_NOT_FOUND_EXCEPTION_MSG);
     } catch (FileFormatException e) {
-      view.displayError(MessageHelper.LOAD_FILE_FORMAT_EXCEPTION_MSG);
+      view.displayError(GUIMessageHelper.LOAD_FILE_FORMAT_EXCEPTION_MSG);
     } catch (InvalidImageNameException e) {
       view.displayError(
-          String.format("Error: %s cannot be used as an alias to refer to an image", imageName));
+          String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -56,9 +58,10 @@ public class GUIController implements IFeatures {
     try {
       model.saveImageToFile(imageName, filePath);
     } catch (FileNotFoundException e) {
-      view.displayError(String.format(MessageHelper.SAVE_FILE_NOT_FOUND_EXCEPTION_MSG, filePath));
+      view.displayError(
+          String.format(GUIMessageHelper.SAVE_FILE_NOT_FOUND_EXCEPTION_MSG, filePath));
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, imageName));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (FileFormatException e) {
       view.displayError("Error: Cannot save file. Unsupported file extension");
     }
@@ -71,9 +74,9 @@ public class GUIController implements IFeatures {
       model.redComponent(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -84,9 +87,9 @@ public class GUIController implements IFeatures {
       model.greenComponent(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -97,9 +100,9 @@ public class GUIController implements IFeatures {
       model.blueComponent(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -110,9 +113,9 @@ public class GUIController implements IFeatures {
       model.lumaComponent(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -123,9 +126,9 @@ public class GUIController implements IFeatures {
       model.horizontalFlip(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -136,9 +139,9 @@ public class GUIController implements IFeatures {
       model.verticalFlip(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -149,9 +152,9 @@ public class GUIController implements IFeatures {
       model.blur(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -162,9 +165,9 @@ public class GUIController implements IFeatures {
       model.sharpen(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -175,9 +178,9 @@ public class GUIController implements IFeatures {
       model.sepia(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -188,9 +191,9 @@ public class GUIController implements IFeatures {
       model.compress(sourceImage, destImage, compressRatio);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     } catch (IllegalArgumentException e) {
       view.displayError("Error: Provided compression percentage is invalid");
     }
@@ -203,9 +206,9 @@ public class GUIController implements IFeatures {
       model.colorCorrect(sourceImage, destImage);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -216,10 +219,10 @@ public class GUIController implements IFeatures {
       model.adjustLevels(sourceImage, destImage, black, mid, white);
       sendImageToView(destImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, destImage));
-    }catch (IllegalArgumentException e) {
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
+    } catch (IllegalArgumentException e) {
       view.displayError("Error: Provided black, mid, and white values are illegal");
     }
   }
@@ -229,16 +232,18 @@ public class GUIController implements IFeatures {
     String operatedImage = getPreviewReference(sourceImage);
     String splitImage = getSplitViewReference(sourceImage);
     try {
-      IReadOnlyImage operatedImageCopy = model.getImageData(operatedImage);
+      IReadOnlyImage operatedImageData = model.getImageData(operatedImage);
       // Create a copy of operated image. Split view will be shown in the copy.
-      model.saveImageToMemory(operatedImageCopy, splitImage);
+      IImage operatedImageCopy = new Image(operatedImageData.getRgbValues(),
+          operatedImageData.getWidth(),
+          operatedImageData.getHeight());
+      model.saveImageDataToMemory(operatedImageCopy, splitImage);
       model.splitView(sourceImage, splitImage, splitRatio);
       sendImageToView(splitImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG,
-          sourceImage.concat(", " + operatedImage)));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, operatedImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     } catch (IllegalArgumentException e) {
       view.displayError("Given Split ratio argument is invalid");
     }
@@ -251,9 +256,9 @@ public class GUIController implements IFeatures {
       model.histogram(sourceImage, histImage, new LineGraph2D());
       sendHistogramToView(histImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, sourceImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, histImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -285,12 +290,13 @@ public class GUIController implements IFeatures {
     try {
       IReadOnlyImage fromImageData = model.getImageData(fromImage);
       // Replace the dest image with the source image
-      model.saveImageToMemory(fromImageData, toImage);
+      IImage fromImageCopy = new Image(fromImageData.getRgbValues(), fromImageData.getWidth(),
+          fromImageData.getHeight());
+      model.saveImageDataToMemory(fromImageCopy, toImage);
     } catch (ImageNotFoundException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG,
-          toImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
-      view.displayError(String.format(MessageHelper.IMAGE_NAME_EXCEPTION_MSG, fromImage));
+      view.displayError(String.format(GUIMessageHelper.IMAGE_NAME_EXCEPTION_MSG, ""));
     }
   }
 
@@ -299,7 +305,7 @@ public class GUIController implements IFeatures {
     view.displayImage(result);
   }
 
-  private void sendHistogramToView(String histogramImageName){
+  private void sendHistogramToView(String histogramImageName) {
     IReadOnlyImage result = model.getImageData(histogramImageName);
     view.displayHistogram(result);
   }
@@ -314,5 +320,25 @@ public class GUIController implements IFeatures {
 
   private String getHistogramReference(String imageName) {
     return imageName + "histogramImage";
+  }
+
+  /**
+   * A helper class containing messages for the GUI view.
+   */
+  public static class GUIMessageHelper {
+
+    public static final String IMAGE_NAME_EXCEPTION_MSG =
+        "Error: Given image alias is invalid";
+    //Not used in 1 case - rgbCombine
+    public static final String IMAGE_NOT_FOUND_EXCEPTION_MSG =
+        "Error: Image does not exist";
+    public static final String LOAD_FILE_NOT_FOUND_EXCEPTION_MSG =
+        "Error: Cannot load file. Please check path";
+    public static final String LOAD_FILE_FORMAT_EXCEPTION_MSG =
+        "Error: Cannot load file. Invalid file";
+    public static final String SAVE_FILE_NOT_FOUND_EXCEPTION_MSG =
+        "Error: Cannot save file. Please check provided path: %s";
+    public static final String SAVE_FILE_FORMAT_EXCEPTION_MSG =
+        "Error: Cannot save file. Unsupported file extension";
   }
 }

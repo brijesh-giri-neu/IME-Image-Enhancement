@@ -1,19 +1,11 @@
 import static org.junit.Assert.assertEquals;
 
 import imeprogram.controller.Controller;
+import imeprogram.controller.Controller.MessageHelper;
 import imeprogram.controller.IController;
-import imeprogram.controller.MessageHelper;
-import imeprogram.exceptions.FileFormatException;
-import imeprogram.exceptions.ImageNotFoundException;
-import imeprogram.exceptions.InvalidImageNameException;
-import imeprogram.model.ILineGraph;
 import imeprogram.model.IModel;
-import imeprogram.model.IReadOnlyImage;
-import imeprogram.model.Image;
-import imeprogram.model.ImageViewer;
 import imeprogram.view.IView;
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import org.junit.Before;
 import org.junit.Test;

@@ -30,11 +30,11 @@ public class ImageViewer implements IReadOnlyImage {
 
   @Override
   public int getWidth() {
-    return this.getWidth();
+    return this.image.getWidth();
   }
 
   @Override
   public int getHeight() {
-    return this.getHeight();
+    return this.image.getHeight();
   }
 }

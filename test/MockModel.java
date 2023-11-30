@@ -1,6 +1,7 @@
 import imeprogram.exceptions.FileFormatException;
 import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
+import imeprogram.model.IImage;
 import imeprogram.model.ILineGraph;
 import imeprogram.model.IModel;
 import imeprogram.model.IReadOnlyImage;
@@ -101,9 +102,9 @@ class MockModel implements IModel {
   }
 
   @Override
-  public void saveImageToMemory(IReadOnlyImage imageData, String imageName)
+  public void saveImageDataToMemory(IImage imageData, String imageName)
       throws InvalidImageNameException {
-    logInputs(new String[]{imageData.toString(), imageName});
+    logInputs(new String[]{imageName});
     checkExceptions();
   }
 

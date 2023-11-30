@@ -53,7 +53,7 @@ public interface IModel {
    * @param imageName the name to refer to it by.
    * @throws InvalidImageNameException If the specified image name is invalid.
    */
-  void saveImageToMemory(IReadOnlyImage imageData, String imageName)
+  void saveImageDataToMemory(IImage imageData, String imageName)
       throws InvalidImageNameException;
 
   /**

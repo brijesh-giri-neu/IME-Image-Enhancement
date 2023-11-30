@@ -2,7 +2,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import imeprogram.controller.Controller;
-import imeprogram.controller.MessageHelper;
+import imeprogram.controller.Controller.MessageHelper;
 import imeprogram.controller.IController;
 import imeprogram.fileparser.IImageFileIOFactory;
 import imeprogram.fileparser.ImageFileIOFactory;
