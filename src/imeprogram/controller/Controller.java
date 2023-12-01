@@ -54,9 +54,9 @@ public class Controller implements IController {
       model.loadImageFromFile(filePath, imageName);
       view.success();
     } catch (FileNotFoundException e) {
-      view.print("Error: Cannot load file. Please check path");
+      view.print(MessageHelper.LOAD_FILE_NOT_FOUND_EXCEPTION_MSG);
     } catch (FileFormatException e) {
-      view.print("Error: Cannot load file. Invalid file");
+      view.print(MessageHelper.LOAD_FILE_FORMAT_EXCEPTION_MSG);
     } catch (InvalidImageNameException e) {
       view.print(
           String.format("Error: %s cannot be used as an alias to refer to an image", imageName));
@@ -75,11 +75,11 @@ public class Controller implements IController {
       model.saveImageToFile(imageName, filePath);
       view.success();
     } catch (FileNotFoundException e) {
-      view.print("Error: Cannot save file. Please check provided path: " + filePath);
+      view.print(String.format(MessageHelper.SAVE_FILE_NOT_FOUND_EXCEPTION_MSG, filePath));
     } catch (ImageNotFoundException e) {
       view.print(String.format(MessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, imageName));
     } catch (FileFormatException e) {
-      view.print("Error: Cannot save file. Unsupported file extension");
+      view.print(MessageHelper.SAVE_FILE_FORMAT_EXCEPTION_MSG);
     }
   }
 
@@ -682,5 +682,13 @@ public class Controller implements IController {
         "Error: Mentioned image alias does not exist: %s";
     public static final String NUMBER_FORMAT_EXCEPTION_MSG =
         "Error: Provided input value is not a valid number";
+    public static final String LOAD_FILE_NOT_FOUND_EXCEPTION_MSG =
+        "Error: Cannot load file. Please check path";
+    public static final String LOAD_FILE_FORMAT_EXCEPTION_MSG =
+        "Error: Cannot load file. Invalid file";
+    public static final String SAVE_FILE_NOT_FOUND_EXCEPTION_MSG =
+        "Error: Cannot save file. Please check provided path: %s";
+    public static final String SAVE_FILE_FORMAT_EXCEPTION_MSG =
+        "Error: Cannot save file. Unsupported file extension";
   }
 }

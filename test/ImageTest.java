@@ -7,6 +7,8 @@ import static org.junit.Assert.fail;
 import imeprogram.fileparser.IImageFileIOFactory;
 import imeprogram.fileparser.ImageFileIOFactory;
 import imeprogram.model.IImage;
+import imeprogram.model.IImage.Filter;
+import imeprogram.model.IImage.ImageComponent;
 import imeprogram.model.Image;
 import imeprogram.model.LineGraph2D;
 import java.io.FileNotFoundException;
@@ -121,22 +123,14 @@ public class ImageTest {
   /**
    * Tests the LoadImageFromFile method using No File Extension for PPM Image.
    */
-  @Test(expected = AssertionError.class)
-  public void testLoadImageFromFile_NoFileExtension_PPM() {
+  @Test(expected = IllegalArgumentException.class)
+  public void testLoadImageFromFile_NoFileExtension_PPM() throws IOException {
     // Provide the file path of a test image
     String testImagePath = "res/KoalaTest/Koala";
 
-    try {
-      // Load the image from the file
-      Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
-          .loadFromFile(testImagePath);
-
-      // Verify that the image is not null
-      assertNotNull(image);
-
-    } catch (Exception e) {
-      fail("Exception thrown while loading the image: " + e.getMessage());
-    }
+    // Load the image from the file
+    Image image = (Image) imageFileIOFactory.getImageParser(testImagePath)
+        .loadFromFile(testImagePath);
   }
 
   /**
@@ -215,7 +209,7 @@ public class ImageTest {
     try {
       Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
           .loadFromFile(testFilePathPPM);
-      IImage testResultImgPPM = testImgPPM.getRedComponent();
+      IImage testResultImgPPM = testImgPPM.getComponent(ImageComponent.RED);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
 
@@ -238,7 +232,7 @@ public class ImageTest {
     try {
       Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
           .loadFromFile(testFilePathPPM);
-      IImage testResultImgPPM = testImgPPM.getGreenComponent();
+      IImage testResultImgPPM = testImgPPM.getComponent(ImageComponent.GREEN);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
 
@@ -261,7 +255,7 @@ public class ImageTest {
     try {
       Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
           .loadFromFile(testFilePathPPM);
-      IImage testResultImgPPM = testImgPPM.getBlueComponent();
+      IImage testResultImgPPM = testImgPPM.getComponent(ImageComponent.BLUE);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
 
@@ -511,7 +505,7 @@ public class ImageTest {
     try {
       Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
           .loadFromFile(testFilePathPPM);
-      IImage testResultImgPPM = testImgPPM.gaussianBlur();
+      IImage testResultImgPPM = testImgPPM.applyFilter(Filter.GAUSSIAN_BLUR);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
 
@@ -528,14 +522,14 @@ public class ImageTest {
   @Test
   public void test_sharpen_PPM() {
     String testFilePathPPM = "test/unitImages/bro.ppm";
-    int[][][] expectedValues = {{{255, 255, 0}, {255, 255, 255}, {0, 255, 255}},
-        {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
-        {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}}};
+    int[][][] expectedValues = {{{255, 159, 0}, {159, 255, 64}, {0, 64, 255}},
+        {{255, 255, 64}, {255, 255, 255}, {64, 159, 255}},
+        {{159, 64, 64}, {255, 159, 255}, {64, 255, 255}}};
 
     try {
       Image testImgPPM = (Image) imageFileIOFactory.getImageParser(testFilePathPPM)
           .loadFromFile(testFilePathPPM);
-      IImage testResultImgPPM = testImgPPM.sharpen();
+      IImage testResultImgPPM = testImgPPM.applyFilter(Filter.SHARPEN);
 
       int[][][] rgbValues = testResultImgPPM.getRgbValues();
 
@@ -988,7 +982,7 @@ public class ImageTest {
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.getRedComponent();
+      IImage testResultImgPNG = testImgPNG.getComponent(ImageComponent.RED);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
@@ -1011,7 +1005,7 @@ public class ImageTest {
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.getGreenComponent();
+      IImage testResultImgPNG = testImgPNG.getComponent(ImageComponent.GREEN);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
@@ -1034,7 +1028,7 @@ public class ImageTest {
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.getBlueComponent();
+      IImage testResultImgPNG = testImgPNG.getComponent(ImageComponent.BLUE);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
@@ -1287,7 +1281,7 @@ public class ImageTest {
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.gaussianBlur();
+      IImage testResultImgPNG = testImgPNG.applyFilter(Filter.GAUSSIAN_BLUR);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
@@ -1304,14 +1298,14 @@ public class ImageTest {
   @Test
   public void test_sharpen_PNG() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {{{255, 255, 0}, {255, 255, 255}, {255, 255, 255}},
-        {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
-        {{0, 255, 255}, {255, 255, 255}, {255, 255, 255}}};
+    int[][][] expectedValues = {{{255, 159, 0}, {255, 255, 64}, {159, 64, 64}},
+        {{159, 255, 64}, {255, 255, 255}, {255, 159, 255}},
+        {{0, 64, 255}, {64, 159, 255}, {64, 255, 255}}};
 
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.sharpen();
+      IImage testResultImgPNG = testImgPNG.applyFilter(Filter.SHARPEN);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
@@ -1761,7 +1755,7 @@ public class ImageTest {
     try {
       Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
           .loadFromFile(testFilePathJPG);
-      IImage testResultImgJPG = testImgJPG.getRedComponent();
+      IImage testResultImgJPG = testImgJPG.getComponent(ImageComponent.RED);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
 
@@ -1784,7 +1778,7 @@ public class ImageTest {
     try {
       Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
           .loadFromFile(testFilePathJPG);
-      IImage testResultImgJPG = testImgJPG.getGreenComponent();
+      IImage testResultImgJPG = testImgJPG.getComponent(ImageComponent.GREEN);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
 
@@ -1807,7 +1801,7 @@ public class ImageTest {
     try {
       Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
           .loadFromFile(testFilePathJPG);
-      IImage testResultImgJPG = testImgJPG.getBlueComponent();
+      IImage testResultImgJPG = testImgJPG.getComponent(ImageComponent.BLUE);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
 
@@ -2062,7 +2056,7 @@ public class ImageTest {
     try {
       Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
           .loadFromFile(testFilePathJPG);
-      IImage testResultImgJPG = testImgJPG.gaussianBlur();
+      IImage testResultImgJPG = testImgJPG.applyFilter(Filter.GAUSSIAN_BLUR);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
 
@@ -2079,14 +2073,14 @@ public class ImageTest {
   @Test
   public void test_sharpen_JPG() {
     String testFilePathJPG = "test/unitImages/bro.jpg";
-    int[][][] expectedValues = {{{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
-        {{255, 255, 255}, {255, 255, 255}, {255, 255, 255}},
-        {{202, 145, 152}, {255, 255, 255}, {96, 255, 255}}};
+    int[][][] expectedValues = {{{255, 143, 155}, {255, 255, 255}, {140, 77, 110}},
+        {{255, 244, 255}, {255, 255, 255}, {230, 255, 255}},
+        {{51, 57, 64}, {102, 198, 210}, {24, 255, 249}}};
 
     try {
       Image testImgJPG = (Image) imageFileIOFactory.getImageParser(testFilePathJPG)
           .loadFromFile(testFilePathJPG);
-      IImage testResultImgJPG = testImgJPG.sharpen();
+      IImage testResultImgJPG = testImgJPG.applyFilter(Filter.SHARPEN);
 
       int[][][] rgbValues = testResultImgJPG.getRgbValues();
 
@@ -3312,7 +3306,7 @@ public class ImageTest {
     try {
       Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
           .loadFromFile(testFilePath);
-      IImage secondImg = testImg.gaussianBlur();
+      IImage secondImg = testImg.applyFilter(Filter.GAUSSIAN_BLUR);
       IImage testResultImg = testImg.splitView(secondImg, 20);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -3339,15 +3333,15 @@ public class ImageTest {
   public void test_splitView_Sharpen() {
     String testFilePath = "test/unitImages/bro.ppm";
     int[][][] expectedValues = {
-        {{255, 0, 0}, {255, 255, 255}, {0, 255, 255}},
-        {{255, 255, 0}, {255, 255, 255}, {255, 255, 255}},
-        {{0, 0, 0}, {255, 255, 255}, {255, 255, 255}}
+        {{255, 0, 0}, {159, 255, 64}, {0, 64, 255}},
+        {{255, 255, 0}, {255, 255, 255}, {64, 159, 255}},
+        {{0, 0, 0}, {255, 159, 255}, {64, 255, 255}}
     };
 
     try {
       Image testImg = (Image) imageFileIOFactory.getImageParser(testFilePath)
           .loadFromFile(testFilePath);
-      IImage secondImg = testImg.sharpen();
+      IImage secondImg = testImg.applyFilter(Filter.SHARPEN);
       IImage testResultImg = testImg.splitView(secondImg, 40);
 
       int[][][] rgbValues = testResultImg.getRgbValues();
@@ -3541,7 +3535,8 @@ public class ImageTest {
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.gaussianBlur().splitView(testImgPNG, 50);
+      IImage testResultImgPNG = testImgPNG.applyFilter(Filter.GAUSSIAN_BLUR)
+          .splitView(testImgPNG, 50);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 
@@ -3554,14 +3549,14 @@ public class ImageTest {
   @Test
   public void test_sharpen_Split50() {
     String testFilePathPNG = "test/unitImages/bro.png";
-    int[][][] expectedValues = {{{255, 255, 0}, {255, 255, 0}, {0, 0, 0}},
-        {{255, 255, 255}, {255, 255, 255}, {255, 0, 255}},
-        {{0, 255, 255}, {0, 0, 0}, {0, 255, 255}}};
+    int[][][] expectedValues = {{{255, 159, 0}, {255, 255, 0}, {0, 0, 0}},
+        {{159, 255, 64}, {255, 255, 255}, {255, 0, 255}},
+        {{0, 64, 255}, {0, 0, 0}, {0, 255, 255}}};
 
     try {
       Image testImgPNG = (Image) imageFileIOFactory.getImageParser(testFilePathPNG)
           .loadFromFile(testFilePathPNG);
-      IImage testResultImgPNG = testImgPNG.sharpen().splitView(testImgPNG, 50);
+      IImage testResultImgPNG = testImgPNG.applyFilter(Filter.SHARPEN).splitView(testImgPNG, 50);
 
       int[][][] rgbValues = testResultImgPNG.getRgbValues();
 

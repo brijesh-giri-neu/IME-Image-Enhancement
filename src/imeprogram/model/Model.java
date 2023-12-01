@@ -5,6 +5,8 @@ import imeprogram.exceptions.ImageNotFoundException;
 import imeprogram.exceptions.InvalidImageNameException;
 import imeprogram.fileparser.IImageFileIO;
 import imeprogram.fileparser.IImageFileIOFactory;
+import imeprogram.model.IImage.Filter;
+import imeprogram.model.IImage.ImageComponent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -54,21 +56,36 @@ public class Model implements IModel {
       throws ImageNotFoundException, FileNotFoundException, FileFormatException {
     IImage image = getImageFromMemory(imageName);
 
-    // Delegate InvalidFilePathException to the Image class.
-    // image.saveToFile(filePath);
-    IImageFileIO imageIO = imageIOFactory.getImageParser(filePath);
     try {
+      // Delegate InvalidFilePathException to the Image class.
+      // image.saveToFile(filePath);
+      IImageFileIO imageIO = imageIOFactory.getImageParser(filePath);
       imageIO.saveToFile(filePath, image);
     } catch (IOException e) {
       throw new FileNotFoundException();
+    } catch (IllegalArgumentException e) {
+      throw new FileFormatException("Invalid image file format");
     }
   }
 
   @Override
-  public int[][][] getImageData(String sourceImageName) throws ImageNotFoundException {
+  public IReadOnlyImage getImageData(String sourceImageName) throws ImageNotFoundException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    return sourceImg.getRgbValues();
+    return new ImageViewer(sourceImg);
+  }
+
+  @Override
+  public void saveImageDataToMemory(IImage imageData, String imageName)
+      throws InvalidImageNameException {
+    saveImageToMemory(imageData, imageName);
+  }
+
+  @Override
+  public void removeImageFromMemory(String imageName) {
+    if (doesImageExist(imageName)) {
+      loadedImages.remove(imageName);
+    }
   }
 
   @Override
@@ -76,7 +93,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.getRedComponent(), destImageName);
+    saveImageToMemory(sourceImg.getComponent(ImageComponent.RED), destImageName);
   }
 
   @Override
@@ -84,7 +101,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.getGreenComponent(), destImageName);
+    saveImageToMemory(sourceImg.getComponent(ImageComponent.GREEN), destImageName);
   }
 
   @Override
@@ -92,7 +109,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.getBlueComponent(), destImageName);
+    saveImageToMemory(sourceImg.getComponent(ImageComponent.BLUE), destImageName);
   }
 
   @Override
@@ -180,7 +197,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.gaussianBlur(), destImageName);
+    saveImageToMemory(sourceImg.applyFilter(Filter.GAUSSIAN_BLUR), destImageName);
   }
 
   @Override
@@ -188,7 +205,7 @@ public class Model implements IModel {
       throws ImageNotFoundException, InvalidImageNameException {
     IImage sourceImg = getImageFromMemory(sourceImageName);
 
-    saveImageToMemory(sourceImg.sharpen(), destImageName);
+    saveImageToMemory(sourceImg.applyFilter(Filter.SHARPEN), destImageName);
   }
 
   @Override

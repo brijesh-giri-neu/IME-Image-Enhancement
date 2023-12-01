@@ -4,65 +4,15 @@ package imeprogram.model;
  * This interface represents a 24-bit Image with Red, Green, and Blue channels. And operations that
  * can be performed on it.
  */
-public interface IImage {
+public interface IImage extends IReadOnlyImage {
 
   /**
-   * Gets the value of a specific channel at a given pixel position.
+   * Return an IImage that represents a component of this image.
    *
-   * @param horizontalPos The column (horizontal position) of the pixel.
-   * @param verticalPos   The verticalPos (vertical position) of the pixel.
-   * @param channel       The color channel to retrieve (0 for Red, 1 for Green, 2 for Blue).
-   * @return The value of the specified channel at the given pixel position.
-   * @throws IndexOutOfBoundsException If the provided horizontalPos or verticalPos values are out
-   *                                   of bounds.
-   * @throws IllegalArgumentException  If an invalid channel value is provided.
+   * @param component the component to represent.
+   * @return an IImage that represents a component of this image.
    */
-  int getValueAtPixel(int horizontalPos, int verticalPos, int channel)
-      throws IndexOutOfBoundsException, IllegalArgumentException;
-
-  /**
-   * Gets the width of the Image.
-   *
-   * @return the width of the Image.
-   */
-  int getWidth();
-
-  /**
-   * Gets the height of the Image.
-   *
-   * @return the height of the Image.
-   */
-  int getHeight();
-
-  /**
-   * Gets the RGB values of the Image.
-   *
-   * @return an int[][][] where, the first dim corresponds to the height, the second dim corresponds
-   *     to the width, and the third dim corresponds to the channel. The channels are returned in
-   *     the following order, index0 -> Red, index1 -> Green, index2 -> Blue.
-   */
-  int[][][] getRgbValues();
-
-  /**
-   * Return an IImage where [G,B] channels of the Image are set to 0.
-   *
-   * @return an IImage where [G,B] channels of the Image are set to 0.
-   */
-  IImage getRedComponent();
-
-  /**
-   * Return an IImage where [R,B] channels of the Image are set to 0.
-   *
-   * @return an IImage where [R,B] channels of the Image are set to 0.
-   */
-  IImage getGreenComponent();
-
-  /**
-   * Return an IImage where [R,G] channels of the Image are set to 0.
-   *
-   * @return an IImage where [R,G] channels of the Image are set to 0.
-   */
-  IImage getBlueComponent();
+  IImage getComponent(ImageComponent component);
 
   /**
    * Return an IImage where values for all 3 channels are calculated by using the Value function:
@@ -133,18 +83,12 @@ public interface IImage {
   void combineRGB(IImage red, IImage green, IImage blue) throws IllegalArgumentException;
 
   /**
-   * Applies a Gaussian blur effect to the image.
+   * Applies the given filter to the image.
    *
-   * @return a new IImage with a Gaussian blur filter applied.
+   * @param imageFilter the filter to apply to the image.
+   * @return a new IImage with the given filter applied.
    */
-  IImage gaussianBlur();
-
-  /**
-   * Applies a sharpening effect to the image using the standard sharpen filter.
-   *
-   * @return a new IImage with the sharpening effect applied.
-   */
-  IImage sharpen();
+  IImage applyFilter(Filter imageFilter);
 
   /**
    * Applies a Grayscale filter to the image using the conversion formula: R'=G'=B'=0.2126R +
@@ -218,4 +162,62 @@ public interface IImage {
    * @return a new IImage with the haar transform applied.
    */
   IImage haarCompress(int ratio) throws IllegalArgumentException;
+
+  /**
+   * Represents different components of the IImage.
+   */
+  enum ImageComponent {
+    // 0 represents RED
+    RED(0),
+    // 1 represents GREEN
+    GREEN(1),
+    // 2 represents BLUE
+    BLUE(2);
+
+    private final int index;
+
+    /**
+     * Initializes the index for this ImageComponent.
+     *
+     * @param index the index for this ImageComponent.
+     */
+    ImageComponent(int index) {
+      this.index = index;
+    }
+
+    int getChannel() {
+      return index;
+    }
+  }
+
+  /**
+   * Represents different filter kernels supported by our IImage.
+   */
+  enum Filter {
+    GAUSSIAN_BLUR(new double[][]{
+        {1.0 / 16, 2.0 / 16, 1.0 / 16},
+        {2.0 / 16, 4.0 / 16, 2.0 / 16},
+        {1.0 / 16, 2.0 / 16, 1.0 / 16}}),
+    SHARPEN(new double[][]{
+        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, 1.0 / 4, 1.0 / 4, 1.0 / 4, -1.0 / 8},
+        {-1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8, -1.0 / 8}});
+
+    private final double[][] kernel;
+
+    /**
+     * Initializes the kernel for this Filter.
+     *
+     * @param kernel the given kernel.
+     */
+    Filter(double[][] kernel) {
+      this.kernel = kernel;
+    }
+
+    double[][] getKernel() {
+      return kernel;
+    }
+  }
 }
