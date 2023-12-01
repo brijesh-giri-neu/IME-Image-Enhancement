@@ -41,10 +41,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class GUIView extends JFrame implements IGUIView {
 
-  private int height;
-  private int width;
+  // This will refer to different tabs open in the UI.
   private final String tabReference = "tab1";
   private BufferedImage bImage;
+  // This represents the features accessible to the UI.
   private IFeatures features;
   private double zoomLevel = 1.0;
 
@@ -97,24 +97,16 @@ public class GUIView extends JFrame implements IGUIView {
     toolsPanel = new JPanel(new GridLayout(6, 0));
 
     ///////  BUTTON CREATION AND PAINTING ////////////
-
     buttonCreators();
-
     operationPane();
-
     displayPane();
-
     previewPane();
-
     this.add(mainPanel);
-
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
-
   }
 
   // Start of Logic
-
   private void buttonCreators() {
     // flip hori
     flipHorizontallyButton = new JButton("Flip Horizontally");
@@ -195,7 +187,6 @@ public class GUIView extends JFrame implements IGUIView {
   }
 
   private void handleZoom() {
-
     double oldZoomLevel = zoomLevel;
     zoomLevel = zoomSlider.getValue() / 100.0;
     if (zoomLevel != oldZoomLevel) {
@@ -214,20 +205,16 @@ public class GUIView extends JFrame implements IGUIView {
 
   private void operationPane() {
     leftPaneSectionButtons();
-
     leftPaneSectionFilePath();
-
     leftPaneSectionZoom();
-
     leftPaneSectionHistogram();
-
     leftPaneSectionAddItems();
   }
 
   private void middleScroll() {
     // add to scroll pane
     scrollPane = new JScrollPane(imageLabel);
-    scrollPane.setMaximumSize(new Dimension(1100, Integer.MAX_VALUE)); //
+    scrollPane.setMaximumSize(new Dimension(1100, Integer.MAX_VALUE));
     scrollPane.getViewport().addChangeListener(e -> updateThumbnail());
     this.addComponentListener(new ComponentAdapter() {
       @Override
@@ -405,11 +392,10 @@ public class GUIView extends JFrame implements IGUIView {
 
   private BufferedImage iReadToBuffered(IReadOnlyImage image) {
     int[][][] rgbValues = image.getRgbValues();
-    width = image.getWidth();
-    height = image.getHeight();
+    int width = image.getWidth();
+    int height = image.getHeight();
 
     BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         // Flip the image horizontally
@@ -611,7 +597,7 @@ public class GUIView extends JFrame implements IGUIView {
 
   private void compressImage() {
     String input = JOptionPane.showInputDialog(this, "Enter compression ratio (0-100):");
-    if (input.isEmpty()){
+    if (input.isEmpty()) {
       this.displayError("Please enter a value");
     } else {
       int ratio = Integer.parseInt(input);
@@ -680,5 +666,4 @@ public class GUIView extends JFrame implements IGUIView {
     UIManager.put("nimbusSelectionBackground", new Color(104, 93, 156));
     UIManager.put("text", new Color(230, 230, 230));
   }
-
 }

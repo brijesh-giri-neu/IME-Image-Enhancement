@@ -11,13 +11,31 @@ public class LineGraph2D implements ILineGraph {
 
   @Override
   public IImage drawLineGraph(int[][] data, int height, int width) {
-    int[][][] histImageValues = new int[height][width][3];
     int topMargin = 1;
-    
     // Create a BufferedImage object to draw the line graph
-    BufferedImage histImage = new BufferedImage(width, height,
-        BufferedImage.TYPE_INT_RGB);
+    BufferedImage histImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     Graphics2D g2d = histImage.createGraphics();
+    setupHistogramGrid(g2d, width, height);
+    drawHistogramLines(data, height, width, topMargin, g2d);
+    // Convert BufferedImage to IImage
+    int[][][] histImageValues = convertBufferedImageToIImage(histImage, height, width);
+    return new Image(histImageValues, width, height);
+  }
+
+  private int[][][] convertBufferedImageToIImage(BufferedImage histImage, int height, int width) {
+    int[][][] histImageValues = new int[height][width][3];
+    for (int x = 0; x < height; x++) {
+      for (int y = 0; y < width; y++) {
+        Color pixel = new Color(histImage.getRGB(y, x));
+        histImageValues[x][y][0] = pixel.getRed();   // Red
+        histImageValues[x][y][1] = pixel.getGreen(); // Green
+        histImageValues[x][y][2] = pixel.getBlue();  // Blue
+      }
+    }
+    return histImageValues;
+  }
+
+  private void setupHistogramGrid(Graphics2D g2d, int width, int height) {
     // Fill the background with white color
     g2d.setColor(Color.WHITE);
     g2d.fillRect(0, 0, width, height);
@@ -35,6 +53,10 @@ public class LineGraph2D implements ILineGraph {
       int y = i * (height / numHorizontalLines);
       g2d.drawLine(0, y, width, y);
     }
+  }
+
+  private void drawHistogramLines(int[][] data, int height, int width, int topMargin,
+      Graphics2D g2d) {
     // Set histogram line colors
     Color[] lineColors = {Color.RED, Color.GREEN, Color.BLUE};
     // Draw the actual histogram
@@ -52,15 +74,5 @@ public class LineGraph2D implements ILineGraph {
       }
     }
     g2d.dispose();
-    // Convert BufferedImage to IImage
-    for (int x = 0; x < height; x++) {
-      for (int y = 0; y < width; y++) {
-        Color pixel = new Color(histImage.getRGB(y, x));
-        histImageValues[x][y][0] = pixel.getRed();   // Red
-        histImageValues[x][y][1] = pixel.getGreen(); // Green
-        histImageValues[x][y][2] = pixel.getBlue();  // Blue
-      }
-    }
-    return new Image(histImageValues, width, height);
   }
 }
