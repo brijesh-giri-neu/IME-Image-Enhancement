@@ -29,6 +29,7 @@ public class GUIControllerTest {
   private final String previewImage = "tab1previewImage";
   private final String splitViewImage = "tab1splitViewImage";
   private final String histImage = "tab1histogramImage";
+  private final String previewHistImage = "tab1previewImagehistogramImage";
 
   @Before
   public void setUp() {
@@ -43,27 +44,29 @@ public class GUIControllerTest {
   @Test
   public void loadImage_FilePathHasSpace() {
     String filePath = "abc/dcs sda/dsd";
-    String expected = getExpectedModelLog(filePath, this.imageName, this.imageName);
+    String expected = getExpectedModelLog(filePath, this.imageName, this.imageName, this.imageName,
+        this.histImage, this.histImage);
 
     controller = new GUIController(model, view);
     controller.loadImage(filePath, this.imageName);
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
   public void loadImage_FilePathHasNoSpace() {
     String filePath = "abc/dcssda/dsd";
-    String expected = getExpectedModelLog(filePath, this.imageName, this.imageName);
+    String expected = getExpectedModelLog(filePath, this.imageName, this.imageName, this.imageName,
+        this.histImage, this.histImage);
 
     controller = new GUIController(model, view);
     controller.loadImage(filePath, this.imageName);
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -193,14 +196,15 @@ public class GUIControllerTest {
 
   @Test
   public void redComponent() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.redComponent(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -237,14 +241,15 @@ public class GUIControllerTest {
 
   @Test
   public void greenComponent() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.greenComponent(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -281,14 +286,15 @@ public class GUIControllerTest {
 
   @Test
   public void blueComponent() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.blueComponent(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -325,14 +331,15 @@ public class GUIControllerTest {
 
   @Test
   public void lumaComponent() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.lumaComponent(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -369,14 +376,15 @@ public class GUIControllerTest {
 
   @Test
   public void horizontalFlip() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.horizontalFlip(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -413,14 +421,15 @@ public class GUIControllerTest {
 
   @Test
   public void verticalFlip() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.verticalFlip(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -457,14 +466,15 @@ public class GUIControllerTest {
 
   @Test
   public void blur() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.blur(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -501,14 +511,15 @@ public class GUIControllerTest {
 
   @Test
   public void sharpen() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.sharpen(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -545,14 +556,15 @@ public class GUIControllerTest {
 
   @Test
   public void sepia() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.sepia(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -591,14 +603,15 @@ public class GUIControllerTest {
   public void compress() {
     int compressRatio = 10;
     String expected = getExpectedModelLog(this.imageName, this.previewImage,
-        String.valueOf(compressRatio), this.previewImage);
+        String.valueOf(compressRatio), this.previewImage, this.previewImage, this.previewHistImage,
+        this.previewHistImage);
     controller = new GUIController(model, view);
     controller.compress(this.imageName, compressRatio);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -657,14 +670,15 @@ public class GUIControllerTest {
 
   @Test
   public void colorCorrect() {
-    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage);
+    String expected = getExpectedModelLog(this.imageName, this.previewImage, this.previewImage,
+        this.previewImage, this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.colorCorrect(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -705,14 +719,15 @@ public class GUIControllerTest {
     int mid = 10;
     int white = 10;
     String expected = getExpectedModelLog(this.imageName, this.previewImage, String.valueOf(black),
-        String.valueOf(mid), String.valueOf(white), this.previewImage);
+        String.valueOf(mid), String.valueOf(white), this.previewImage, this.previewImage,
+        this.previewHistImage, this.previewHistImage);
     controller = new GUIController(model, view);
     controller.adjustLevels(this.imageName, black, mid, white);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
@@ -786,7 +801,7 @@ public class GUIControllerTest {
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogNoButton(), viewLog.toString());
   }
 
   @Test
@@ -847,7 +862,7 @@ public class GUIControllerTest {
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogNoButton(), viewLog.toString());
   }
 
   @Test
@@ -883,26 +898,27 @@ public class GUIControllerTest {
   @Test
   public void applyChanges() {
     String expected = getExpectedModelLog(this.previewImage, this.imageName, this.previewImage,
-        this.splitViewImage, this.imageName);
+        this.splitViewImage, this.imageName, this.imageName, this.histImage, this.histImage);
     controller = new GUIController(model, view);
     controller.applyChanges(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   @Test
   public void cancelChanges() {
-    String expected = getExpectedModelLog(this.previewImage, this.splitViewImage, this.imageName);
+    String expected = getExpectedModelLog(this.previewImage, this.splitViewImage, this.imageName,
+        this.imageName, this.histImage, this.histImage);
     controller = new GUIController(model, view);
     controller.cancelChanges(this.imageName);
 
     // Verify model received correct inputs.
     assertEquals(expected, modelLog.toString());
     // Verify view received correct inputs.
-    assertEquals(getExpectedSuccessViewLog(), viewLog.toString());
+    assertEquals(getExpectedSuccessViewLogOperation(), viewLog.toString());
   }
 
   private String getExpectedModelLog(String... args) {
@@ -919,8 +935,19 @@ public class GUIControllerTest {
    *
    * @return the expected view log.
    */
-  private String getExpectedSuccessViewLog() {
+  private String getExpectedSuccessViewLogNoButton() {
     return controller.toString() + this.expectedImageSentToView.toString();
+  }
+
+  /**
+   * Return the expected log in the view. The view log will always be the controller object followed
+   * by the image object sent by the controller to the view.
+   *
+   * @return the expected view log.
+   */
+  private String getExpectedSuccessViewLogOperation() {
+    return controller.toString() + this.expectedImageSentToView.toString()
+        + this.expectedImageSentToView.toString();
   }
 
   private String getExpectedFailureViewLog(String failureMsg) {
