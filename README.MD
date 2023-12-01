@@ -149,6 +149,4 @@ All notable changes to this project will be documented in this Change Log.
 - The File Image.png and its corresponding formats are created and owned by the authors of this program.
 - All Images used for testing and representation purposes are owned by the developers of this project by direct ownership.
 - Images given in Assignment Sample Help Pool have also been used in this project.
-- Image "tree" by Dorothe from Pixabay
-- Image "autumn" by Valentin from Pixabay
 - Image "nature" by Sasin Tipchai from Pixabay

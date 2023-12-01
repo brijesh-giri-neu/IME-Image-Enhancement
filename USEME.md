@@ -4,7 +4,7 @@
 ### Graphical User Interface mode
 
 #### How to run.
-- Run the jar file with the command in terminal "java -jar assignment4.jar"
+- Run the jar file with the command in terminal "java -jar Assignment4.jar"
 - Application will open with GUI window
 
 #### Overview of Interface
@@ -49,7 +49,7 @@
 ### Command Line Text based mode
 
 #### How to run.
-- Run the jar file with the command in terminal "java -jar assignment4.jar -text"
+- Run the jar file with the command in terminal "java -jar Assignment4.jar -text"
 - Application will open in the interactive command line mode
 
 #### List of commands.
@@ -143,10 +143,11 @@
 ### Script mode
 
 #### How to run the script file
-- Examples of script file (testscript-A5.txt, testscript-A4.txt) has been included.
-- To run it, run the Main.java file first.
-- In the Console, type `java -jar assignment4.jar -file scipt-filename.extension`.
+- Examples of script file (testscript-A5.txt, testscript-A4.txt) has been included in the "res" folder.
+- In the Console, type `java -jar Assignment4.jar -file scipt-filename.extension`.
 - This runs all the commands in the script file.
+- Example, for Assignment 4 script the command "java -jar Assignment4.jar -file testscript-A4.txt"
+- Example, for Assignment 5 script the command "java -jar Assignment4.jar -file testscript-A5.txt"
 
 ### Tips to use commands
 - Operation, filepath, image alias are case-insensitive
