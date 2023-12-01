@@ -39,7 +39,7 @@ This program provides a set of operations for processing 24-bit images with Red,
 - ### GUIView
 - Purpose: A GUI based view.
 - Function: A graphical user interface for the application.
-- 
+
 ## Interfaces
 ### IController
 - Purpose: Defines the methods to be implemented by the Controller.
@@ -72,8 +72,36 @@ This program provides a set of operations for processing 24-bit images with Red,
 - Purpose: Template for GUI based view.
 - Function: A graphical user interface for the application.
 
-## Changelog
+# Change Log
+All notable changes to this project will be documented in this Change Log.
 
+## [Latest Version v3.0] Assignment 6
+
+### Added
+- Added GUI Controller and GUI View  using Java Swing and their respective interfaces.
+  - Justification for Controller: The existing controller could not be reused for the new Graphical based Interface due to the need for multiple GUI specific callbacks which was not offered by the existing controller.
+  - Justification for View: To add graphical User interface functionality to our application.
+- Implemented Read only Image in the ImageView class as an ObjectAdapter around existing image.
+  - Justification: To return data to the Graphical view thus preventing the view from mutating the data.
+
+### Modified
+- Segregated Read only methods from Image interface to new Read only Image Interface.
+  - Justification: The Existing interface was broken down due to the need for providing read only images to the view. This allowed the retention of only few specific methods from the existing interface.
+
+## [v2.0] Assignment 5
+
+### Added
+- Added capability for launching and running program in script mode based on Command Line Arguments.
+  - Justification -  Currently, there are no clients of our interface. So adding new methods to it does not force any other client of our interface to implement the additions.
+
+- Added methdos for new image operations - Histogram, Color Correct, Compress, Colors Adjust and Split View.
+  - Justification: We chose to edit existing code because The changes do not modify existing behaviour of our class, but rather only add 5 new functionalities
+
+### Modified
+- Moved the existing classes and interfaces for our file parser into a separate package.
+  - Justification: We are adhering to "Separate of concerns." Since theses classes are independent of the model, they have no place existing in the model package. In an image processing application, it is reasonable to expect new functionalities are going to be required quite frequently. If we create a new class for every added feature, the number of classes in our project could potentially explode, making it difficult to maintain our project structure.
+- Added new class/interface to support drawing Line Graphs on Images.
+  - Justification: Since it is used to provide additional functionality on an image, it exists in our model package.
 
 ## File Structure
     src                                                 
@@ -81,6 +109,8 @@ This program provides a set of operations for processing 24-bit images with Red,
             controller                                  (Controller Folder contains Controller Interface and class.)
                 Controller.java                         (Controller class controls both model and view.)
                 IController.java                        (Controller interface defines Controller class methods.)
+                GUIController.java                      (Contains methods that facilitate communication between the Controller and the GUIView class.)
+                IFeatures.java                          (Defines the methods to be used by the GUI class of the application.)
             exceptions                                  (Exceptions Folder contains Custom Exceptions.)
                 FileFormatException.java                (Custom Exception for Invalid File Format.)
                 ImageNotFoundException.java             (Custom Exception for Inmage not found.)
@@ -98,9 +128,13 @@ This program provides a set of operations for processing 24-bit images with Red,
                 Model.java                              (Model class passes operations to Image class.)
                 ILineGraph.java                         (Interface for the LineGraph2D class.)
                 LineGraph2D.java                        (Java Class to Draw a 2D Line Graph.)
+                IReadOnlyImage                          (IReadOnlyImage interface defines the methods for a ReadOnlyImage Object.)
+                ImageViewer                             (ImageViewer class implements the IReadOnlyImage interface.)
             view                                        (View Folder contains View Interface and class.)
                 IView.java                              (View interface defines View class methods.)
                 View.java                               (View class handles getting input and displays output.)
+                GUIView                                 (GUIView class creates and handles UI of the application.)
+                IGUIView                                (GUIView Interface defines the methods for the GUIView class.)
             Main.java                                   (Main class Invokes Controller and starts program.)
     test
         integration                                     (Output Folder for integration testing)
@@ -115,3 +149,6 @@ This program provides a set of operations for processing 24-bit images with Red,
 - The File Image.png and its corresponding formats are created and owned by the authors of this program.
 - All Images used for testing and representation purposes are owned by the developers of this project by direct ownership.
 - Images given in Assignment Sample Help Pool have also been used in this project.
+- Image "tree" by Dorothe from Pixabay
+- Image "autumn" by Valentin from Pixabay
+- Image "nature" by Sasin Tipchai from Pixabay

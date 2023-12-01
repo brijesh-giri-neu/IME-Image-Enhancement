@@ -9,9 +9,9 @@
 
 #### Overview of Interface
 - The interface has 3 panel:
-  - Left Pane - Contains Buttons for Image operations, a Zoom slider, and Histogram of current image 
-  - Center Pane - Contains the Image loaded
-  - Right Pane - The thumbnail of the loaded image
+  - `Left Pane` - Contains Buttons for Image operations, a Zoom slider, and Histogram of current image 
+  - `Center Pane` - Contains the Image loaded along with the Scroll functionality.
+  - `Right Pane` - The thumbnail of the loaded image
 
 #### How to perform operations
 1. Click the load button to load an image in the application.
@@ -20,8 +20,31 @@
 4. For operations that support a split preview, the preview popup contains a checkbox to enable the splitview, and a slider to toggle split percentages.
 5. After committing to a change, or reverting it, the user can choose to perform other operations, or save the image to file.
 
-#### List of operations
-- Visualize: Click sepia button, preview popup gets displayed, click "OK" or "Cancel" button.
+#### List of operations and their Usage
+
+```These functions open up a popup containing apply changes or cancel changes buttons.```
+
+- `Flip Horizontally` - Flips the Image Horizontally.
+- `Flip Vertically`- Flips the Image Vertically.
+- `Visualize Red` - Gets the red component of the image.
+- `Visualize Green` - Gets the green component of the image.
+- `Visualize Blue` - Gets the blue copmponent of the image.
+- `Compress Image` - Compresses the Image based on the given ratio.
+
+```These functions open up a popup containing apply changes or cancel changes buttons. They also offer the functionality to toggle split view and change the ratio of original to filtered image.```
+- `Blur Image` - Blurs the Image.
+- `Sharpen Image` - Sharpens the Image
+- `Sepia Image` - Applies the Sepia Filter to the Image.
+- `Luma Image` - Applies the Luma Filter to the Image.
+- `Color correct Image` - Performs color correction on the Image.
+- `Adjust Levels` - Performs Adjust Levels operation on the Image based on the given b, m, w values.
+
+```Miscellaneous Operations```
+- `Open Image` - Opens a popup from which an image can be selected and opened to be operated on. png, jpg and ppm formats are supported.
+- `Save Image` - Opens a popup in which, an image can be named and saved. png, jpg and ppm formats are supported.
+- `Zoom` - Presents a slider that can be dragged to change the zoom level of the image.
+- `File Path` - Displays the file path of the image.
+- `Histogram` - Displays the histogram of the image at all times and updates whenever the image is operated on.
 
 ### Command Line Text based mode
 
