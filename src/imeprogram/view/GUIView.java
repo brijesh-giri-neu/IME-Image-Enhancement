@@ -602,17 +602,21 @@ public class GUIView extends JFrame implements IGUIView {
     int result = JOptionPane.showConfirmDialog(this, panel, "Enter Values",
         JOptionPane.OK_CANCEL_OPTION);
     if (result == JOptionPane.OK_OPTION) {
-      int a = Integer.parseInt(fieldA.getText());
-      int b = Integer.parseInt(fieldB.getText());
-      int c = Integer.parseInt(fieldC.getText());
+      int a = fieldA.getText().isEmpty() ? 0 : Integer.parseInt(fieldA.getText());
+      int b = fieldB.getText().isEmpty() ? 0 : Integer.parseInt(fieldB.getText());
+      int c = fieldC.getText().isEmpty() ? 0 : Integer.parseInt(fieldC.getText());
       this.features.adjustLevels(tabReference, a, b, c);
     }
   }
 
   private void compressImage() {
     String input = JOptionPane.showInputDialog(this, "Enter compression ratio (0-100):");
-    int ratio = Integer.parseInt(input);
-    this.features.compress(tabReference, ratio);
+    if (input.isEmpty()){
+      this.displayError("Please enter a value");
+    } else {
+      int ratio = Integer.parseInt(input);
+      this.features.compress(tabReference, ratio);
+    }
   }
 
   private void openFile() {
