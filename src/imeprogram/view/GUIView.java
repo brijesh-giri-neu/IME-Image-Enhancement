@@ -463,7 +463,7 @@ public class GUIView extends JFrame implements IGUIView {
   }
 
   @Override
-  public void showPreviewPopup() {
+  public void showPreview() {
     if (bImage != null) {
       JDialog dialog = new JDialog(this, "Preview", true);
       dialog.setLayout(new BorderLayout());
@@ -479,7 +479,7 @@ public class GUIView extends JFrame implements IGUIView {
   }
 
   @Override
-  public void showSplitViewPopup() {
+  public void showSplitView() {
     if (bImage != null) {
       JDialog dialog = new JDialog(this, "Split View", true);
       dialog.setLayout(new BorderLayout());

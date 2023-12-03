@@ -5,19 +5,31 @@ This program provides a set of operations for processing 24-bit images with Red,
 ## Classes
 ### Main
 - Purpose: Entry point of the application.
-- Function: Initializes the application components (Model, View, Controller) and relinquishes control to the controller.
+- Function:
+  - Initializes the application components (Model, View, Controller) and relinquishes control to the controller. 
+  - Decides between different application modes (GUI, Text, Script) based on the arguments provided to it.
 ### Controller
 - Purpose: Acts as an intermediary between the Model and View.
 - Function: Scans user inputs, calls the respective action method in the model for processing, and communicates output to the View.
+### GUIController
+- Purpose: A controller for the GUI version of the application.
+- Function: Provides callback functions to the GUI View. Determines what flow of operations should be orchestrated in a callback for a given user-interaction. 
+  - Tells the model what operations to perform. 
+  - Tells the view what to display. (Display Image, Update Histogram, Show preview, etc.)
 ### Model
 - Purpose: Represents the application's logic and session data.
-- Function: Handles the image operations, and maintains the session memory of loaded images.
-### View
-- Purpose: Provides a text-based user interface.
-- Function: Displays messages and success notifications to the user via the console.
+- Function: Maintains the session memory of loaded images.
+  - It's sole purpose is to handle any memory optimizations in the application. 
+  - And delegate to the correct Image operation method in the Image class (service).
 ### Image
 - Purpose: Contains the logic for the operations to be performed on the Image.
 - Function: Creates an Image object and operates on it.
+### View
+- Purpose: Provides a text-based user interface.
+- Function: Displays messages and success notifications to the user via the console.
+### GUIView
+- Purpose: A GUI based view.
+- Function: A graphical user interface for the application.
 ### BinaryImageIO
 - Purpose: Implements IImageFileIO to Perform Image IO for PNG and JPG Images.
 - Function: Either reads file and returns or saves to image, a 3D RGBValues array.
@@ -30,15 +42,9 @@ This program provides a set of operations for processing 24-bit images with Red,
 ### LineGraph2D
 - Purpose: Generate a 2D Line graph.
 - Function: Draws a Line Graph using the data given.
-### ImageView
+### ImageViewer
 - Purpose: A read only version of an image.
 - Function: An object adaptor around the Image class.
-- ### GUIController
-- Purpose: A controller for the GUI version of the application.
-- Function: A controller for GUI based interfaces.
-- ### GUIView
-- Purpose: A GUI based view.
-- Function: A graphical user interface for the application.
 
 ## Interfaces
 ### IController
@@ -99,7 +105,7 @@ All notable changes to this project will be documented in this Change Log.
 
 ### Modified
 - Moved the existing classes and interfaces for our file parser into a separate package.
-  - Justification: We are adhering to "Separate of concerns." Since theses classes are independent of the model, they have no place existing in the model package. In an image processing application, it is reasonable to expect new functionalities are going to be required quite frequently. If we create a new class for every added feature, the number of classes in our project could potentially explode, making it difficult to maintain our project structure.
+  - Justification: We are adhering to "Separate of concerns." Since these classes are independent of the model, they have no place existing in the model package. In an image processing application, it is reasonable to expect new functionalities are going to be required quite frequently. If we create a new class for every added feature, the number of classes in our project could potentially explode, making it difficult to maintain our project structure.
 - Added new class/interface to support drawing Line Graphs on Images.
   - Justification: Since it is used to provide additional functionality on an image, it exists in our model package.
 
@@ -137,16 +143,30 @@ All notable changes to this project will be documented in this Change Log.
                 IGUIView                                (GUIView Interface defines the methods for the GUIView class.)
             Main.java                                   (Main class Invokes Controller and starts program.)
     test
-        integration                                     (Output Folder for integration testing)
         integrationImages                               (Input Folder for integration testing)
+        integrationResults                              (Output Folder for integration testing)
         unitImages                                      (Input Folder for unit testing)
+        unitResults                                     (Output Folder for unit testing)
         ControllerTest.java                             (JUnit Tests for Controller class)
+        GUIControllerTest.java                          (JUnit Test for the GUIController class)        
         ImageTest.java                                  (JUnit Tests for Image class)                   
         IntegrationTest.java                            (Integration Test for imeprogram)
+        MockModel.java                                  (Mock version of the Model class for testing purpose)
+        ModelTest.java                                  (JUnit Test for the Model class)
         ViewTest.java                                   (JUnit Test for View class)
+    res
+        A4                                               (Output directory for Assignment4 Result Images)
+        A5                                               (Output directory for Assignment5 Result Images)
+        A6                                               (Output directory for Assignment6 Sample Images and Result Images)
+        Galaxy.png                                       (Sample Image used in testscript-A5.txt for Levels Adjust and Color correct and their splitview versions)
+        Image.png                                        (Sample Image used in testscript-A4.txt and testscript-A5.txt for assignment4 base operations and their assignment5 SplitView counterparts)
+        testscript-A4.txt                                (Test script for Assignment4 to run with the jar file: Assignment4.jar)
+        testscript-A5.txt                                (Test script for Assignment5 to run with the jar file: Assignment4.jar)
+        ClassDiagram-Assignment5.pdf                     (Latest version of class diagram)
+        Assignment4.jar                                  (Latest jar file of Assignment6, supports all operations and modes implemented till date)
 
 ## Citations for Resources used.
-- The File Image.png and its corresponding formats are created and owned by the authors of this program.
+- The File Image.png and Galaxy.png and its corresponding formats are created and owned by the authors of this program.
 - All Images used for testing and representation purposes are owned by the developers of this project by direct ownership.
 - Images given in Assignment Sample Help Pool have also been used in this project.
-- Image "nature" by Sasin Tipchai from Pixabay
+- Image "nature" present in the res/A6/SampleImage folder belongs to Sasin Tipchai from Pixabay.

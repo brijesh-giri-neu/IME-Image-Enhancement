@@ -75,7 +75,7 @@ public class GUIController implements IFeatures {
       model.redComponent(sourceImage, previewImage);
       sendImageToView(previewImage);
       triggerUpdateHistogram(previewImage);
-      view.showPreviewPopup();
+      view.showPreview();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -90,7 +90,7 @@ public class GUIController implements IFeatures {
       model.greenComponent(sourceImage, previewImage);
       sendImageToView(previewImage);
       triggerUpdateHistogram(previewImage);
-      view.showPreviewPopup();
+      view.showPreview();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -105,7 +105,7 @@ public class GUIController implements IFeatures {
       model.blueComponent(sourceImage, previewImage);
       sendImageToView(previewImage);
       triggerUpdateHistogram(previewImage);
-      view.showPreviewPopup();
+      view.showPreview();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -120,7 +120,7 @@ public class GUIController implements IFeatures {
       model.lumaComponent(sourceImage, previewImage);
       sendImageToView(previewImage);
       triggerUpdateHistogram(previewImage);
-      view.showSplitViewPopup();
+      view.showSplitView();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -135,7 +135,7 @@ public class GUIController implements IFeatures {
       model.horizontalFlip(sourceImage, destImage);
       sendImageToView(destImage);
       triggerUpdateHistogram(destImage);
-      view.showPreviewPopup();
+      view.showPreview();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -150,7 +150,7 @@ public class GUIController implements IFeatures {
       model.verticalFlip(sourceImage, destImage);
       sendImageToView(destImage);
       triggerUpdateHistogram(destImage);
-      view.showPreviewPopup();
+      view.showPreview();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -165,7 +165,7 @@ public class GUIController implements IFeatures {
       model.blur(sourceImage, destImage);
       sendImageToView(destImage);
       triggerUpdateHistogram(destImage);
-      view.showSplitViewPopup();
+      view.showSplitView();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -180,7 +180,7 @@ public class GUIController implements IFeatures {
       model.sharpen(sourceImage, destImage);
       sendImageToView(destImage);
       triggerUpdateHistogram(destImage);
-      view.showSplitViewPopup();
+      view.showSplitView();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -195,7 +195,7 @@ public class GUIController implements IFeatures {
       model.sepia(sourceImage, destImage);
       sendImageToView(destImage);
       triggerUpdateHistogram(destImage);
-      view.showSplitViewPopup();
+      view.showSplitView();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -210,7 +210,7 @@ public class GUIController implements IFeatures {
       model.compress(sourceImage, destImage, compressRatio);
       sendImageToView(destImage);
       triggerUpdateHistogram(destImage);
-      view.showPreviewPopup();
+      view.showPreview();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -227,7 +227,7 @@ public class GUIController implements IFeatures {
       model.colorCorrect(sourceImage, destImage);
       sendImageToView(destImage);
       triggerUpdateHistogram(destImage);
-      view.showSplitViewPopup();
+      view.showSplitView();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {
@@ -242,7 +242,7 @@ public class GUIController implements IFeatures {
       model.adjustLevels(sourceImage, destImage, black, mid, white);
       sendImageToView(destImage);
       triggerUpdateHistogram(destImage);
-      view.showSplitViewPopup();
+      view.showSplitView();
     } catch (ImageNotFoundException e) {
       view.displayError(String.format(GUIMessageHelper.IMAGE_NOT_FOUND_EXCEPTION_MSG, ""));
     } catch (InvalidImageNameException e) {

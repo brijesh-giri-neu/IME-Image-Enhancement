@@ -37,12 +37,12 @@ public interface IGUIView {
   void addFeatures(IFeatures features);
 
   /**
-   * Displays the preview popup.
+   * Displays the preview.
    */
-  void showPreviewPopup();
+  void showPreview();
 
   /**
-   * Displays the splitview popup.
+   * Displays the splitview.
    */
-  void showSplitViewPopup();
+  void showSplitView();
 }

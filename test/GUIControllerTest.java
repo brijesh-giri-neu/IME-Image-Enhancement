@@ -985,12 +985,12 @@ public class GUIControllerTest {
     }
 
     @Override
-    public void showPreviewPopup() {
+    public void showPreview() {
       // Nothing to log here.
     }
 
     @Override
-    public void showSplitViewPopup() {
+    public void showSplitView() {
       // Nothing to log here.
     }
   }
