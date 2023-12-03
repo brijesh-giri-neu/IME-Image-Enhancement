@@ -129,14 +129,14 @@ public interface IFeatures {
   void histogram(String imageName);
 
   /**
-   * Apply the changes that are present in the given destImage to the imageName.
+   * Apply the changes that are present in the destImage to the source image.
    *
    * @param imageName The name of the source image.
    */
   void applyChanges(String imageName);
 
   /**
-   * Remove modifications made to the given destImage to sync it with the imageName.
+   * Remove modifications made to the destImage to sync it with the source image.
    *
    * @param imageName The name of the source image.
    */
